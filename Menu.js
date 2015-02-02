@@ -9,12 +9,12 @@ this.titles = titles;
 this.methods = methods;
 this.pictures = pictures;
 this.game = gameToAddTo;
-this.buttons = [];
+this.textButtons = [];
 this.texts = [];
 this.xMargin = xMargin;
 this.yMargin = yMargin;
 this.yMarginBetweenButtons = yMarginBetweenButtons;
-this.style = { font: "32px Arial", fill: "#ff0044", align: "center" };
+this.style = BASE_STYLE;
 
 }
 
@@ -39,17 +39,11 @@ Menu.prototype.create = function(titles, methods, pictures, gameToAddTo, xMargin
 
 
 Menu.prototype.clear = function(){
-	if(this.buttons.length != 0){
-		for(var i = 0; i < this.buttons.length; i++){
-			this.buttons[i].destroy();
+	if(this.textButtons.length != 0){
+		for(var i = 0; i < this.textButtons.length; i++){
+			this.textButtons[i].destroy();
 		}
-		this.buttons = [];
-	}
-	if(this.texts.length != 0){
-		for(var i = 0; i < this.texts.length; i++){
-			this.texts[i].destroy();
-		}
-		this.texts = [];
+		this.textButtons = [];
 	}
 }
 
@@ -62,22 +56,16 @@ Menu.prototype.createButtons = function(){
 	var buttonHeight = lvlHeight >= this.yMargin * 2 + BUTTON_HEIGHT *0.5 +  this.titles.length * (BUTTON_HEIGHT + this.yMarginBetweenButtons) ? BUTTON_HEIGHT : (lvlHeight - this.yMargin * 2 - this.titles.length * this.yMarginBetweenButtons) / this.titles.length;
 	for(var i = 0; i < this.titles.length; i++){
 		var style = this.style;
+	
 		var x = this.game.world.centerX;
 		var y = this.yMargin + buttonHeight *0.5 +  i * (buttonHeight + this.yMarginBetweenButtons);
-		var button = this.game.add.button(0, 0, this.pictures.length <=i ? this.pictures[0] : this.pictures[i]
-		, this.methods[i].method, this.game, 1, 0, 2);
-		button.height = buttonHeight;
-		button.width = lvlWidth - this.xMargin * 2;
-		button.anchor.setTo(0.5, 0.5);
-		button.x = x;
-		button.y = y;
 		
-		var text = this.game.add.text(0, 0, this.titles[i], style);
-		text.anchor.setTo(0.5, 0.5);
-		text.x = x;
-		text.y = y;
-		this.texts[this.texts.length] = text;
-		this.buttons[this.buttons.length] = button;	
+		var textButton = new TextButton(this.game, this.titles[i], this.pictures.length <=i ? this.pictures[0] : this.pictures[i], this.methods[i].method, style, x, y);
+		
+		textButton.setWidth(lvlWidth - this.xMargin * 2);
+		textButton.setHeight (buttonHeight);
+
+		this.textButtons[this.textButtons.length] = textButton;
 	}
 }
 

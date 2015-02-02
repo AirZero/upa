@@ -1,82 +1,71 @@
 
+function Game (phaserGame){
 
-var lvlWidth = 800;
-var lvlHeight = 600;
-var game;
-var menu;
-
-init();
-
-function init(){
-	game = new Phaser.Game(lvlWidth, lvlHeight, Phaser.AUTO, '', { preload: preload, create: create, update: update });	
+	this.phaserGame = phaserGame
+	this.stars = 1;
+	this.times = 10;
+	this.gameObjects = [];
+	this.events = [];
 }
 
-function preload()
-{
-	game.load.spritesheet('button', 'buttons2.png', 100, 100);
-	game.load.image('star', 'star.png');
+
+Game.prototype.preload = function(){
 	
-	preloadMenu();
 }
 
-function preloadMenu(){
-	var titles = ["Pelaa", "Asetukset", "Tiedot"];
-	var methods = new Array();
-	methods[0] = {"method": function(){ start();}};
-	methods[1] = { "method": function(){ settings();}};
-	methods[2] = { "method": function(){ info();}};
-	var pictures = [ 'button' ];
-	menu = new Menu(titles, methods, pictures, game, 50, 20, 20);
-}
-
-function reMenu(){
-	var titles = ["Pelaa", "Asetukset", "Tiedot"];
-	var methods = new Array();
-	methods[0] = {"method": function(){ start();}};
-	methods[1] = { "method": function(){ settings();}};
-	methods[2] = { "method": function(){ info();}};
-	var pictures = [ 'button'];
-	menu.create(titles, methods);
-}
-
-
-
-function create(){
-	menu.start();
-	game.stage.backgroundColor = '#339933';
-
-}
-
-
-function update(){
-
-}
-
-function info(){
-	var titles = ["Ohjelmointi: Tero Paavolainen,", "Eetu Rantakangas", "Sisällöntuottaminen: Jarno Liski", "Projektinjohtaja: Olli-Pekka Paajanen", "Journalisti-tietotekniikko: Riikka Valtonen", "Takaisin"];
-	var methods = new Array();
-	methods[0] = {"method": function(){ window.location.replace("http://users.jyu.fi/~tesatapa/") }};
-	methods[1] = { "method": function(){ }};
-	methods[2] = { "method": function(){ }};
-	methods[3] = { "method": function(){ }};
-	methods[4] = { "method": function(){ }};
-	methods[5] = { "method": function(){ reMenu();}};
-	menu.create(titles, methods);
-}
-
-function settings(){
-	var titles = ["Äänet", "Modit", "Takaisin"];
-	var methods = new Array();
-	methods[0] = {"method": function(){ }};
-	methods[1] = { "method": function(){ }};
-	methods[2] = { "method": function(){ reMenu();}};
-	menu.create(titles, methods);
-}
-
-
-function start(){
-	for(var i = 0; i < 1; i++){
-		var star = game.add.sprite(game.rnd.integerInRange(0, 800),game.rnd.integerInRange(0, 600), 'star');
+Game.prototype.clear = function(){
+	if(this.gameObjects.length != 0){
+		for(var i = 0; i < this.gameObjects.length; i++){
+			this.gameObjects[i].destroy();
+		}
+		this.gameObjects = [];
 	}
+	for(var i = 0; i < this.events.length; i++){
+		this.phaserGame.time.events.remove(this.events[i]);
+	}
+	this.events = [];
+	//this.phaserGame.time.events.stop();
+	//this.phaserGame.time.events.removeAll();
 }
 
+Game.prototype.addToObjects = function(obj){
+	this.gameObjects[this.gameObjects.length] = obj;
+}
+
+
+Game.prototype.start = function(){
+	this.stars = 1;
+	this.times = 10;
+	//this.phaserGame.time.events.repeat(Phaser.Timer.SECOND * 0.25, this.times, this.createStars, this);
+	this.createRepeatEvent(0.25, this.times, this.createStars);
+	var textButton = new TextButton(this.phaserGame, 'Menu', 'button', this.returnToMenu, BASE_STYLE, lvlWidth * 0.1, lvlHeight * 0.1, this);
+	this.addToObjects(textButton);
+}
+
+
+Game.prototype.returnToMenu = function(){
+	this.clear();
+	reMenu();
+
+}
+
+Game.prototype.createTimedEvent = function(seconds, method){
+	var timedEvent = this.phaserGame.time.events.add(Phaser.Timer.SECOND * seconds, method, this);
+	this.events[this.events.length] = timedEvent;
+}
+
+Game.prototype.createRepeatEvent = function(seconds, times, method){
+	var timedEvent = this.phaserGame.time.events.repeat(Phaser.Timer.SECOND * seconds, times, method, this);
+	this.events[this.events.length] = timedEvent;
+}
+
+
+Game.prototype.createStars = function(){
+	for(var i = 0; i < this.stars; i++){
+		var star = phaserGame.add.sprite(phaserGame.rnd.integerInRange(0, 800),phaserGame.rnd.integerInRange(0, 600), 'star');
+		this.addToObjects(star);
+	}
+	this.stars++;
+
+	//this.phaserGame.time.events.add(Phaser.Timer.SECOND * 0.1, this.createStars, this);
+}
