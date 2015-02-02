@@ -10,8 +10,8 @@ function Dialog(game, text, methodYes, methodNo, x, y, width, height, yesText, n
 	y = y || lvlHeight * 0.5;
 	width = width || lvlWidth * 0.8;
 	height = height || lvlHeight * 0.8;
-	yesText = yesText || 'Yes';
-	noText = noText || 'No';
+	yesText = yesText || 'Kyllä';
+	noText = noText || 'Ei';
 	this.background = game.add.sprite(0,0,'dialogBack');
 	this.background.anchor.setTo(0.5,0.5);
 	this.background.x = x;

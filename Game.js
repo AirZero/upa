@@ -38,7 +38,11 @@ Game.prototype.start = function(){
 	this.times = 10;
 	//this.phaserGame.time.events.repeat(Phaser.Timer.SECOND * 0.25, this.times, this.createStars, this);
 	this.createRepeatEvent(0.25, this.times, this.createStars);
-	var textButton = new TextButton(this.phaserGame, 'Menu', 'button', this.returnToMenu, BASE_STYLE, lvlWidth * 0.1, lvlHeight * 0.1, this);
+	var thisGame = this;
+	var textButton = new TextButton(this.phaserGame, 'Menu', 'button', function(){
+		thisGame.clear();
+		reMenu();
+	}, BASE_STYLE, lvlWidth * 0.1, lvlHeight * 0.1);
 	this.addToObjects(textButton);
 }
 

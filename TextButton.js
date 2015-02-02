@@ -1,9 +1,9 @@
 
 
 function TextButton (gameToAddTo, title, picture, method, style, x, y, callBackClass){
-	this.button = gameToAddTo.add.button(0, 0, picture, this.perform,
-	callBackClass ? callBackClass : this, 1, 0, 2);
-
+	this.button = gameToAddTo.add.button(0, 0, picture, callBackClass ? method : this.perform, callBackClass ? callBackClass : this, 1, 0, 2);
+	//TODO: fix this.. jos annetaan callBackClass, niin ei voida määrittää itseä enään performia varten, tähän pitäisi keksiä joku fiksu ratkaisu oikaisuksi. Tai sitten vain ei näppäintä saa sulkea? sekään ei ole btw hyvä... Tämän saa hurdurpurkka virityksellä hoidettua Game:n päässä, mutta mutta....
+	
 	this.method = method;
 	this.active = true;
 	this.button.anchor.setTo(0.5, 0.5);
