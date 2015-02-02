@@ -19,6 +19,12 @@ Menu.prototype.setStyle = function(style){
 	this.style = style;
 }
 
+Menu.prototype.setActive = function(activity){
+	for(var i = 0; i < this.textButtons.length; i++){
+		this.textButtons[i].setActive(activity);
+	}
+}
+
 
 Menu.prototype.create = function(titles, methods, pictures, gameToAddTo, xMargin, yMargin, yMarginBetweenButtons){
 	this.pictures = pictures || this.pictures;

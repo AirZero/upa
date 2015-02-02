@@ -17,6 +17,7 @@ function preload()
 {
 	phaserGame.load.spritesheet('button', 'buttons2.png', 100, 100);
 	phaserGame.load.image('star', 'star.png');
+	phaserGame.load.image('dialogBack', 'dialogBack.png');
 	preloadGame();
 	preloadMenu();
 }
@@ -77,7 +78,10 @@ function settings(){
 	var titles = ["Äänet", "Modit", "Takaisin"];
 	var methods = new Array();
 	methods[0] = {"method": function(){ }};
-	methods[1] = { "method": function(){ }};
+	methods[1] = { "method": function(){ 
+		var dialog = new Dialog(phaserGame, "Herp", function(){}, function(){});
+		dialog.silence(menu);
+	}};
 	methods[2] = { "method": function(){ reMenu();}};
 	menu.create(titles, methods);
 }

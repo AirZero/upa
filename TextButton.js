@@ -1,9 +1,11 @@
 
 
 function TextButton (gameToAddTo, title, picture, method, style, x, y, callBackClass){
-	this.button = gameToAddTo.add.button(0, 0, picture, method,
-	callBackClass ? callBackClass : gameToAddTo, 1, 0, 2);
+	this.button = gameToAddTo.add.button(0, 0, picture, this.perform,
+	callBackClass ? callBackClass : this, 1, 0, 2);
 
+	this.method = method;
+	this.active = true;
 	this.button.anchor.setTo(0.5, 0.5);
 
 		
@@ -14,9 +16,18 @@ function TextButton (gameToAddTo, title, picture, method, style, x, y, callBackC
 		this.setXandY(x,y);
 }
 
+TextButton.prototype.perform = function(){
+	if(this.active)
+		this.method();
+}
+
 TextButton.prototype.destroy = function(){
 	this.button.destroy();
 	this.text.destroy();
+}
+
+TextButton.prototype.setActive = function(activity){
+	this.active = activity;
 }
 
 
