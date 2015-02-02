@@ -28,13 +28,14 @@ function preloadGame(){
 
 
 function preloadMenu(){
-	var titles = ["Pelaa", "Asetukset", "Tiedot"];
-	var methods = new Array();
-	methods[0] = {"method": function(){ start();}};
-	methods[1] = { "method": function(){ settings();}};
-	methods[2] = { "method": function(){ info();}};
-	var pictures = [ 'button' ];
-	menu = new Menu(titles, methods, pictures, phaserGame, 50, 20, 20);
+	//var titles = ["Pelaa", "Asetukset", "Tiedot"];
+	//var methods = new Array();
+	//methods[0] = {"method": function(){ start();}};
+	//methods[1] = { "method": function(){ settings();}};
+	//methods[2] = { "method": function(){ info();}};
+	//var pictures = [ 'button' ];
+	menu = new Menu(phaserGame, 50, 20, 20);
+	//reMenu();
 }
 
 function reMenu(){
@@ -44,13 +45,13 @@ function reMenu(){
 	methods[1] = { "method": function(){ settings();}};
 	methods[2] = { "method": function(){ info();}};
 	var pictures = [ 'button'];
-	menu.create(titles, methods);
+	menu.create(titles, methods, pictures);
 }
 
 
 
 function create(){
-	menu.start();
+	reMenu();
 	phaserGame.stage.backgroundColor = '#000000';
 
 }

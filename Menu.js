@@ -1,16 +1,13 @@
 
 
 
-function Menu(titles, methods, pictures, gameToAddTo, xMargin, yMargin, yMarginBetweenButtons){
-if(titles.length != methods.length && (pictures != null && pictures.length != methods.length))
-	throw "The length of the given titles and methods arrays were not the same!";
+function Menu(gameToAddTo, xMargin, yMargin, yMarginBetweenButtons){
 
-this.titles = titles;
-this.methods = methods;
-this.pictures = pictures;
+this.titles = [];
+this.methods = [];
+this.pictures = [];
 this.game = gameToAddTo;
 this.textButtons = [];
-this.texts = [];
 this.xMargin = xMargin;
 this.yMargin = yMargin;
 this.yMarginBetweenButtons = yMarginBetweenButtons;
