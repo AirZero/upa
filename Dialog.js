@@ -1,20 +1,17 @@
 
 
 
-function createDialog(game, text,x, y, width, height, methodYes, methodNo){
-	
-
-}
 
 
 
 
-
-function Dialog(game, text, methodYes, methodNo, x, y, width, height){
+function Dialog(game, text, methodYes, methodNo, x, y, width, height, yesText, noText){
 	x = x || lvlWidth * 0.5;
 	y = y || lvlHeight * 0.5;
 	width = width || lvlWidth * 0.8;
 	height = height || lvlHeight * 0.8;
+	yesText = yesText || 'Yes';
+	noText = noText || 'No';
 	this.background = game.add.sprite(0,0,'dialogBack');
 	this.background.anchor.setTo(0.5,0.5);
 	this.background.x = x;
@@ -35,13 +32,13 @@ function Dialog(game, text, methodYes, methodNo, x, y, width, height){
 	this.text.x = x;
 	this.text.y = y - height * 0.25;
 	
-	this.yes = new TextButton(game, 'yes', 'button', function(){
+	this.yes = new TextButton(game, yesText, 'button', function(){
 		methodYes();
 		dialog.destroy();
 	}, BASE_STYLE, xPosYes, yPos)
 	this.yes.setWidth(xSize);
 	this.yes.setHeight(ySize);
-	this.no = new TextButton(game, 'no', 'button', function(){
+	this.no = new TextButton(game, noText, 'button', function(){
 		methodNo();
 		dialog.destroy();
 	}, BASE_STYLE, xPosNo, yPos)
