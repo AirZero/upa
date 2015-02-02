@@ -15,9 +15,9 @@ function init(){
 
 function preload()
 {
-	phaserGame.load.spritesheet('button', 'buttons2.png', 100, 100);
-	phaserGame.load.image('star', 'star.png');
-	phaserGame.load.image('dialogBack', 'dialogBack.png');
+	phaserGame.load.spritesheet('button', 'assets/buttons2.png', 100, 100);
+	phaserGame.load.image('star', 'assets/star.png');
+	phaserGame.load.image('dialogBack', 'assets/dialogBack.png');
 	preloadGame();
 	preloadMenu();
 }
