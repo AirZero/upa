@@ -26,18 +26,23 @@ function Dialog(game, text, methodYes, methodNo, x, y, width, height, yesText, n
 	this.text.x = x;
 	this.text.y = y - height * 0.25;
 	
+	this.background.inputEnabled = true;
+	this.background.input.priorityID = DIALOG_INPUTPRIORITY;
+	
 	this.yes = new TextButton(game, yesText, 'button', function(){
 		methodYes();
 		dialog.destroy();
 	}, BASE_STYLE, xPosYes, yPos)
 	this.yes.setWidth(xSize);
 	this.yes.setHeight(ySize);
+	this.yes.setInputPriority(DIALOG_INPUTPRIORITY);
 	this.no = new TextButton(game, noText, 'button', function(){
 		methodNo();
 		dialog.destroy();
 	}, BASE_STYLE, xPosNo, yPos)
 	this.no.setWidth(xSize);
 	this.no.setHeight(ySize);
+	this.no.setInputPriority (DIALOG_INPUTPRIORITY);
 }
 
 Dialog.prototype.setActive = function(activity){

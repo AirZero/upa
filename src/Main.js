@@ -4,6 +4,9 @@ const lvlWidth = 800;
 const lvlHeight = 600;
 const worldWidth = 3000;
 const worldHeight = 3000;
+const DIALOG_INPUTPRIORITY = 2;
+const BUTTON_INPUTPRIORITY = 2;
+
 var phaserGame;
 var game;
 var menu;
@@ -28,6 +31,7 @@ function preload()
 	phaserGame.load.spritesheet('button', 'assets/buttons2.png', 100, 100);
 	phaserGame.load.image('star', 'assets/star.png');
 	phaserGame.load.image('dialogBack', 'assets/dialogBack.png');
+	phaserGame.load.image('europe', 'assets/EuropeHuge.png');
 	preloadGame();
 	preloadMenu();
 }
@@ -51,6 +55,7 @@ function preloadMenu(){
 
 function reMenu(){
 	state = "Menu";
+	reset();
 	var titles = ["Pelaa", "Asetukset", "Tiedot"];
 	var methods = new Array();
 	methods[0] = {"method": function(){ start();}};
@@ -80,7 +85,8 @@ function info(){
 	var titles = ["Ohjelmointi: Tero Paavolainen,", "Eetu Rantakangas", "Sisällöntuottaminen: Jarno Liski", "Projektinjohtaja: Olli-Pekka Paajanen", "Journalisti-tietotekniikko: Riikka Valtonen", "Takaisin"];
 	var methods = new Array();
 	methods[0] = {"method": function(){ var dialog = new Dialog(phaserGame, "Siirrytäänkö Teron kotisivuille?", function(){ window.location.replace("http://users.jyu.fi/~tesatapa/");},function(){});
-	dialog.silence(menu);	}};
+	dialog.silence(menu);
+	}};
 	methods[1] = { "method": function(){ }};
 	methods[2] = { "method": function(){ }};
 	methods[3] = { "method": function(){ }};

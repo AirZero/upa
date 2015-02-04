@@ -2,6 +2,7 @@
 
 function TextButton (gameToAddTo, title, picture, method, style, x, y, callBackClass){
 	this.button = gameToAddTo.add.button(0, 0, picture, callBackClass ? method : this.perform, callBackClass ? callBackClass : this, 1, 0, 2);
+	this.setInputPriority(BUTTON_INPUTPRIORITY);
 	//TODO: fix this.. jos annetaan callBackClass, niin ei voida määrittää itseä enään performia varten, tähän pitäisi keksiä joku fiksu ratkaisu oikaisuksi. Tai sitten vain ei näppäintä saa sulkea? sekään ei ole btw hyvä... Tämän saa hurdurpurkka virityksellä hoidettua Game:n päässä, mutta mutta....
 	
 	this.method = method;
@@ -15,6 +16,16 @@ function TextButton (gameToAddTo, title, picture, method, style, x, y, callBackC
 	if(x && y)
 		this.setXandY(x,y);
 }
+
+TextButton.prototype.setFixedToCamera = function(fixed){
+	this.button.fixedToCamera = fixed;
+	this.text.fixedToCamera = fixed;
+}
+
+TextButton.prototype.setInputPriority = function(inputPriority){
+	this.button.input.priorityID = inputPriority;
+}
+
 
 TextButton.prototype.perform = function(){
 	if(this.active)
