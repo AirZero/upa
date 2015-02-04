@@ -2,10 +2,13 @@
 
 const lvlWidth = 800;
 const lvlHeight = 600;
+const worldWidth = 3000;
+const worldHeight = 3000;
 var phaserGame;
 var game;
 var menu;
 const BASE_STYLE = { font: "32px Arial", fill: "#ff0044", align: "center" };
+var state;
 
 init();
 
@@ -13,8 +16,15 @@ function init(){
 	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, Phaser.AUTO, '', { preload: preload, create: create, update: update });	
 }
 
+
+function reset(){
+	phaserGame.world.setBounds(0,0, lvlWidth, lvlHeight);
+}
+
+
 function preload()
 {
+	reset();
 	phaserGame.load.spritesheet('button', 'assets/buttons2.png', 100, 100);
 	phaserGame.load.image('star', 'assets/star.png');
 	phaserGame.load.image('dialogBack', 'assets/dialogBack.png');
@@ -40,6 +50,7 @@ function preloadMenu(){
 }
 
 function reMenu(){
+	state = "Menu";
 	var titles = ["Pelaa", "Asetukset", "Tiedot"];
 	var methods = new Array();
 	methods[0] = {"method": function(){ start();}};
@@ -59,6 +70,9 @@ function create(){
 
 
 function update(){
+	if(state === "Game")
+		game.update();
+
 
 }
 
@@ -90,7 +104,7 @@ function settings(){
 
 function start(){
 	menu.clear();
+	state = "Game";
 	game.start();
-
 }
 
