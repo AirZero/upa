@@ -95,7 +95,7 @@ Game.prototype.update = function(){
 		x = x*2; //Koska lvlWidthin jälkeen on -0.5 *viiva* 0.5 x:n arvo 
 		var y = (pointer.y - 0.5 * lvlHeight) / lvlHeight ;
 		y = y *2;
-		this.debugText.text = x+ " . "+y;
+		this.debugText.text = "X:"+ x.toFixed(2)+ ".\nY:"+y.toFixed(2);
 
         this.moveCamera(x * CAMERA_MOVEMENT_SPEED, y * CAMERA_MOVEMENT_SPEED);
     }

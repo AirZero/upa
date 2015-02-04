@@ -21,6 +21,7 @@ function init(){
 
 
 function reset(){
+	phaserGame.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 	phaserGame.world.setBounds(0,0, lvlWidth, lvlHeight);
 }
 
@@ -96,16 +97,32 @@ function info(){
 }
 
 function settings(){
-	var titles = ["Äänet", "Modit", "Takaisin"];
+	var titles = ["Äänet","Näyttö", "Modit", "Takaisin"];
 	var methods = new Array();
 	methods[0] = {"method": function(){ }};
-	methods[1] = { "method": function(){ 
+	methods[1] = {"method": function(){
+		screenSettings();
+	}};
+	methods[2] = { "method": function(){ 
 		var dialog = new Dialog(phaserGame, "Herp", function(){}, function(){});
 		dialog.silence(menu);
 	}};
-	methods[2] = { "method": function(){ reMenu();}};
+	methods[3] = { "method": function(){ reMenu();}};
 	menu.create(titles, methods);
 }
+
+
+function screenSettings(){
+	var titles = ["Kokonäytön tila","Takaisin"];
+	var methods = new Array();
+	methods[0] = {"method": function(){
+		phaserGame.scale.startFullScreen();
+	}};
+	methods[1] = { "method": function(){ settings();}};
+	menu.create(titles, methods);
+
+}
+
 
 
 function start(){
