@@ -1,14 +1,20 @@
 
+
+const CAMERA_MOVEMENT_SPEED = 10;
+
 function Game (phaserGame){
 
 	this.phaserGame = phaserGame
+	
 	this.stars = 5;
 	this.times = 10;
 	this.gameObjects = [];
 	
 	this.events = [];
+//this.GUIGroup.bringToTop();
 
-	
+	//this.createGroups();
+	this.mouseMover = new MouseMovement(phaserGame, CAMERA_MOVEMENT_SPEED);
 }
 
 
@@ -17,16 +23,27 @@ Game.prototype.preload = function(){
 }
 
 
-
+Game.prototype.createGroups =function(){
+	this.BackgroundLayer = this.phaserGame.add.group();
+	this.BackgroundLayer.z = 0;
+	this.GameLayer = this.phaserGame.add.group();
+	this.GameLayer.z = 1;
+	this.GUILayer = this.phaserGame.add.group();
+	this.GUILayer.z = 2;	
+}
 
 
 Game.prototype.clear = function(){
 	if(this.gameObjects.length != 0){
-		for(var i = 0; i < this.gameObjects.length; i++){
-			this.gameObjects[i].destroy();
-		}
-		this.gameObjects = [];
+		//for(var i = 0; i < this.gameObjects.length; i++){
+		//	this.gameObjects[i].destroy();
+		//}
+		//this.gameObjects = [];
 	}
+	this.GUILayer.destroy(true);
+	this.BackgroundLayer.destroy(true);
+	this.GameLayer.destroy(true);
+	
 	for(var i = 0; i < this.events.length; i++){
 		this.phaserGame.time.events.remove(this.events[i]);
 	}
@@ -45,10 +62,13 @@ Game.prototype.addToObjects = function(obj){
 
 
 Game.prototype.start = function(){
+	this.createGroups();
+	this.phaserGame.input.onDown.add(this.clickStar, this);
+	//this.events[this.events.length] = 
+
 	this.setWorld();
 	this.stars = 1;
 	this.times = 10;
-	
 
 	
 	//this.phaserGame.time.events.repeat(Phaser.Timer.SECOND * 0.25, this.times, this.createStars, this);
@@ -66,46 +86,54 @@ Game.prototype.createGUI = function(){
 		reMenu();
 	}, BASE_STYLE, lvlWidth * 0.1, lvlHeight * 0.1);
 	textButton.setFixedToCamera(true);
+	
 	this.addToObjects(textButton);
 	
 	this.debugText = this.phaserGame.add.text(600, 50, "Debug", BASE_STYLE);
+	textButton.addToLayer(this.GUILayer);
+	this.GUILayer.add(this.debugText);
 	this.addToObjects(this.debugText);
 	this.debugText.fixedToCamera = true;
 }
 
 
-const CAMERA_MOVEMENT_SPEED = 5;
-
-
-Game.prototype.moveCamera = function(x, y){
-	this.phaserGame.camera.x += x;
-	this.phaserGame.camera.y += y;
-	
-	//this.debugText.text = pointer.screenX+ " . "+pointer.screenY;
+function countDistance(x1, y1, x2, y2){
+	 return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2-y1, 2));
 }
+
+
+function countIfInside(object, x, y){
+	if (object.x < x &&  x < object.x + object.width &&
+		object.y < y && y < object.y + object.height)
+		return true;
+	return false;
+}
+
+
+Game.prototype.clickStar = function(){
+	var debugText = this.debugText;	
+	this.GameLayer.forEach(function(element, index, array){
+		var pointer = this.phaserGame.input.activePointer;
+		var distance = countIfInside(element, pointer.worldX, pointer.worldY);
+		//debugText.text = distance+"was";
+		if(distance){
+			element.width *= 1.2;
+			element.height *= 1.2;
+		}
+	});
+}
+
 
 
 Game.prototype.update = function(){
-	var pointer = this.phaserGame.input.activePointer;
-	if (this.phaserGame.input.mousePointer.isDown)
-    {
-		//const lvlMiddleX = lvlWidth * 0.5;
-		//const lvlMiddleY = lvlHeight * 0.5;
-		var x = (pointer.x - 0.5 * lvlWidth) / lvlWidth ;
-		x = x*2; //Koska lvlWidthin jälkeen on -0.5 *viiva* 0.5 x:n arvo 
-		var y = (pointer.y - 0.5 * lvlHeight) / lvlHeight ;
-		y = y *2;
-		this.debugText.text = "X:"+ x.toFixed(2)+ ".\nY:"+y.toFixed(2);
-
-        this.moveCamera(x * CAMERA_MOVEMENT_SPEED, y * CAMERA_MOVEMENT_SPEED);
-    }
-
+	
+	this.mouseMover.update();
 }
-
 
 Game.prototype.setWorld = function(){
 	this.phaserGame.world.setBounds(0,0, worldWidth, worldHeight);
 	this.background = this.phaserGame.add.sprite(0,0, 'europe');
+	this.BackgroundLayer.add(this.background);
 	this.addToObjects(this.background);
 }
 
@@ -131,6 +159,8 @@ Game.prototype.createStars = function(){
 	for(var i = 0; i < this.stars; i++){
 		var star = phaserGame.add.sprite(phaserGame.rnd.integerInRange(0, worldWidth),phaserGame.rnd.integerInRange(0, worldHeight), 'star');
 		this.addToObjects(star);
+		star.inputEnabled = true;
+		this.GameLayer.add(star);
 	}
 	this.stars++;
 	//this.phaserGame.time.events.add(Phaser.Timer.SECOND * 0.1, this.createStars, this);

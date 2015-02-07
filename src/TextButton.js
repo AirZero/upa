@@ -17,6 +17,12 @@ function TextButton (gameToAddTo, title, picture, method, style, x, y, callBackC
 		this.setXandY(x,y);
 }
 
+
+TextButton.prototype.addToLayer = function(layer){
+	layer.add(this.button);
+	layer.add(this.text);
+}
+
 TextButton.prototype.setFixedToCamera = function(fixed){
 	this.button.fixedToCamera = fixed;
 	this.text.fixedToCamera = fixed;
