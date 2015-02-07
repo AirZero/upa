@@ -23,6 +23,8 @@ function init(){
 function reset(){
 	phaserGame.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 	phaserGame.world.setBounds(0,0, lvlWidth, lvlHeight);
+	phaserGame.camera.scale.x = 1;
+	phaserGame.camera.scale.y = 1;
 }
 
 

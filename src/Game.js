@@ -123,10 +123,28 @@ Game.prototype.clickStar = function(){
 	});
 }
 
+Game.prototype.handleZoom = function(event){
+	this.zoom(this.phaserGame.input.mouse.wheelDelta);
+
+}
+
+
+Game.prototype.zoom = function(zoomAmount){
+	if(this.phaserGame.camera.scale.x < 0.5 && zoomAmount < 1)
+		return;
+	this.phaserGame.camera.scale.x *= zoomAmount;
+	this.phaserGame.camera.scale.y *= zoomAmount;
+	this.phaserGame.world.setBounds(0,0, this.phaserGame.world.width * zoomAmount, this.phaserGame.world.height * zoomAmount);
+this.debugText.text = "X"+this.phaserGame.world.width +"\nY"+this.phaserGame.world.height;
+}
 
 
 Game.prototype.update = function(){
 	
+	if(this.phaserGame.input.keyboard.isDown("Z".charCodeAt(0)))
+		this.zoom(1.05);
+	else if(this.phaserGame.input.keyboard.isDown("X".charCodeAt(0)))
+		this.zoom(0.95238);
 	this.mouseMover.update();
 }
 
