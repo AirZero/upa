@@ -25,6 +25,7 @@ Game.prototype.preload = function(){
 
 Game.prototype.createGroups =function(){
 	this.BackgroundLayer = this.phaserGame.add.group();
+	
 	this.BackgroundLayer.z = 0;
 	this.GameLayer = this.phaserGame.add.group();
 	this.GameLayer.z = 1;
@@ -151,6 +152,8 @@ Game.prototype.update = function(){
 Game.prototype.setWorld = function(){
 	this.phaserGame.world.setBounds(0,0, worldWidth, worldHeight);
 	this.background = this.phaserGame.add.sprite(0,0, 'europe');
+	this.background.width = worldWidth;
+	this.background.height = worldHeight;
 	this.BackgroundLayer.add(this.background);
 	this.addToObjects(this.background);
 }

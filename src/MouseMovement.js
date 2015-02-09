@@ -12,7 +12,7 @@ function MouseMovement (phaserGame, cameraMovementSpeed){
 
 MouseMovement.prototype.update = function(){
 	var pointer = this.phaserGame.input.activePointer;
-	if (this.phaserGame.input.mousePointer.isDown)
+	if (this.phaserGame.input.activePointer.isDown)
     {
 		if(!this.pointerXMovement){
 			this.pointerXMovement = pointer.x;

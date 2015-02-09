@@ -2,8 +2,8 @@
 
 const lvlWidth = 800;
 const lvlHeight = 600;
-const worldWidth = 3000;
-const worldHeight = 3000;
+const worldWidth = 2000;
+const worldHeight = 2000;
 const DIALOG_INPUTPRIORITY = 2;
 const BUTTON_INPUTPRIORITY = 2;
 
