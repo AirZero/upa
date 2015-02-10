@@ -53,7 +53,7 @@ Menu.prototype.clear = function(){
 
 Menu.prototype.createButtons = function(){
 	this.clear();
-	const BUTTON_HEIGHT = 100;
+	var BUTTON_HEIGHT = 100;
 	if(this.titles.length == 0)
 		throw "Titles can't be empty!";
 	var buttonHeight = lvlHeight >= this.yMargin * 2 + BUTTON_HEIGHT *0.5 +  this.titles.length * (BUTTON_HEIGHT + this.yMarginBetweenButtons) ? BUTTON_HEIGHT : (lvlHeight - this.yMargin * 2 - this.titles.length * this.yMarginBetweenButtons) / this.titles.length;

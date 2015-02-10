@@ -1,6 +1,6 @@
 
 
-const CAMERA_MOVEMENT_SPEED = 10;
+var CAMERA_MOVEMENT_SPEED = 10;
 
 function Game (phaserGame){
 
@@ -72,8 +72,8 @@ Game.prototype.start = function(){
 	this.times = 10;
 
 	
-	//this.phaserGame.time.events.repeat(Phaser.Timer.SECOND * 0.25, this.times, this.createStars, this);
-	this.createRepeatEvent(0.25, this.times, this.createStars);
+	//this.phaserGame.time.events.repeat(Phaser.Timer.SECOND * 0.25, this.times, this.createLands, this);
+	this.createLands(25);
 
 	
 	this.createGUI();
@@ -104,9 +104,10 @@ function countDistance(x1, y1, x2, y2){
 
 
 function countIfInside(object, x, y){
-	if (object.x < x &&  x < object.x + object.width &&
-		object.y < y && y < object.y + object.height)
+	if (object.x - object.width * 0.5 < x &&  x < object.x + object.width * 0.5 &&
+		object.y - object.height * 0.5 < y && y < object.y + object.height *0.5){
 		return true;
+	}
 	return false;
 }
 
@@ -118,8 +119,10 @@ Game.prototype.clickStar = function(){
 		var distance = countIfInside(element, pointer.worldX, pointer.worldY);
 		//debugText.text = distance+"was";
 		if(distance){
-			element.width *= 1.2;
-			element.height *= 1.2;
+			if(element.scale.x >3)
+				return;
+			element.scale.x *= 1.2;
+			element.scale.y *= 1.2;
 		}
 	});
 }
@@ -176,13 +179,14 @@ Game.prototype.createRepeatEvent = function(seconds, times, method){
 }
 
 
-Game.prototype.createStars = function(){
-	for(var i = 0; i < this.stars; i++){
-		var star = phaserGame.add.sprite(phaserGame.rnd.integerInRange(0, worldWidth),phaserGame.rnd.integerInRange(0, worldHeight), 'star');
-		this.addToObjects(star);
-		star.inputEnabled = true;
-		this.GameLayer.add(star);
+Game.prototype.createLands = function(amount){
+	for(var i = 0; i < amount; i++){
+		var x = phaserGame.rnd.integerInRange(0, worldWidth);
+		var y = phaserGame.rnd.integerInRange(0, worldHeight);
+		var nation = new Nation(this.phaserGame,x , y, 'land');
+		this.addToObjects(nation);
+		nation.sprite.inputEnabled = true;
+		this.GameLayer.add(nation.sprite);
 	}
-	this.stars++;
-	//this.phaserGame.time.events.add(Phaser.Timer.SECOND * 0.1, this.createStars, this);
+	//this.phaserGame.time.events.add(Phaser.Timer.SECOND * 0.1, this.createLands, this);
 }
