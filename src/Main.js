@@ -16,7 +16,8 @@ var state;
 init();
 
 function init(){
-	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, Phaser.AUTO, '', { preload: preload, create: create, update: update });	
+	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, Phaser.CANVAS, '', { preload: preload, create: create, update: update });	
+	
 }
 
 
@@ -30,6 +31,13 @@ function reset(){
 
 function preload()
 {
+	var type = phaserGame.renderType;
+	if(type === Phaser.CANVAS)
+		alert("CanvasRenderer was used");
+	else if(type === Phaser.WEBGL)
+		alert("WebGL was used");
+	else
+		alert("HeadlessRenderer was used");
 	reset();
 	phaserGame.load.spritesheet('button', 'assets/buttons2.png', 100, 100);
 	phaserGame.load.image('star', 'assets/star.png');
