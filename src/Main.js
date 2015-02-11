@@ -16,7 +16,7 @@ var state;
 init();
 
 function init(){
-	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, Phaser.AUTO, '', { preload: preload, create: create, update: update });	
+	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, Phaser.AUTO, '', { preload: preload, create: create, update: update, render : render });	
 	
 }
 
@@ -31,16 +31,19 @@ function reset(){
 
 function preload()
 {
-	//var type = phaserGame.renderType;
-	//if(type === Phaser.CANVAS)
-	//	alert('CanvasRenderer was used');
-	//else if(type === Phaser.WEBGL)
-	//	alert('WebGL was used');
-	//else
-	//	alert('HeadlessRenderer was used');
+	if(debugOn){
+		phaserGame.time.advancedTiming = true;
+		var type = phaserGame.renderType;
+		if(type === Phaser.CANVAS)
+			alert('CanvasRenderer was used');
+		else if(type === Phaser.WEBGL)
+			alert('WebGL was used');
+		else
+			alert('HeadlessRenderer was used');
+	}
 	reset();
 	phaserGame.load.spritesheet('button', 'assets/buttons2.png', 100, 100);
-	phaserGame.load.image('land', 'assets/finland.png');
+	phaserGame.load.image('land', 'assets/FinlandWithoutBackground.svg');
 	phaserGame.load.image('dialogBack', 'assets/dialogBack.png');
 	phaserGame.load.image('europe', 'assets/EuropeHuge.png');
 	preloadGame();
@@ -88,8 +91,7 @@ function create(){
 function update(){
 	if(state === 'Game')
 		game.update();
-
-
+	
 }
 
 function info(){
@@ -131,6 +133,14 @@ function screenSettings(){
 	methods[1] = { 'method': function(){ settings();}};
 	menu.create(titles, methods);
 
+}
+
+
+function render(){
+	if(debugOn){
+		phaserGame.debug.pointer(phaserGame.input.activePointer);
+		phaserGame.debug.text("FPS:"+phaserGame.time.fps, 600, 200);
+	}
 }
 
 

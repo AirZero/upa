@@ -10,6 +10,14 @@ function Nation(game, x,y, sprite, maxRefugees){
 }
 
 
+Nation.prototype.setWidth = function(width){
+	this.sprite.width = width;
+}
+
+Nation.prototype.setHeight = function(height){
+	this.sprite.height = height;
+}
+
 Nation.prototype.destroy = function(){
 	this.sprite.destroy();
 }

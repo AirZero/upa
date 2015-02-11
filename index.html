@@ -4,12 +4,15 @@
 	<meta charset="UTF-8" />
 	<title>Uutispeliprojekti</title>
 	<script>
-		//function handleError(evt){
-		//	if(evt.message){
-		//		alert("Type:"+evt.name+".\n msg: "+evt.message+".\n Error was located in file: "+evt.filename);
-		//	}
-		//}
-		//window.addEventListener("error", handleError, true);
+		var debugOn = true;
+		if(debugOn){
+		function handleError(evt){
+			if(evt.message){
+				alert("Type:"+evt.name+".\n msg: "+evt.message+".\n Error was located in file: "+evt.filename);
+			}
+		}
+		window.addEventListener("error", handleError, true);
+		}
 	</script>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
 	<script type="text/javascript" src="src/TextButton.js"></script>
