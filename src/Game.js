@@ -15,6 +15,7 @@ function Game (phaserGame){
 
 	//this.createGroups();
 	this.mouseMover = new MouseMovement(phaserGame, CAMERA_MOVEMENT_SPEED);
+	this.nations = new Nations();
 }
 
 
@@ -181,15 +182,6 @@ Game.prototype.createRepeatEvent = function(seconds, times, method){
 
 
 Game.prototype.createLands = function(amount){
-	for(var i = 0; i < amount; i++){
-		var x = phaserGame.rnd.integerInRange(0, worldWidth);
-		var y = phaserGame.rnd.integerInRange(0, worldHeight);
-		var nation = new Nation(this.phaserGame,x , y, 'land');
-		nation.setWidth(100);
-		nation.setHeight(100);
-		this.addToObjects(nation);
-		nation.sprite.inputEnabled = true;
-		this.GameLayer.add(nation.sprite);
-	}
+	this.nations.createNations(this.phaserGame, this.GameLayer, amount);
 	//this.phaserGame.time.events.add(Phaser.Timer.SECOND * 0.1, this.createLands, this);
 }
