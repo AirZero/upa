@@ -18,8 +18,8 @@ Nations.prototype.createNations = function(phaserGame, layer, amount){
 		nation.setWidth(100);
 		nation.setHeight(100);
 		//this.addToObjects(nation);
-		nation.sprite.inputEnabled = true;
-		layer.add(nation.sprite);
+		nation.inputEnabled = true;
+		layer.add(nation);
 		this.nations[this.nations.length] = nation;
 	}
 }

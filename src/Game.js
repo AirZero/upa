@@ -91,7 +91,8 @@ Game.prototype.createGUI = function(){
 	
 	this.addToObjects(textButton);
 	
-	this.debugText = this.phaserGame.add.text(600, 50, "Debug", BASE_STYLE);
+	this.debugText = this.phaserGame.add.text(600, 50,
+	debugOn ? "Debug" : "Build", BASE_STYLE);
 	textButton.addToLayer(this.GUILayer);
 	this.GUILayer.add(this.debugText);
 	this.addToObjects(this.debugText);
@@ -114,7 +115,7 @@ function countIfInside(object, x, y){
 
 
 Game.prototype.clickStar = function(){
-	var debugText = this.debugText;	
+
 	this.GameLayer.forEach(function(element, index, array){
 		var pointer = this.phaserGame.input.activePointer;
 		var distance = countIfInside(element, pointer.worldX, pointer.worldY);

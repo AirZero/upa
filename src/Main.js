@@ -16,8 +16,10 @@ var state;
 init();
 
 function init(){
-	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, Phaser.AUTO, '', { preload: preload, create: create, update: update, render : render });	
-	
+	if(debugOn)
+	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, Phaser.AUTO, '', { preload: preload, create: create, update: update, render : render });
+	else
+	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, Phaser.AUTO, '', { preload: preload, create: create, update: update});
 }
 
 
@@ -42,10 +44,10 @@ function preload()
 			alert('HeadlessRenderer was used');
 	}
 	reset();
-	phaserGame.load.spritesheet('button', 'assets/buttons2.png', 100, 100);
-	phaserGame.load.image('land', 'assets/FinlandWithoutBackground.svg');
-	phaserGame.load.image('dialogBack', 'assets/dialogBack.png');
-	phaserGame.load.image('europe', 'assets/EuropeHuge.png');
+	phaserGame.load.spritesheet('button', 'assets/pictures/buttons2.png', 100, 100);
+	phaserGame.load.image('land', 'assets/pictures/FinlandWithoutBackground.svg');
+	phaserGame.load.image('dialogBack', 'assets/pictures/dialogBack.png');
+	phaserGame.load.image('europe', 'assets/pictures/EuropeHuge.png');
 	preloadGame();
 	preloadMenu();
 }
@@ -137,10 +139,9 @@ function screenSettings(){
 
 
 function render(){
-	if(debugOn){
-		phaserGame.debug.pointer(phaserGame.input.activePointer);
-		phaserGame.debug.text("FPS:"+phaserGame.time.fps, 600, 200);
-	}
+	phaserGame.debug.pointer(phaserGame.input.activePointer);
+	phaserGame.debug.text("FPS:"+phaserGame.time.fps, 600, 200);
+
 }
 
 
