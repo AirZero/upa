@@ -20,18 +20,29 @@ Nations.prototype.onNationClick = function(sprite){
 }
 
 Nations.prototype.preloadNationData = function(){
+	this.phaserGame.load.onLoadComplete.add(this.loadNationData, this);
+	
 	this.phaserGame.load.text('nationsJSON', DATA_PATH+'nations.json');
+	
+
+	
 }
 
 Nations.prototype.loadNationData = function(){
 	this.nationsData = JSON.parse(this.phaserGame.cache.getText('nationsJSON')).nations;
+	
+	for(var i = 0; i < this.nationsData.length; i++){
+		this.phaserGame.load.image(this.nationsData[i].sprite);
+	}
+	
+
 }
 
 
 
 
 Nations.prototype.createNations = function(layer){
-	this.loadNationData();
+	//this.loadNationData();
 	for(var i = 0; i < this.nationsData.length; i++){
 		//var x = this.phaserGame.rnd.integerInRange(0, worldWidth);
 		//var y = this.phaserGame.rnd.integerInRange(0, worldHeight);
@@ -44,6 +55,7 @@ Nations.prototype.createNations = function(layer){
 		nation.inputEnabled = true;
 		nation.events.onInputDown.add(this.onNationClick);
 		layer.add(nation);
+		layer.add(nation.text);
 		this.nations[this.nations.length] = nation;
 	}
 }
