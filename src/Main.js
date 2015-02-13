@@ -49,7 +49,7 @@ function preload()
 	}
 	reset();
 	phaserGame.load.spritesheet('button', 'assets/pictures/buttons2.png', 100, 100);
-	phaserGame.load.image('finland', 'assets/pictures/finland.png');
+	//phaserGame.load.image('finland', 'assets/pictures/finland.png');
 	phaserGame.load.image('dialogBack', 'assets/pictures/dialogBack.png');
 	phaserGame.load.image('europe', 'assets/pictures/EuropeHuge.png');
 	preloadGame();

@@ -20,19 +20,20 @@ Nations.prototype.onNationClick = function(sprite){
 }
 
 Nations.prototype.preloadNationData = function(){
-	this.phaserGame.load.onLoadComplete.add(this.loadNationData, this);
+
 	
-	this.phaserGame.load.text('nationsJSON', DATA_PATH+'nations.json');
-	
+	//this.phaserGame.load.text('nationsJSON', DATA_PATH+'nations.json');
+	//this.phaserGame.load.onLoadComplete.add(this.loadNationData, this, 9999);
+	this.loadNationData();
 
 	
 }
 
 Nations.prototype.loadNationData = function(){
-	this.nationsData = JSON.parse(this.phaserGame.cache.getText('nationsJSON')).nations;
-	
+	//this.nationsData = JSON.parse(this.phaserGame.cache.getText('nationsJSON')).nations;
+	this.nationsData = getJson().nations;
 	for(var i = 0; i < this.nationsData.length; i++){
-		this.phaserGame.load.image(this.nationsData[i].sprite);
+		this.phaserGame.load.image(this.nationsData[i].sprite,PICTURE_PATH + this.nationsData[i].sprite+".png");
 	}
 	
 
