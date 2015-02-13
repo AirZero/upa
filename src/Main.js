@@ -6,11 +6,15 @@ var worldWidth = 2000;
 var worldHeight = 2000;
 var DIALOG_INPUTPRIORITY = 2;
 var BUTTON_INPUTPRIORITY = 2;
+var DATA_PATH = 'assets/data/';
+var PICTURE_PATH = 'assets/pictures/';
+
 
 var phaserGame;
 var game;
 var menu;
 var BASE_STYLE = { font: '32px Arial', fill: '#ff0044', align: 'center' };
+var NATION_TEXT_STYLE = { font: '20px Arial', fill: '#222222', align: 'center' };
 var state;
 
 init();
@@ -45,7 +49,7 @@ function preload()
 	}
 	reset();
 	phaserGame.load.spritesheet('button', 'assets/pictures/buttons2.png', 100, 100);
-	phaserGame.load.image('land', 'assets/pictures/FinlandWithoutBackground.svg');
+	phaserGame.load.image('finland', 'assets/pictures/finland.png');
 	phaserGame.load.image('dialogBack', 'assets/pictures/dialogBack.png');
 	phaserGame.load.image('europe', 'assets/pictures/EuropeHuge.png');
 	preloadGame();

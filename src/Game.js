@@ -15,12 +15,12 @@ function Game (phaserGame){
 
 	//this.createGroups();
 	this.mouseMover = new MouseMovement(phaserGame, CAMERA_MOVEMENT_SPEED);
-	this.nations = new Nations();
+	this.nations = new Nations(this.phaserGame);
 }
 
 
 Game.prototype.preload = function(){
-	
+	this.nations.preload();
 }
 
 
@@ -65,7 +65,7 @@ Game.prototype.addToObjects = function(obj){
 
 Game.prototype.start = function(){
 	this.createGroups();
-	this.phaserGame.input.onDown.add(this.clickStar, this);
+	//this.phaserGame.input.onDown.add(this.clickStar, this);
 	//this.events[this.events.length] = 
 
 	this.setWorld();
@@ -114,6 +114,8 @@ function countIfInside(object, x, y){
 }
 
 
+
+
 Game.prototype.clickStar = function(){
 
 	this.GameLayer.forEach(function(element, index, array){
@@ -121,10 +123,7 @@ Game.prototype.clickStar = function(){
 		var distance = countIfInside(element, pointer.worldX, pointer.worldY);
 		//debugText.text = distance+"was";
 		if(distance){
-			if(element.scale.x >3)
-				return;
-			element.scale.x *= 1.2;
-			element.scale.y *= 1.2;
+			//this.onNationClick(element);
 		}
 	});
 }
@@ -183,6 +182,8 @@ Game.prototype.createRepeatEvent = function(seconds, times, method){
 
 
 Game.prototype.createLands = function(amount){
-	this.nations.createNations(this.phaserGame, this.GameLayer, amount);
+	this.nations.createNations(this.GameLayer);
+	
+	
 	//this.phaserGame.time.events.add(Phaser.Timer.SECOND * 0.1, this.createLands, this);
 }
