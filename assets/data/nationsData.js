@@ -15,16 +15,16 @@ function getJson(){
 			"width": 300,
 			"height": 300,
 			"rotation": 0,
-			"sprite": "finland"
+			"sprite": "Suomi"
 		},
 		{
 			"name": "Ruotsi",
 			"x": 350,
 			"y": 500,
-			"width": 300,
-			"height": 300,
+			"width": 258,
+			"height": 382,
 			"rotation": 25,
-			"sprite": "sweden"
+			"sprite": "Ruotsi"
 		
 		},
 		{
@@ -34,7 +34,7 @@ function getJson(){
 			"width": 800,
 			"height": 500,
 			"rotation": 0,
-			"sprite": "finland"
+			"sprite": "Venäjä"
 		
 		},
 		{
@@ -44,7 +44,7 @@ function getJson(){
 			"width": 200,
 			"height": 100,
 			"rotation": 0,
-			"sprite": "finland"	
+			"sprite": "Viro"	
 		},
 			{
 			"name": "Latvia",
@@ -53,7 +53,7 @@ function getJson(){
 			"width": 200,
 			"height": 100,
 			"rotation": 0,
-			"sprite": "finland"	
+			"sprite": "Latvia"	
 		}
 		
 	

@@ -20,7 +20,7 @@ var phaserGame;
 var game;
 var menu;
 var BASE_STYLE = { font: '32px Arial', fill: '#ff0044', align: 'center' };
-var NATION_TEXT_STYLE = { font: '20px Arial', fill: '#222222', align: 'center' };
+var NATION_TEXT_STYLE = { font: '26px Arial', fill: '#dddddd', align: 'center' };
 var state;
 var playerPrefs = new PlayerPrefs(); //TODO: assess if global access is the best or should not be object or etc..
 
