@@ -1,4 +1,9 @@
-﻿function getJson(){
+﻿/**
+ * Underhand solution for reading Json on time without worrying about loadings not being on correct time.
+ *
+ */
+
+function getJson(){
 	var x=
 {
 	"nations":

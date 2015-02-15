@@ -1,4 +1,10 @@
 
+/**
+ * This class is the controller class of the program. It defines the interaction
+ * between the Menu and the Game and their states and is also the place to define
+ * constants and globals.
+ */
+
 
 var lvlWidth = 800;
 var lvlHeight = 600;
@@ -16,9 +22,14 @@ var menu;
 var BASE_STYLE = { font: '32px Arial', fill: '#ff0044', align: 'center' };
 var NATION_TEXT_STYLE = { font: '20px Arial', fill: '#222222', align: 'center' };
 var state;
+var playerPrefs = new PlayerPrefs(); //TODO: assess if global access is the best or should not be object or etc..
 
 init();
 
+/**
+ * init function sets up the phaserGame and is the inner starting point of the program.
+ * not to be called separately
+ */
 function init(){
 	if(debugOn)
 	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, Phaser.AUTO, '', { preload: preload, create: create, update: update, render : render });
@@ -26,7 +37,9 @@ function init(){
 	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, Phaser.AUTO, '', { preload: preload, create: create, update: update});
 }
 
-
+/**
+ * reset returns the state of the game to the starting point of the game.
+ */
 function reset(){
 	phaserGame.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 	phaserGame.world.setBounds(0,0, lvlWidth, lvlHeight);
@@ -35,7 +48,9 @@ function reset(){
 	phaserGame.stage.backgroundColor = '#000000'; //TODO: stagejen välillä siirtyminen
 }
 
-
+/**
+ * preload is the phasers inner preload method that is used for loading all the assets and setting up Game and Menu classes
+ */
 function preload()
 {
 	if(debugOn){
@@ -57,12 +72,20 @@ function preload()
 	preloadMenu();
 }
 
+/**
+ * preloads the Game-class.
+ * initializes it and calls its preload.
+ */
 function preloadGame(){
 	game = new Game(phaserGame);
 	game.preload();
 }
 
 
+/**
+ * preloadMenu preloads the Menu-class.
+ *
+ */
 function preloadMenu(){
 	//var titles = ['Pelaa', 'Asetukset', 'Tiedot'];
 	//var methods = new Array();
@@ -74,6 +97,10 @@ function preloadMenu(){
 	//reMenu();
 }
 
+
+/**
+ * This can be used to reinitialize the menu. This is the starting screen of the program also
+ */
 function reMenu(){
 	state = 'Menu';
 	reset();
@@ -87,20 +114,28 @@ function reMenu(){
 }
 
 
-
+/**
+ * Method associated with Phasers create. Sets up the starting screen of the game
+ */
 function create(){
 	reMenu();
-	phaserGame.stage.backgroundColor = '#000000';
 
 }
 
-
+/**
+ * Phasers update. 
+ * Directs update to the associated classes that have controller
+ * TODO: states/stages
+ */
 function update(){
 	if(state === 'Game')
 		game.update();
 	
 }
 
+/**
+ * Defines the "Tiedot" menu proportion.
+ */
 function info(){
 	var titles = ['Ohjelmointi: Tero Paavolainen,', 'Eetu Rantakangas', 'Sisällöntuottaminen: Jarno Liski', 'Projektinjohtaja: Olli-Pekka Paajanen', 'Journalisti-tietotekniikko: Riikka Valtonen', 'Takaisin'];
 	var methods = new Array();
@@ -115,6 +150,10 @@ function info(){
 	menu.create(titles, methods);
 }
 
+
+/**
+ * Defines the "Asetukset" menu proportion.
+ */
 function settings(){
 	var titles = ['Äänet','Näyttö', 'Modit', 'Takaisin'];
 	var methods = new Array();
@@ -131,26 +170,42 @@ function settings(){
 }
 
 
+/**
+ * Defines the screen settings menu proportion.
+ */
 function screenSettings(){
-	var titles = ['Kokonäytön tila','Takaisin'];
+	var titles = ['Kokonäytön tila',
+	//Notice the parenthese around the ternary, this is required or else the start of the string will be absorped to the condition
+	"Näytä maiden nimet " + (playerPrefs.getNumber("showNames") ? "X" : "_"),
+	'Takaisin'];
+	xName = null;
 	var methods = new Array();
 	methods[0] = {'method': function(){
 		phaserGame.scale.startFullScreen();
 	}};
-	methods[1] = { 'method': function(){ settings();}};
+	methods[1] = { 'method': function(){
+		playerPrefs.set("showNames", playerPrefs.getNumber("showNames") ? 0 : 1);
+		screenSettings();
+		}
+	}
+	methods[2] = { 'method': function(){ settings();}};
 	menu.create(titles, methods);
 
 }
 
 
+/**
+ * Associated method for phasers render. Uses debug to show information regarding the game states
+ */
 function render(){
 	phaserGame.debug.pointer(phaserGame.input.activePointer);
 	phaserGame.debug.text("FPS:"+phaserGame.time.fps, 600, 200);
 
 }
 
-
-
+/**
+ * Starts the game
+ */
 function start(){
 	menu.clear();
 	state = 'Game';

@@ -1,4 +1,13 @@
+/**
+ * Can be used to create a dialog with two different options.
+ * TODO: Make it more general
+ */
 
+
+ /**
+  * Constructor for dialog.
+  * Needs atleast the game, text and methods for Yes and No.
+  */
 function Dialog(game, text, methodYes, methodNo, x, y, width, height, yesText, noText){
 	x = x || lvlWidth * 0.5;
 	y = y || lvlHeight * 0.5;
@@ -45,17 +54,28 @@ function Dialog(game, text, methodYes, methodNo, x, y, width, height, yesText, n
 	this.no.setInputPriority (DIALOG_INPUTPRIORITY);
 }
 
+
+/**
+ * Sets the activity of the dialog and its components based on given value
+ */
 Dialog.prototype.setActive = function(activity){
 	this.no.setActive(activity);
 	this.yes.setActive(activity);
 }
 
+/**
+ * Silences another component to not work as long as this component is not destroyed.
+ * Will release the component after destroy is invoked.
+ */
 Dialog.prototype.silence = function(theSilenced){
 	theSilenced.setActive(false);
 	this.silencedObjects[this.silencedObjects.length] = theSilenced;
 }
 
 
+/**
+ * Destroys all related Phaser components and sets the silenced components free.
+ */
 Dialog.prototype.destroy = function(){
 	this.background.destroy();
 	this.yes.destroy();

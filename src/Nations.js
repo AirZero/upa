@@ -1,5 +1,8 @@
 
-
+/**
+ * Class used for creation of the nations.
+ * Is responsible for the states, functions and data regarding nations of the game
+ */
 
 function Nations(phaserGame){
 	//this.phaserGame = phaserGame;
@@ -11,37 +14,46 @@ function Nations(phaserGame){
 }
 
 
+/**
+ * Preloads data needed by Nations
+ */
 Nations.prototype.preload = function(){
 	this.preloadNationData();
 }
 
+
+/**
+ * Defines what is to happen when the nations are clicked
+ */
 Nations.prototype.onNationClick = function(sprite){
 	sprite.tint = sprite.tint * 0.9;	
 }
 
-Nations.prototype.preloadNationData = function(){
 
-	
+/**
+ * Loads the images needed for the nations in the game
+ */
+Nations.prototype.preloadNationData = function(){
 	//this.phaserGame.load.text('nationsJSON', DATA_PATH+'nations.json');
 	//this.phaserGame.load.onLoadComplete.add(this.loadNationData, this, 9999);
-	this.loadNationData();
-
-	
+	this.loadNationData();	
 }
 
+
+/**
+ * The actual function that loads the pictures for nations
+ */
 Nations.prototype.loadNationData = function(){
 	//this.nationsData = JSON.parse(this.phaserGame.cache.getText('nationsJSON')).nations;
 	this.nationsData = getJson().nations;
 	for(var i = 0; i < this.nationsData.length; i++){
 		this.phaserGame.load.image(this.nationsData[i].sprite,PICTURE_PATH + this.nationsData[i].sprite+".png");
 	}
-	
-
 }
 
-
-
-
+/**
+ * Creates nations according to the data loaded
+ */
 Nations.prototype.createNations = function(layer){
 	//this.loadNationData();
 	for(var j = 0; j <5; j++)
@@ -60,7 +72,7 @@ Nations.prototype.createNations = function(layer){
 		nation.setAutoCulling(true);
 		layer.add(nation);
 		layer.add(nation.text);
-		nation.setTextVisibility(true);
+		nation.setTextVisibility(playerPrefs.getNumber("showNames"));
 		this.nations[this.nations.length] = nation;
 	}
 }

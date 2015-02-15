@@ -1,13 +1,19 @@
 
+/**
+ * Game class defines the games functionality and operations needed for the functionality of the game.
+ * Needs to be passed the states provided by the Phasers game to operate properly!
+ */
 
+//Constant representing the movement speed of the camera
 var CAMERA_MOVEMENT_SPEED = 10;
 
+/**
+ * Initializes the inner states of the game
+ */
 function Game (phaserGame){
 
 	this.phaserGame = phaserGame
-	
-	this.stars = 5;
-	this.times = 10;
+
 	this.gameObjects = [];
 	
 	this.events = [];
@@ -19,11 +25,18 @@ function Game (phaserGame){
 }
 
 
+/**
+ * Loads the data needed for the game to function properly
+ */
 Game.prototype.preload = function(){
 	this.nations.preload();
 }
 
 
+/**
+ * Initializes the Layers of the game for properly showing components on the screen.
+ * Needs to be called everytime the game is started.
+ */
 Game.prototype.createGroups =function(){
 	this.BackgroundLayer = this.phaserGame.add.group();
 	
@@ -34,7 +47,10 @@ Game.prototype.createGroups =function(){
 	this.GUILayer.z = 2;	
 }
 
-
+/**
+ * Will clear the Phaser game objects in the game.
+ * Does not destroy games' loaded data, only screen components.
+ */
 Game.prototype.clear = function(){
 	if(this.gameObjects.length != 0){
 		//for(var i = 0; i < this.gameObjects.length; i++){
@@ -54,23 +70,25 @@ Game.prototype.clear = function(){
 	//this.phaserGame.time.events.removeAll();
 }
 
+
+/**
+ * Used to add cleareable objects to the correct queue.
+ * @DEPRECATED
+ */
 Game.prototype.addToObjects = function(obj){
 	this.gameObjects[this.gameObjects.length] = obj;
 }
 
 
-
-
-
-
+/**
+ * Creates the components drawn to the game and the GUI elements
+ */
 Game.prototype.start = function(){
 	this.createGroups();
 	//this.phaserGame.input.onDown.add(this.clickStar, this);
 	//this.events[this.events.length] = 
 
 	this.setWorld();
-	this.stars = 1;
-	this.times = 10;
 
 	
 	//this.phaserGame.time.events.repeat(Phaser.Timer.SECOND * 0.25, this.times, this.createLands, this);
@@ -81,6 +99,9 @@ Game.prototype.start = function(){
 }
 
 
+/**
+ * Creates all the gui elements needed for the functionality of the game
+ */
 Game.prototype.createGUI = function(){
 	var thisGame = this;
 	var textButton = new TextButton(this.phaserGame, 'Menu', 'button', function(){
@@ -100,11 +121,18 @@ Game.prototype.createGUI = function(){
 }
 
 
+/**
+ * Can be used to count the distance between two points in the game
+ */
 function countDistance(x1, y1, x2, y2){
 	 return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2-y1, 2));
 }
 
-
+/**
+ * Calculates if the given coordinates are inside the objects size.
+ * Presumes the object is anchored to center.
+ * TODO: Solution that works with any anchor setting.
+ */
 function countIfInside(object, x, y){
 	if (object.x - object.width * 0.5 < x &&  x < object.x + object.width * 0.5 &&
 		object.y - object.height * 0.5 < y && y < object.y + object.height *0.5){
@@ -115,7 +143,10 @@ function countIfInside(object, x, y){
 
 
 
-
+/**
+ * Used for clicking components on the field.
+ * @DEPRECATED
+ */
 Game.prototype.clickStar = function(){
 
 	this.GameLayer.forEach(function(element, index, array){
@@ -128,22 +159,35 @@ Game.prototype.clickStar = function(){
 	});
 }
 
+
+/**
+ *  Handler function for handling  the zooming using buttons
+ */
 Game.prototype.handleZoom = function(event){
 	this.zoom(this.phaserGame.input.mouse.wheelDelta);
 
 }
 
 
+/**
+ * Zooms the game objects using the Phasers Cameras scale.
+ * Also will change the worlds bounds to keep the gamefield in the same size compared to the zoom amount.
+ */
 Game.prototype.zoom = function(zoomAmount){
 	if(this.phaserGame.camera.scale.x < 0.5 && zoomAmount < 1)
 		return;
 	this.phaserGame.camera.scale.x *= zoomAmount;
 	this.phaserGame.camera.scale.y *= zoomAmount;
 	this.phaserGame.world.setBounds(0,0, this.phaserGame.world.width * zoomAmount, this.phaserGame.world.height * zoomAmount);
-this.debugText.text = "X"+this.phaserGame.world.width +"\nY"+this.phaserGame.world.height;
+	if(debugOn)
+		this.debugText.text = "X"+this.phaserGame.world.width +"\nY"+this.phaserGame.world.height;
 }
 
 
+/**
+ * Updates the games state.
+ * For example input and movement on screen will be handled here and the updating of the game state(new events).
+ */
 Game.prototype.update = function(){
 	
 	if(this.phaserGame.input.keyboard.isDown("Z".charCodeAt(0)))
@@ -153,6 +197,10 @@ Game.prototype.update = function(){
 	this.mouseMover.update();
 }
 
+
+/**
+ * Sets the worlds size according to the worldWidth and worldHeight and creates background for the game
+ */
 Game.prototype.setWorld = function(){
 	this.phaserGame.world.setBounds(0,0, worldWidth, worldHeight);
 	//this.background = this.phaserGame.add.sprite(0,0, 'europe');
@@ -164,24 +212,44 @@ Game.prototype.setWorld = function(){
 }
 
 
+
+/**
+ * Clears the game and returns back to the starting screen of the menu
+ */
 Game.prototype.returnToMenu = function(){
 	this.clear();
 	reMenu();
 
 }
 
+
+/**
+ * A slightly easier approach for adding timed event for the game.
+ * Uses the phasers events to do this.
+ * @param seconds time until the event to tick
+ * @param method the function called after the time.
+ */
 Game.prototype.createTimedEvent = function(seconds, method){
 	var timedEvent = this.phaserGame.time.events.add(Phaser.Timer.SECOND * seconds, method, this);
 	this.events[this.events.length] = timedEvent;
 }
 
+/**
+ * A slightly easier approach for adding repeated events for the game.
+ * Uses the phasers events to do this.
+ * @param seconds time until the event to tick
+ * @param times amount of calls for event
+ * @param method the function called after the time.
+ */
 Game.prototype.createRepeatEvent = function(seconds, times, method){
 	var timedEvent = this.phaserGame.time.events.repeat(Phaser.Timer.SECOND * seconds, times, method, this);
 	this.events[this.events.length] = timedEvent;
 }
 
 
-
+/**
+ * Creates the nations on to the game
+ */
 Game.prototype.createLands = function(amount){
 	this.nations.createNations(this.GameLayer);
 	

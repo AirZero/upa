@@ -1,4 +1,9 @@
 
+/**
+ * Handles the movement in-game using touch or mouse
+ *
+ */
+
 
 function MouseMovement (phaserGame, cameraMovementSpeed){
 	this.phaserGame = phaserGame;
@@ -10,6 +15,10 @@ function MouseMovement (phaserGame, cameraMovementSpeed){
 }
 
 
+/**
+ * Observes the states of the input devices and manages movement according to this information.
+ * Needs to be called by the parent of this object.
+ */
 MouseMovement.prototype.update = function(){
 	var pointer = this.phaserGame.input.activePointer;
 	if (this.phaserGame.input.activePointer.isDown)
@@ -49,6 +58,10 @@ MouseMovement.prototype.update = function(){
 }
 
 
+/**
+ * Moves camera in game
+ * Made in case theres need to affect some GUI-components somehow, made obsolete by this.setFixedToCamera.
+ */
 MouseMovement.prototype.moveCamera = function(x, y){
 	this.phaserGame.camera.x += x;
 	this.phaserGame.camera.y += y;
