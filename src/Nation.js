@@ -18,6 +18,17 @@ function Nation(game, x,y, text, sprite, maxRefugees){
 }
 
 
+Nation.prototype.setTextVisibility = function(visibility){
+	this.text.visible = visibility;
+}
+
+Nation.prototype.setAutoCulling = function(cull){
+	this.autoCull = cull;
+	this.text.autoCull = cull;
+}
+
+
+
 Nation.prototype.createText = function(game, text, x, y){
 	this.text = game.add.text(0,0, text, NATION_TEXT_STYLE);
 	this.text.anchor.setTo(0.5, 0.5);

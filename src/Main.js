@@ -32,6 +32,7 @@ function reset(){
 	phaserGame.world.setBounds(0,0, lvlWidth, lvlHeight);
 	phaserGame.camera.scale.x = 1;
 	phaserGame.camera.scale.y = 1;
+	phaserGame.stage.backgroundColor = '#000000'; //TODO: stagejen välillä siirtyminen
 }
 
 
@@ -51,7 +52,7 @@ function preload()
 	phaserGame.load.spritesheet('button', 'assets/pictures/buttons2.png', 100, 100);
 	//phaserGame.load.image('finland', 'assets/pictures/finland.png');
 	phaserGame.load.image('dialogBack', 'assets/pictures/dialogBack.png');
-	phaserGame.load.image('europe', 'assets/pictures/EuropeHuge.png');
+	//phaserGame.load.image('europe', 'assets/pictures/EuropeHuge.png');
 	preloadGame();
 	preloadMenu();
 }

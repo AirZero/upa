@@ -155,11 +155,12 @@ Game.prototype.update = function(){
 
 Game.prototype.setWorld = function(){
 	this.phaserGame.world.setBounds(0,0, worldWidth, worldHeight);
-	this.background = this.phaserGame.add.sprite(0,0, 'europe');
-	this.background.width = worldWidth;
-	this.background.height = worldHeight;
-	this.BackgroundLayer.add(this.background);
-	this.addToObjects(this.background);
+	//this.background = this.phaserGame.add.sprite(0,0, 'europe');
+	//this.background.width = worldWidth;
+	//this.background.height = worldHeight;
+	//this.BackgroundLayer.add(this.background);
+	//this.addToObjects(this.background);
+	this.phaserGame.stage.backgroundColor = '#0909FF';
 }
 
 
