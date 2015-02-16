@@ -9,40 +9,40 @@ function getJson(){
 	"nations":
 	[
 		{
-			"name": "Suomi",
-			"x": 655,
-			"y": 500,
-			"width": 300,
-			"height": 300,
-			"rotation": 0,
-			"sprite": "Suomi"
-		},
-		{
-			"name": "Ruotsi",
-			"x": 350,
-			"y": 500,
-			"width": 258,
-			"height": 382,
-			"rotation": 25,
-			"sprite": "Ruotsi"
-		
-		},
-		{
 			"name": "Venäjä",
-			"x": 1250,
+			"x": " ,Border:Right",
 			"y": 600,
-			"width": 800,
-			"height": 500,
+			"width": 374,
+			"height": 696,
 			"rotation": 0,
 			"sprite": "Venäjä"
 		
 		},
 		{
+			"name": "Suomi",
+			"x": "Left:Venäjä,Percent:37",
+			"y": "Same:Venäjä,Percent:-60",
+			"width": 240,
+			"height": 318,
+			"rotation": 0,
+			"sprite": "Suomi"
+		},
+		{
+			"name": "Ruotsi",
+			"x": "Same:Suomi,Percent:-58",
+			"y": "Same:Suomi,Percent:19",
+			"width": 258,
+			"height": 382,
+			"rotation": 0,
+			"sprite": "Ruotsi"
+		
+		},
+		{
 			"name": "Viro",
-			"x": 655,
-			"y": 900,
-			"width": 200,
-			"height": 100,
+			"x": "Left:Venäjä,Percent:17",
+			"y": "Down:Suomi,Percent:-17",
+			"width": 132,
+			"height": 68,
 			"rotation": 0,
 			"sprite": "Viro"	
 		},

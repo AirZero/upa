@@ -68,6 +68,7 @@ TextButton.prototype.destroy = function(){
 	this.text.destroy();
 }
 
+
 TextButton.prototype.setActive = function(activity){
 	this.active = activity;
 }

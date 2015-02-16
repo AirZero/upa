@@ -43,8 +43,10 @@ Game.prototype.createGroups =function(){
 	this.BackgroundLayer.z = 0;
 	this.GameLayer = this.phaserGame.add.group();
 	this.GameLayer.z = 1;
+	this.TextLayer = this.phaserGame.add.group();
+	this.TextLayer.z = 2;
 	this.GUILayer = this.phaserGame.add.group();
-	this.GUILayer.z = 2;	
+	this.GUILayer.z = 3;	
 }
 
 /**
@@ -60,6 +62,7 @@ Game.prototype.clear = function(){
 	}
 	this.GUILayer.destroy(true);
 	this.BackgroundLayer.destroy(true);
+	this.TextLayer.destroy(true);
 	this.GameLayer.destroy(true);
 	
 	for(var i = 0; i < this.events.length; i++){
@@ -96,6 +99,7 @@ Game.prototype.start = function(){
 
 	
 	this.createGUI();
+	this.mouseMover.moveCamera(worldWidth * 0.5, 200);
 }
 
 
@@ -251,7 +255,7 @@ Game.prototype.createRepeatEvent = function(seconds, times, method){
  * Creates the nations on to the game
  */
 Game.prototype.createLands = function(amount){
-	this.nations.createNations(this.GameLayer);
+	this.nations.createNations(this.GameLayer, this.TextLayer);
 	
 	
 	//this.phaserGame.time.events.add(Phaser.Timer.SECOND * 0.1, this.createLands, this);

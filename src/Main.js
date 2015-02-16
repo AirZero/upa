@@ -8,8 +8,8 @@
 
 var lvlWidth = 800;
 var lvlHeight = 600;
-var worldWidth = 2000;
-var worldHeight = 2000;
+var worldWidth = 1500;
+var worldHeight = 1500;
 var DIALOG_INPUTPRIORITY = 2;
 var BUTTON_INPUTPRIORITY = 2;
 var DATA_PATH = 'assets/data/';

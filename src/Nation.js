@@ -8,9 +8,11 @@
 Nation.prototype = Object.create(Phaser.Sprite.prototype);
 Nation.prototype.constructor = Nation;
 
-function Nation(game, x,y, text, sprite, maxRefugees){
+function Nation(game, x,y, name, sprite, maxRefugees){
 	Phaser.Sprite.call(this, game, 0, 0, sprite);
-	this.createText(game, text, x, y);
+	this.createText(game, name, x, y);
+	
+	this.name = name;
 	
 	this.anchor.setTo(0.5, 0.5);
 	this.x = x;
