@@ -8,6 +8,7 @@ function Nations(phaserGame){
 	//this.phaserGame = phaserGame;
 	//this.layer = layer;
 	//this.amount = amount;
+	this.nationsSizeMultiplier = 1;
 	this.nations = [];
 	this.phaserGame = phaserGame;
 	
@@ -45,7 +46,9 @@ Nations.prototype.preloadNationData = function(){
  */
 Nations.prototype.loadNationData = function(){
 	//this.nationsData = JSON.parse(this.phaserGame.cache.getText('nationsJSON')).nations;
-	this.nationsData = getJson().nations;
+	var jsonNations = getJson();
+	this.nationsData = jsonNations.nations;
+	this.nationsSizeMultiplier = jsonNations.sizeMultiplier;
 	for(var i = 0; i < this.nationsData.length; i++){
 		this.phaserGame.load.image(this.nationsData[i].sprite,PICTURE_PATH + this.nationsData[i].sprite+".png");
 	}
@@ -58,6 +61,8 @@ Nations.prototype.createNations = function(layer, textLayer){
 	//this.loadNationData();
 	for(var i = 0; i < this.nationsData.length; i++){
 		var nationData = this.nationsData[i];
+		nationData.width = nationData.width * this.nationsSizeMultiplier;
+		nationData.height = nationData.height * this.nationsSizeMultiplier;
 		var x = this.parseNationX(nationData);
 		var y = this.parseNationY(nationData);
 		this.createNation(layer, textLayer, x, y, nationData);
@@ -68,9 +73,10 @@ Nations.prototype.createNations = function(layer, textLayer){
 
 
 Nations.prototype.createNation = function(layer, textLayer, x, y, nationData){
-
+	//TODO: Add an option to define the text position compared to the nations eg. anchor for text. See also what is ready for it
 	//var nation = new Nation(this.phaserGame, nationData.x, nationData.y, nationData.name, nationData.sprite);
 	var nation = new Nation(this.phaserGame, x, y, nationData.name, nationData.sprite);
+	//var nationSize = this.parseNationSize(nation, nationData.width, nationData.height);
 	nation.setWidth(nationData.width);
 	nation.setHeight(nationData.height);
 	nation.angle = nationData.rotation;
@@ -83,6 +89,31 @@ Nations.prototype.createNation = function(layer, textLayer, x, y, nationData){
 	nation.setTextVisibility(playerPrefs.getNumber("showNames"));
 	this.nations[nation.name] = nation;
 	
+}
+
+
+Nations.prototype.parseNationSize = function(nation, width, height){
+	//TODO: ponder if necessary, most likely will not be with spritesheet and spritesheet is probably the better approach
+	debugger;
+	var size = {
+		"width":0,
+		"height":0
+	};
+	if(isNaN(width)){
+		if(width.substr(width.length -2) === 'x'){
+			size.width = parseFloat(width.substr(0,width.length -2)) * nation.width;
+		}
+	}
+	else
+		size.x = width;
+	if(isNaN(height)){
+		if(height.substr(height.length -2) === 'x'){
+			size.height = parseFloat(height.substr(0,height.length -2)) * nation.height;
+		}
+	}
+	else
+		size.y = height;
+	return size;
 }
 
 
@@ -146,8 +177,8 @@ Nations.prototype.parseScripts = function(nationData, dataObject, scripts, relat
 		var scriptData = scripts[i].split(":");
 		switch(scriptData[0]){
 			case "Percent":
-				var asInt = parseInt(scriptData[1]);
-				dataObject.Percent = asInt * 0.01;
+				var asFloat = parseFloat(scriptData[1]);
+				dataObject.Percent = asFloat * 0.01;
 				break;
 			case "Add":
 					dataObject.x += parseFloat(scriptData[1]);

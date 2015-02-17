@@ -99,7 +99,7 @@ Game.prototype.start = function(){
 
 	
 	this.createGUI();
-	this.mouseMover.moveCamera(worldWidth * 0.5, 200);
+	this.mouseMover.moveCamera(worldWidth * 0.5, worldHeight *0.4);
 }
 
 

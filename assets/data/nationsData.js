@@ -6,33 +6,44 @@
 function getJson(){
 	var x=
 {
+	"sizeMultiplier": 2,
 	"nations":
 	[
 		{
 			"name": "Venäjä",
 			"x": " ,Border:Right",
 			"y": 600,
-			"width": 374,
-			"height": 696,
+			"width": 187,
+			"height": 348,
 			"rotation": 0,
 			"sprite": "Venäjä"
+		
+		},		
+		{
+			"name": "Norja",
+			"x": "Left:Venäjä,Percent:19",
+			"y": "Same:Venäjä,Percent:-45",
+			"width": 258,
+			"height": 207,
+			"rotation": 0,
+			"sprite": "Norja"
 		
 		},
 		{
 			"name": "Suomi",
-			"x": "Left:Venäjä,Percent:37",
+			"x": "Left:Venäjä,Percent:38",
 			"y": "Same:Venäjä,Percent:-60",
-			"width": 240,
-			"height": 318,
+			"width": 120,
+			"height": 159,
 			"rotation": 0,
 			"sprite": "Suomi"
 		},
 		{
 			"name": "Ruotsi",
-			"x": "Same:Suomi,Percent:-58",
+			"x": "Same:Suomi,Percent:-57.5",
 			"y": "Same:Suomi,Percent:19",
-			"width": 258,
-			"height": 382,
+			"width": 129,
+			"height": 191,
 			"rotation": 0,
 			"sprite": "Ruotsi"
 		
@@ -41,22 +52,119 @@ function getJson(){
 			"name": "Viro",
 			"x": "Left:Venäjä,Percent:17",
 			"y": "Down:Suomi,Percent:-17",
-			"width": 132,
-			"height": 68,
+			"width": 66,
+			"height": 34,
 			"rotation": 0,
 			"sprite": "Viro"	
 		},
-			{
+		{
 			"name": "Latvia",
-			"x": 655,
-			"y": 1000,
-			"width": 200,
-			"height": 100,
+			"x": "Same:Viro,Percent:-8",
+			"y": "Down:Viro,Percent:-37",
+			"width": 69,
+			"height": 28,
 			"rotation": 0,
 			"sprite": "Latvia"	
+		},
+		{
+			"name": "Valko-Venäjä",
+			"x": "Same:Latvia,Percent:36",
+			"y": "Down:Latvia,Percent:-13",
+			"width": 91,
+			"height": 50,
+			"rotation": 0,
+			"sprite": "Valko-Venäjä"	
+		},
+		{
+			"name": "Liettua",
+			"x": "Same:Latvia,Percent:-11",
+			"y": "Down:Latvia,Percent:-30",
+			"width": 55,
+			"height": 29,
+			"rotation": 0,
+			"sprite": "Liettua"	
+		},
+		{
+			"name": "Ukraina",
+			"x": "Same:Valko-Venäjä,Percent:15.5",
+			"y": "Down:Valko-Venäjä,Percent:-13",
+			"width": 176,
+			"height": 75,
+			"rotation": 0,
+			"sprite": "Ukraina"	
+		},
+		{
+			"name": "Puola",
+			"x": "Left:Valko-Venäjä,Percent:7",
+			"y": "Same:Valko-Venäjä,Percent:33",
+			"width": 92,
+			"height": 58,
+			"rotation": 0,
+			"sprite": "Puola"	
+		},
+		{
+			"name": "Saksa",
+			"x": "Left:Puola,Percent:9",
+			"y": "Same:Puola,Percent:11",
+			"width": 84,
+			"height": 72,
+			"rotation": 0,
+			"sprite": "Saksa"	
+		},
+		{
+			"name": "Tanska",
+			"x": "Same:Saksa,Percent:15",
+			"y": "Up:Saksa,Percent:16",
+			"width": 71,
+			"height": 39,
+			"rotation": 0,
+			"sprite": "Tanska"	
+		},
+		{
+			"name": "Alankomaat",
+			"x": "Left:Saksa,Percent:43",
+			"y": "Same:Saksa,Percent:-32",
+			"width": 38,
+			"height": 25,
+			"rotation": 0,
+			"sprite": "Alankomaat"	
+		},
+		{
+			"name": "Ranska",
+			"x": "Left:Saksa,Percent:27",
+			"y": "Down:Saksa,Percent:-40",
+			"width": 120,
+			"height": 82,
+			"rotation": 0,
+			"sprite": "Ranska"	
+		},
+		{
+			"name": "Belgia",
+			"x": "Left:Saksa,Percent:10",
+			"y": "Same:Saksa,Percent:50",
+			"width": 28,
+			"height": 18,
+			"rotation": 0,
+			"sprite": "Belgia"	
+		},
+		{
+			"name": "Italia",
+			"x": "Same:Saksa,Percent:15",
+			"y": "Down:Saksa,Percent:0",
+			"width": 102,
+			"height": 86,
+			"rotation": 0,
+			"sprite": "Italia"	
+		},
+		{
+			"name": "Romania",
+			"x": "Same:Ukraina,Percent:-69",
+			"y": "Down:Ukraina,Percent:-86",
+			"width": 89,
+			"height": 40,
+			"rotation": 0,
+			"sprite": "Romania"	
 		}
-		
-	
 	]
 };
 return x;
