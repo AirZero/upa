@@ -4,9 +4,10 @@
  */
 
 function getJson(){
+	//Think if sizeMultiplier should be set instead of the zoom as playerPref
 	var x=
 {
-	"sizeMultiplier": 2,
+	"sizeMultiplier": 1.5, 
 	"nations":
 	[
 		{
@@ -164,6 +165,15 @@ function getJson(){
 			"height": 40,
 			"rotation": 0,
 			"sprite": "Romania"	
+		},
+		{
+			"name": "Moldova",
+			"x": "Same:Ukraina,Percent:-89",
+			"y": "Down:Ukraina,Percent:-135",
+			"width": 33,
+			"height": 29,
+			"rotation": 0,
+			"sprite": "Moldova"	
 		}
 	]
 };
