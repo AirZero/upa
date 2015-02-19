@@ -14,8 +14,8 @@ function getJson(){
 			"name": "Venaja",
 			"x": " ,Border:Right",
 			"y": 600,
-			"width": 187,
-			"height": 348,
+			"width": 518,
+			"height": 694,
 			"rotation": 0,
 			"sprite": "Venaja"
 		
