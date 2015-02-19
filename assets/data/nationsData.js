@@ -177,8 +177,8 @@ function getJson(){
 		},
 		{
 			"name": "Sveitsi",
-			"x": "Same:Saksa,Percent:0",
-			"y": "Down:Saksa,Percent:-135",
+			"x": "Same:Saksa,Percent:-0",
+			"y": "Down:Saksa,Percent:-300",
 			"width": 33,
 			"height": 29,
 			"rotation": 0,
