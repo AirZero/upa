@@ -17,13 +17,13 @@ function getJson(){
 			"width": 187,
 			"height": 348,
 			"rotation": 0,
-			"sprite": "Venäjä"
+			"sprite": "Venaja"
 		
 		},		
 		{
 			"name": "Norja",
-			"x": "Left:Venäjä,Percent:19",
-			"y": "Same:Venäjä,Percent:-45",
+			"x": "Left:Venaja,Percent:19",
+			"y": "Same:Venaja,Percent:-45",
 			"width": 258,
 			"height": 207,
 			"rotation": 0,
@@ -32,8 +32,8 @@ function getJson(){
 		},
 		{
 			"name": "Suomi",
-			"x": "Left:Venäjä,Percent:38",
-			"y": "Same:Venäjä,Percent:-60",
+			"x": "Left:Venaja,Percent:38",
+			"y": "Same:Venaja,Percent:-60",
 			"width": 120,
 			"height": 159,
 			"rotation": 0,
@@ -51,7 +51,7 @@ function getJson(){
 		},
 		{
 			"name": "Viro",
-			"x": "Left:Venäjä,Percent:17",
+			"x": "Left:Venaja,Percent:17",
 			"y": "Down:Suomi,Percent:-17",
 			"width": 66,
 			"height": 34,
@@ -87,8 +87,8 @@ function getJson(){
 		},
 		{
 			"name": "Ukraina",
-			"x": "Same:Valko-Venäjä,Percent:15.5",
-			"y": "Down:Valko-Venäjä,Percent:-13",
+			"x": "Same:Valko-Venaja,Percent:15.5",
+			"y": "Down:Valko-Venaja,Percent:-13",
 			"width": 176,
 			"height": 75,
 			"rotation": 0,
@@ -96,8 +96,8 @@ function getJson(){
 		},
 		{
 			"name": "Puola",
-			"x": "Left:Valko-Venäjä,Percent:7",
-			"y": "Same:Valko-Venäjä,Percent:33",
+			"x": "Left:Valko-Venaja,Percent:7",
+			"y": "Same:Valko-Venaja,Percent:33",
 			"width": 92,
 			"height": 58,
 			"rotation": 0,
@@ -174,6 +174,15 @@ function getJson(){
 			"height": 29,
 			"rotation": 0,
 			"sprite": "Moldova"	
+		},
+		{
+			"name": "Sveitsi",
+			"x": 400,
+			"y": 400,
+			"width": 88,
+			"height": 36,
+			"rotation": 0,
+			"sprite": "Sveitsi"	
 		}
 	]
 };
