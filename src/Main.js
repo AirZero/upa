@@ -10,6 +10,7 @@ var lvlWidth = 800;
 var lvlHeight = 600;
 var worldWidth = 1500;
 var worldHeight = 1500;
+var TIME_FOR_DOUBLECLICK = 0.3;
 var DIALOG_INPUTPRIORITY = 2;
 var BUTTON_INPUTPRIORITY = 2;
 var DATA_PATH = 'assets/data/';
@@ -20,7 +21,7 @@ var phaserGame;
 var game;
 var menu;
 var BASE_STYLE = { font: '32px Arial', fill: '#ff0044', align: 'center' };
-var NATION_TEXT_STYLE = { font: '26px Arial', fill: '#dddddd', align: 'center' };
+var NATION_TEXT_STYLE = { font: '26px Arial', fill: '#111111', align: 'center' };
 var state;
 var playerPrefs = new PlayerPrefs(); //TODO: assess if global access is the best or should not be object or etc..
 
@@ -67,7 +68,7 @@ function preload()
 	phaserGame.load.spritesheet('button', 'assets/pictures/buttons2.png', 100, 100);
 	//phaserGame.load.image('finland', 'assets/pictures/finland.png');
 	phaserGame.load.image('dialogBack', 'assets/pictures/dialogBack.png');
-	//phaserGame.load.image('europe', 'assets/pictures/EuropeHuge.png');
+	phaserGame.load.image('bar', 'assets/pictures/Bar.png');
 	preloadGame();
 	preloadMenu();
 }

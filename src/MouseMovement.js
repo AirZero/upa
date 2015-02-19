@@ -4,6 +4,7 @@
  *
  */
 
+ var TIME_FOR_DOUBLECLICK = 1.1;
 
 function MouseMovement (phaserGame, cameraMovementSpeed){
 	this.phaserGame = phaserGame;
@@ -23,6 +24,7 @@ MouseMovement.prototype.update = function(){
 	var pointer = this.phaserGame.input.activePointer;
 	if (this.phaserGame.input.activePointer.isDown)
     {
+
 		if(!this.pointerXMovement){
 			this.pointerXMovement = pointer.x;
 			this.pointerYMovement = pointer.y;

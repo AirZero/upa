@@ -11,7 +11,9 @@ function Nations(phaserGame){
 	this.nationsSizeMultiplier = 1;
 	this.nations = [];
 	this.phaserGame = phaserGame;
-	
+	this.selectedTint = 0x029999;
+	this.unselectedTint = 0xFFFFFF;
+	this.selectedNation = null;
 }
 
 
@@ -26,8 +28,51 @@ Nations.prototype.preload = function(){
 /**
  * Defines what is to happen when the nations are clicked
  */
-Nations.prototype.onNationClick = function(sprite){
-	sprite.tint = sprite.tint * 0.9;	
+Nations.prototype.onNationClick = function(nation){
+	var pointer = this.phaserGame.input.activePointer;
+	
+	if (pointer.msSinceLastClick < TIME_FOR_DOUBLECLICK * 1000 && this.selectedNation === nation){
+		this.nationSelectedForMoving(this.selectedNation);	
+	}
+	else this.selectNation(nation);
+	
+}
+
+Nations.prototype.selectNation = function(nation){
+	if(this.selectedNation){
+		this.selectedNation.tint = this.unselectedTint;
+	}
+	if(nation !== null)
+		nation.tint = this.selectedTint;
+ 
+	this.selectedNation = nation;	
+}
+
+
+Nations.prototype.nationSelectedForMoving = function(nation){
+	this.selectNation(null);
+	
+	this.tryHousing(nation);
+}
+
+Nations.prototype.tryHousing = function(nation){
+	//TODO: this probably should be in Game-class and also made pretty
+	var space = nation.tryHousing(34567);
+	if(space < 0)
+		alert(space);
+	var bar = this.phaserGame.add.sprite(nation.x, nation.y, 'bar');
+	bar.x = bar.x - bar.width * 0.5;
+	bar.anchor.setTo(0, 0.5);
+	var wholeWidth = bar.width;
+	var times = 5;
+	var repeatEvent = this.phaserGame.time.events.repeat(Phaser.Timer.SECOND * 0.5, times, function(){
+		bar.width -= wholeWidth / times;
+	}, this);
+	
+	this.phaserGame.time.events.add
+	var timedEvent = this.phaserGame.time.events.add(Phaser.Timer.SECOND * 2.5, function(){
+		bar.destroy();
+	}, this);
 }
 
 
@@ -75,14 +120,14 @@ Nations.prototype.createNations = function(layer, textLayer){
 Nations.prototype.createNation = function(layer, textLayer, x, y, nationData){
 	//TODO: Add an option to define the text position compared to the nations eg. anchor for text. See also what is ready for it
 	//var nation = new Nation(this.phaserGame, nationData.x, nationData.y, nationData.name, nationData.sprite);
-	var nation = new Nation(this.phaserGame, x, y, nationData.name, nationData.sprite);
+	var nation = new Nation(this.phaserGame, x, y, nationData.name, nationData.sprite, 100000);
 	//var nationSize = this.parseNationSize(nation, nationData.width, nationData.height);
 	nation.setWidth(nationData.width);
 	nation.setHeight(nationData.height);
 	nation.angle = nationData.rotation;
 	//this.addToObjects(nation);
 	nation.inputEnabled = true;
-	nation.events.onInputDown.add(this.onNationClick);
+	nation.events.onInputDown.add(this.onNationClick, this);
 	nation.setAutoCulling(true);
 	layer.add(nation);
 	textLayer.add(nation.text);

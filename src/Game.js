@@ -212,7 +212,7 @@ Game.prototype.setWorld = function(){
 	//this.background.height = worldHeight;
 	//this.BackgroundLayer.add(this.background);
 	//this.addToObjects(this.background);
-	this.phaserGame.stage.backgroundColor = '#0909FF';
+	this.phaserGame.stage.backgroundColor = '#87CED0';
 }
 
 

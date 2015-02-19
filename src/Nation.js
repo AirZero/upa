@@ -91,13 +91,14 @@ Nation.prototype.setHeight = function(height){
  * Returns the amount refugees that were not able to be housed.
  */
 Nation.prototype.tryHousing = function(amount){
-	var leftover = this.maxRefugees - this.refugees;
-	if(leftover >= amount){
-		this.refugees+= amount;
+	//TODO: Fix this method, not working 100%
+	var space = this.maxRefugees - this.refugees;
+	if(space >= amount){
+		this.refugees += amount;
 	}
 	else {
-		leftover =-( this.maxRefugees - this.refugees);
+		space =-( this.maxRefugees - this.refugees);
 		this.refugees = this.maxRefugees;
 	}
-	return leftover;
+	return space;
 }
