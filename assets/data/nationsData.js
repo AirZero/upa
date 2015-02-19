@@ -11,7 +11,7 @@ function getJson(){
 	"nations":
 	[
 		{
-			"name": "Venäjä",
+			"name": "Venaja",
 			"x": " ,Border:Right",
 			"y": 600,
 			"width": 187,
@@ -68,13 +68,13 @@ function getJson(){
 			"sprite": "Latvia"	
 		},
 		{
-			"name": "Valko-Venäjä",
+			"name": "Valko-Venaja",
 			"x": "Same:Latvia,Percent:36",
 			"y": "Down:Latvia,Percent:-13",
 			"width": 91,
 			"height": 50,
 			"rotation": 0,
-			"sprite": "Valko-Venäjä"	
+			"sprite": "Valko-Venaja"	
 		},
 		{
 			"name": "Liettua",
@@ -174,6 +174,15 @@ function getJson(){
 			"height": 29,
 			"rotation": 0,
 			"sprite": "Moldova"	
+		},
+		{
+			"name": "Sveitsi",
+			"x": "Same:Saksa,Percent:0",
+			"y": "Down:Saksa,Percent:-135",
+			"width": 33,
+			"height": 29,
+			"rotation": 0,
+			"sprite": "Sveitsi"	
 		}
 	]
 };
