@@ -174,6 +174,15 @@ function getJson(){
 			"height": 29,
 			"rotation": 0,
 			"sprite": "Moldova"	
+		},
+		{
+			"name": "Sveitsi",
+			"x": 400,
+			"y": 400,
+			"width": 88,
+			"height": 36,
+			"rotation": 0,
+			"sprite": "Sveitsi"	
 		}
 	]
 };
