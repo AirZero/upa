@@ -4,7 +4,6 @@
  *
  */
 
- var TIME_FOR_DOUBLECLICK = 1.1;
 
 function MouseMovement (phaserGame, cameraMovementSpeed){
 	this.phaserGame = phaserGame;

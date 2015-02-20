@@ -1,5 +1,10 @@
 
 /**
+ * Created by Tero Paavolainen
+ *
+ */
+
+/**
  * Class used for creation of the nations.
  * Is responsible for the states, functions and data regarding nations of the game
  */
@@ -60,19 +65,10 @@ Nations.prototype.tryHousing = function(nation){
 	var space = nation.tryHousing(34567);
 	if(space < 0)
 		alert(space);
-	var bar = this.phaserGame.add.sprite(nation.x, nation.y, 'bar');
-	bar.x = bar.x - bar.width * 0.5;
-	bar.anchor.setTo(0, 0.5);
-	var wholeWidth = bar.width;
-	var times = 5;
-	var repeatEvent = this.phaserGame.time.events.repeat(Phaser.Timer.SECOND * 0.5, times, function(){
-		bar.width -= wholeWidth / times;
-	}, this);
 	
-	this.phaserGame.time.events.add
-	var timedEvent = this.phaserGame.time.events.add(Phaser.Timer.SECOND * 2.5, function(){
-		bar.destroy();
-	}, this);
+	var bar = new ProgressBar(nation.x, nation.y, 'bar', this.phaserGame,2.5, 10);
+	this.textLayer.add(bar);
+	
 }
 
 
@@ -120,6 +116,7 @@ Nations.prototype.createNations = function(layer, textLayer){
 Nations.prototype.createNation = function(layer, textLayer, x, y, nationData){
 	//TODO: Add an option to define the text position compared to the nations eg. anchor for text. See also what is ready for it
 	//var nation = new Nation(this.phaserGame, nationData.x, nationData.y, nationData.name, nationData.sprite);
+	this.textLayer = textLayer;
 	var nation = new Nation(this.phaserGame, x, y, nationData.name, nationData.sprite, 100000);
 	//var nationSize = this.parseNationSize(nation, nationData.width, nationData.height);
 	nation.setWidth(nationData.width);
