@@ -12,6 +12,7 @@ function Nation(game, x,y, name, sprite, maxRefugees){
 	Phaser.Sprite.call(this, game, 0, 0, sprite);
 	this.createText(game, name, x, y);
 	
+	this.inProcess = false;
 	this.name = name;
 	
 	this.anchor.setTo(0.5, 0.5);
@@ -25,6 +26,10 @@ function Nation(game, x,y, name, sprite, maxRefugees){
 	this.maxRefugees = maxRefugees;
 }
 
+
+Nation.prototype.setInProcess = function(inProcess){
+	this.inProcess = inProcess;
+}
 
 /**
  * Sets the visibility of the text component of nation

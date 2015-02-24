@@ -22,6 +22,8 @@ function Game (phaserGame){
 	//this.createGroups();
 	this.mouseMover = new MouseMovement(phaserGame, CAMERA_MOVEMENT_SPEED);
 	this.nations = new Nations(this.phaserGame);
+	this.gameProgress = new GameProgress(this.phaserGame);
+	
 }
 
 
@@ -64,6 +66,7 @@ Game.prototype.clear = function(){
 	this.BackgroundLayer.destroy(true);
 	this.TextLayer.destroy(true);
 	this.GameLayer.destroy(true);
+	this.gameProgress.onTimeChanged = null;
 	
 	for(var i = 0; i < this.events.length; i++){
 		this.phaserGame.time.events.remove(this.events[i]);
@@ -118,10 +121,24 @@ Game.prototype.createGUI = function(){
 	
 	this.debugText = this.phaserGame.add.text(600, 50,
 	debugOn ? "Debug" : "Build", BASE_STYLE);
+	this.debugText.fixedToCamera = true;
+	
+	this.dateText = this.phaserGame.add.text(lvlWidth * 0.5, lvlHeight * 0.1, "Date:"+this.gameProgress.getDateString(), BASE_STYLE);
+	this.dateText.anchor.setTo(0.5, 0.5);
+	var gameReference = this;
+	this.gameProgress.onTimeChanged = function(){
+		gameReference.refreshDateText();
+	};
+	this.dateText.fixedToCamera = true;
+	
 	textButton.addToLayer(this.GUILayer);
 	this.GUILayer.add(this.debugText);
-	this.addToObjects(this.debugText);
-	this.debugText.fixedToCamera = true;
+	this.GUILayer.add(this.dateText);
+	
+}
+
+Game.prototype.refreshDateText = function(){
+	this.dateText.text = "Date:"+this.gameProgress.getDateString();
 }
 
 
@@ -199,6 +216,7 @@ Game.prototype.update = function(){
 	else if(this.phaserGame.input.keyboard.isDown("X".charCodeAt(0)))
 		this.zoom(0.95238);
 	this.mouseMover.update();
+	this.gameProgress.update();
 }
 
 

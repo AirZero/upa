@@ -57,17 +57,32 @@ Nations.prototype.selectNation = function(nation){
 Nations.prototype.nationSelectedForMoving = function(nation){
 	this.selectNation(null);
 	
-	this.tryHousing(nation);
+	this.startHousing(nation);
 }
 
-Nations.prototype.tryHousing = function(nation){
+Nations.prototype.startHousing = function(nation){
+	if(nation.inProcess)
+		return;
 	//TODO: this probably should be in Game-class and also made pretty
-	var space = nation.tryHousing(34567);
+	nation.setInProcess(true);
+	var amount = this.getRefugeeAmount(nation);
+	
+	var bar = new ProgressBar(nation.x, nation.y, 'bar', this.phaserGame,2.5, 100, this.tryHousing(nation, amount), this.textLayer);
+	
+}
+
+
+Nations.prototype.getRefugeeAmount = function(nation){
+	//TODO:Loading from a file
+	return 34567;
+}
+
+
+Nations.prototype.tryHousing = function(nation, amount){
+	nation.setInProcess(false);
+	var space = nation.tryHousing(amount);
 	if(space < 0)
 		alert(space);
-	
-	var bar = new ProgressBar(nation.x, nation.y, 'bar', this.phaserGame,2.5, 10);
-	this.textLayer.add(bar);
 	
 }
 
