@@ -16,9 +16,9 @@ function Nations(phaserGame){
 	this.nationsSizeMultiplier = 1;
 	this.nations = [];
 	this.phaserGame = phaserGame;
-	this.selectedTint = 0x029999;
-	this.unselectedTint = 0xFFFFFF;
-	this.selectedNation = null;
+
+
+	this.onNationClick = null;
 }
 
 
@@ -33,58 +33,8 @@ Nations.prototype.preload = function(){
 /**
  * Defines what is to happen when the nations are clicked
  */
-Nations.prototype.onNationClick = function(nation){
-	var pointer = this.phaserGame.input.activePointer;
-	
-	if (pointer.msSinceLastClick < TIME_FOR_DOUBLECLICK * 1000 && this.selectedNation === nation){
-		this.nationSelectedForMoving(this.selectedNation);	
-	}
-	else this.selectNation(nation);
-	
-}
-
-Nations.prototype.selectNation = function(nation){
-	if(this.selectedNation){
-		this.selectedNation.tint = this.unselectedTint;
-	}
-	if(nation !== null)
-		nation.tint = this.selectedTint;
- 
-	this.selectedNation = nation;	
-}
 
 
-Nations.prototype.nationSelectedForMoving = function(nation){
-	this.selectNation(null);
-	
-	this.startHousing(nation);
-}
-
-Nations.prototype.startHousing = function(nation){
-	if(nation.inProcess)
-		return;
-	//TODO: this probably should be in Game-class and also made pretty
-	nation.setInProcess(true);
-	var amount = this.getRefugeeAmount(nation);
-	
-	var bar = new ProgressBar(nation.x, nation.y, 'bar', this.phaserGame,2.5, 100, this.tryHousing(nation, amount), this.textLayer);
-	
-}
-
-
-Nations.prototype.getRefugeeAmount = function(nation){
-	//TODO:Loading from a file
-	return 34567;
-}
-
-
-Nations.prototype.tryHousing = function(nation, amount){
-	nation.setInProcess(false);
-	var space = nation.tryHousing(amount);
-	if(space < 0)
-		alert(space);
-	
-}
 
 
 /**

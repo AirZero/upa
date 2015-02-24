@@ -18,13 +18,20 @@ function Game (phaserGame){
 	
 	this.events = [];
 //this.GUIGroup.bringToTop();
-
+	this.selectedNation = null;
+	this.selectedTint = 0x029999;
+	this.unselectedTint = 0xFFFFFF;
 	//this.createGroups();
 	this.mouseMover = new MouseMovement(phaserGame, CAMERA_MOVEMENT_SPEED);
 	this.nations = new Nations(this.phaserGame);
+	var theGame = this;
+	this.nations.onNationClick = function(nation){
+		theGame.onNationClick(nation);
+	}
 	this.gameProgress = new GameProgress(this.phaserGame);
 	
 }
+
 
 
 /**
@@ -45,10 +52,12 @@ Game.prototype.createGroups =function(){
 	this.BackgroundLayer.z = 0;
 	this.GameLayer = this.phaserGame.add.group();
 	this.GameLayer.z = 1;
+	this.BarLayer = this.phaserGame.add.group();
+	this.BarLayer.z = 2;
 	this.TextLayer = this.phaserGame.add.group();
-	this.TextLayer.z = 2;
+	this.TextLayer.z = 3;
 	this.GUILayer = this.phaserGame.add.group();
-	this.GUILayer.z = 3;	
+	this.GUILayer.z = 4;	
 }
 
 /**
@@ -160,6 +169,62 @@ function countIfInside(object, x, y){
 		return true;
 	}
 	return false;
+}
+
+
+
+
+Game.prototype.nationSelectedForMoving = function(nation){
+	this.selectNation(null);
+	
+	this.startHousing(nation);
+}
+
+Game.prototype.startHousing = function(nation){
+	if(nation.getInProcess())
+		return;
+	//TODO: this probably should be in Game-class and also made pretty
+	nation.setInProcess(true);
+	var amount = this.getRefugeeAmount(nation);
+	
+	//So that the function can be handled properly, if theres no function(), then the tryHousing is called directly
+	var nationsReference = this;
+	var bar = new ProgressBar(nation.x, nation.y-lvlHeight*0.05, 'bar', this.phaserGame,2.5, 100, function(){nationsReference.tryHousing(nation, amount);}, this.BarLayer);
+	
+}
+
+
+Game.prototype.getRefugeeAmount = function(nation){
+	//TODO:Loading from a file
+	return 34567;
+}
+
+
+Game.prototype.tryHousing = function(nation, amount){
+	nation.setInProcess(false);
+	var space = nation.tryHousing(amount);
+	
+}
+
+
+Game.prototype.onNationClick = function(nation){
+	var pointer = this.phaserGame.input.activePointer;
+	
+	if (pointer.msSinceLastClick < TIME_FOR_DOUBLECLICK * 1000 && this.selectedNation === nation){
+		debugger;
+		this.nationSelectedForMoving(this.selectedNation);	
+	}
+	else this.selectNation(nation);
+}
+
+Game.prototype.selectNation = function(nation){
+	if(this.selectedNation){
+		this.selectedNation.tint = this.unselectedTint;
+	}
+	if(nation !== null)
+		nation.tint = this.selectedTint;
+ 
+	this.selectedNation = nation;	
 }
 
 

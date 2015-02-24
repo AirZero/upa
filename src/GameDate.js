@@ -22,12 +22,22 @@ GameDate.prototype.progress = function(days, months, years){
 	years = Math.floor(years);
 	months = months % 12;
 	
-	if(months > 12 || days >30)
+	if(months > 12 || days > 30)
 		this.progress(days, month, years);
 	else{
 		this.year += years;
 		this.month += months
 		this.day += days;
+		if (this.month > 12 || this.day > 30){
+			this.month += this.day / 30; //TODO: getting days based on different months
+			this.month = Math.floor(this.month);
+			this.day = this.day % 30;
+			
+			this.year += this.month / 12;
+			this.year = Math.floor(this.year);
+			this.month = this.month % 12;
+			
+		}
 	}
 }
 

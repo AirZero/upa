@@ -4,7 +4,7 @@
 function GameProgress(phaserGame){
 	this.phaserGame = phaserGame;
 	this.monthInterval = 5;
-	this.date = new GameDate(1, 1, 2000);
+	this.date = new GameDate(1, 9, 2000);
 	this.lastMonthTime = this.phaserGame.time.totalElapsedSeconds();
 	this.onTimeChanged = null;
 	this.active = true;

@@ -26,6 +26,10 @@ function Nation(game, x,y, name, sprite, maxRefugees){
 	this.maxRefugees = maxRefugees;
 }
 
+Nation.prototype.getInProcess = function(){
+	return this.inProcess;
+}
+
 
 Nation.prototype.setInProcess = function(inProcess){
 	this.inProcess = inProcess;

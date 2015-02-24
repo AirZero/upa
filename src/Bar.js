@@ -18,9 +18,7 @@ ProgressBar.prototype.constructor = ProgressBar;
 	}, this);
 	this.method = method;
 	this.timedEvent = phaserGame.time.events.add(Phaser.Timer.SECOND * time, function(){
-		this.destroy();
-		if(this.method)
-			this.method();
+		this.timeEnded();
 	}, this);
 	
 	if(backgroundSprite){
@@ -34,6 +32,14 @@ ProgressBar.prototype.constructor = ProgressBar;
 	}
  }
 
+ ProgressBar.prototype.timeEnded = function(){
+	 this.destroy();
+		if(this.method)
+			this.method();
+ }
+ 
+ 
+ 
  ProgressBar.prototype.destroy = function(){
 	 Phaser.Sprite.prototype.destroy.call(this);
  }
