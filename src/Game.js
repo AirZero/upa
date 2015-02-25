@@ -183,7 +183,7 @@ Game.prototype.nationSelectedForMoving = function(nation){
 Game.prototype.startHousing = function(nation){
 	if(nation.getInProcess())
 		return;
-	//TODO: this probably should be in Game-class and also made pretty
+	//TODO: make pretty
 	nation.setInProcess(true);
 	var amount = this.getRefugeeAmount(nation);
 	
@@ -211,7 +211,6 @@ Game.prototype.onNationClick = function(nation){
 	var pointer = this.phaserGame.input.activePointer;
 	
 	if (pointer.msSinceLastClick < TIME_FOR_DOUBLECLICK * 1000 && this.selectedNation === nation){
-		debugger;
 		this.nationSelectedForMoving(this.selectedNation);	
 	}
 	else this.selectNation(nation);

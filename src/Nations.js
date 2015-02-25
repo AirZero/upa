@@ -67,11 +67,22 @@ Nations.prototype.createNations = function(layer, textLayer){
 	//this.loadNationData();
 	for(var i = 0; i < this.nationsData.length; i++){
 		var nationData = this.nationsData[i];
-		nationData.width = nationData.width * this.nationsSizeMultiplier;
-		nationData.height = nationData.height * this.nationsSizeMultiplier;
-		var x = this.parseNationX(nationData);
-		var y = this.parseNationY(nationData);
-		this.createNation(layer, textLayer, x, y, nationData);
+		//Done to keep the original data intact.
+		//TODO: create better approach without direct calling of attributes
+		var modifiedNationData = {
+			"name": nationData["name"],
+			"x":  nationData["x"],
+			"y": nationData["y"],
+			"width": nationData["width"],
+			"height": nationData["height"],
+			"rotation": nationData["rotation"],
+			"sprite": nationData["sprite"]
+		};
+		modifiedNationData.width = modifiedNationData.width * this.nationsSizeMultiplier;
+		modifiedNationData.height = modifiedNationData.height * this.nationsSizeMultiplier;
+		var x = this.parseNationX(modifiedNationData);
+		var y = this.parseNationY(modifiedNationData);
+		this.createNation(layer, textLayer, x, y, modifiedNationData);
 
 	}
 }
