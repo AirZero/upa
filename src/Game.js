@@ -14,13 +14,13 @@ function Game (phaserGame){
 
 	this.phaserGame = phaserGame
 
-	this.gameObjects = [];
-	
 	this.events = [];
 //this.GUIGroup.bringToTop();
 	this.selectedNation = null;
 	this.selectedTint = 0x029999;
 	this.unselectedTint = 0xFFFFFF;
+	this.maximumSelectedNations = 5;
+	this.selectedNations = 0;
 	//this.createGroups();
 	this.mouseMover = new MouseMovement(phaserGame, CAMERA_MOVEMENT_SPEED);
 	this.nations = new Nations(this.phaserGame);
@@ -29,6 +29,7 @@ function Game (phaserGame){
 		theGame.onNationClick(nation);
 	}
 	this.gameProgress = new GameProgress(this.phaserGame);
+	this.refugees = new Refugees();
 	
 }
 
@@ -39,6 +40,7 @@ function Game (phaserGame){
  */
 Game.prototype.preload = function(){
 	this.nations.preload();
+	this.refugees.preload();
 }
 
 
@@ -49,6 +51,7 @@ Game.prototype.preload = function(){
 Game.prototype.createGroups =function(){
 	this.BackgroundLayer = this.phaserGame.add.group();
 	
+	//TODO: maybe an array for Layers would be more useable
 	this.BackgroundLayer.z = 0;
 	this.GameLayer = this.phaserGame.add.group();
 	this.GameLayer.z = 1;
@@ -65,12 +68,6 @@ Game.prototype.createGroups =function(){
  * Does not destroy games' loaded data, only screen components.
  */
 Game.prototype.clear = function(){
-	if(this.gameObjects.length != 0){
-		//for(var i = 0; i < this.gameObjects.length; i++){
-		//	this.gameObjects[i].destroy();
-		//}
-		//this.gameObjects = [];
-	}
 	this.GUILayer.destroy(true);
 	this.BackgroundLayer.destroy(true);
 	this.TextLayer.destroy(true);
@@ -83,16 +80,9 @@ Game.prototype.clear = function(){
 	this.events = [];
 	//this.phaserGame.time.events.stop();
 	//this.phaserGame.time.events.removeAll();
+	this.selectNations = 0;
 }
 
-
-/**
- * Used to add cleareable objects to the correct queue.
- * @DEPRECATED
- */
-Game.prototype.addToObjects = function(obj){
-	this.gameObjects[this.gameObjects.length] = obj;
-}
 
 
 /**
@@ -126,7 +116,7 @@ Game.prototype.createGUI = function(){
 	}, BASE_STYLE, lvlWidth * 0.1, lvlHeight * 0.1);
 	textButton.setFixedToCamera(true);
 	
-	this.addToObjects(textButton);
+	//this.addToObjects(textButton);
 	
 	this.debugText = this.phaserGame.add.text(600, 50,
 	debugOn ? "Debug" : "Build", BASE_STYLE);
@@ -181,27 +171,36 @@ Game.prototype.nationSelectedForMoving = function(nation){
 }
 
 Game.prototype.startHousing = function(nation){
-	if(nation.getInProcess())
+	if(nation.getInProcess() || this.selectedNations >= this.maximumSelectedNations)
 		return;
 	//TODO: make pretty
 	nation.setInProcess(true);
+	this.selectedNations++;
 	var amount = this.getRefugeeAmount(nation);
 	
 	//So that the function can be handled properly, if theres no function(), then the tryHousing is called directly
 	var nationsReference = this;
-	var bar = new ProgressBar(nation.x, nation.y-lvlHeight*0.05, 'bar', this.phaserGame,2.5, 100, function(){nationsReference.tryHousing(nation, amount);}, this.BarLayer);
+	var bar = new ProgressBar(nation.x, nation.y-lvlHeight*0.05, 'bar', this.phaserGame,2.5, 100, function(){nationsReference.finishHousing(nation, amount);}, this.BarLayer);
 	
 }
 
 
 Game.prototype.getRefugeeAmount = function(nation){
+
+	var month = this.gameProgress.getMonth();
+	var year = this.gameProgress.getYear();
+	
+	var amount = this.refugees.getRefugees(nation.name, month, year);
+	
 	//TODO:Loading from a file
-	return 34567;
+	return amount;
 }
 
 
-Game.prototype.tryHousing = function(nation, amount){
+Game.prototype.finishHousing = function(nation, amount){
+	this.selectedNations--;
 	nation.setInProcess(false);
+	this.debugText.text = amount;
 	var space = nation.tryHousing(amount);
 	
 }

@@ -69,15 +69,18 @@ Nations.prototype.createNations = function(layer, textLayer){
 		var nationData = this.nationsData[i];
 		//Done to keep the original data intact.
 		//TODO: create better approach without direct calling of attributes
-		var modifiedNationData = {
-			"name": nationData["name"],
-			"x":  nationData["x"],
-			"y": nationData["y"],
-			"width": nationData["width"],
-			"height": nationData["height"],
-			"rotation": nationData["rotation"],
-			"sprite": nationData["sprite"]
-		};
+		
+		//Seems to be better than the approach added earlier since no functions are needed.
+		var modifiedNationData = JSON.parse( JSON.stringify( nationData ) );
+		//var modifiedNationData = {
+		//	"name": nationData["name"],
+		//	"x":  nationData["x"],
+		//	"y": nationData["y"],
+		//	"width": nationData["width"],
+		//	"height": nationData["height"],
+		//	"rotation": nationData["rotation"],
+		//	"sprite": nationData["sprite"]
+		//};
 		modifiedNationData.width = modifiedNationData.width * this.nationsSizeMultiplier;
 		modifiedNationData.height = modifiedNationData.height * this.nationsSizeMultiplier;
 		var x = this.parseNationX(modifiedNationData);

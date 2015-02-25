@@ -15,6 +15,16 @@ GameProgress.prototype.setActive = function(activity){
 	this.active = activity;
 }
 
+GameProgress.prototype.getYear = function(){
+	return this.date.getYear();
+}
+
+
+GameProgress.prototype.getMonth = function(){
+	return this.date.getMonth();
+}
+
+
 GameProgress.prototype.getDateString = function(){
 	return this.date.getDateString();
 }
