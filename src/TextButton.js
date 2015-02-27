@@ -82,6 +82,11 @@ TextButton.prototype.setHeight = function(height){
 	this.button.height = height;
 }
 
+TextButton.prototype.setText = function(text){
+	this.text.text = text || this.text.text;
+}
+
+
 
 TextButton.prototype.setXandY = function(x, y){
 	this.button.x = x;

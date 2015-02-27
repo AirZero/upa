@@ -12,7 +12,9 @@ function getJsonFromEventsData(){
 			"chance":100,
 			"effects":[
 				{
-					"effect":"anAutomaticEventEngineCreationWithoutAnyEffortFromTero"
+					"effectName":"addRefugees",
+					"data": 5000,
+					"story": "Bad things!"
 				}
 			]
 		}

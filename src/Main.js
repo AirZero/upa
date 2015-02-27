@@ -140,8 +140,9 @@ function update(){
 function info(){
 	var titles = ['Ohjelmointi: Tero Paavolainen,', 'Eetu Rantakangas', 'Sisällöntuottaminen: Jarno Liski', 'Projektinjohtaja: Olli-Pekka Paajanen', 'Journalisti-tietotekniikko: Riikka Valtonen', 'Takaisin'];
 	var methods = new Array();
-	methods[0] = {'method': function(){ var dialog = new Dialog(phaserGame, 'Siirrytäänkö Teron kotisivuille?', function(){ window.location.replace('http://users.jyu.fi/~tesatapa/');},function(){});
-	dialog.silence(menu);
+	methods[0] = {'method': function(){
+		var dialog = new Dialog(phaserGame, 'Siirrytäänkö Teron kotisivuille?', function(){ window.location.replace('http://users.jyu.fi/~tesatapa/');},function(){});
+		dialog.silence(menu);
 	}};
 	methods[1] = { 'method': function(){ }};
 	methods[2] = { 'method': function(){ }};

@@ -11,10 +11,12 @@ function GameProgress(phaserGame){
 	this.active = true;
 }
 
+
 GameProgress.prototype.clear = function(){
 	this.onTimeChangedEvents = [];
 	//TODO: if other stuff exists
 }
+
 
 
 
@@ -30,6 +32,7 @@ GameProgress.prototype.addOnTimeChangedEvent = function(method, callBackClass){
 
 
 GameProgress.prototype.setActive = function(activity){
+	//TODO: adding the waited time to the current time so there is no jump on update when this is returned to true
 	this.active = activity;
 }
 

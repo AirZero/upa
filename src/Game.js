@@ -108,7 +108,7 @@ Game.prototype.start = function(){
 	
 	this.createGUI();
 	this.addEvents();
-	
+	this.updateRefugeeAmount();
 	this.mouseMover.moveCamera(worldWidth * 0.5, worldHeight *0.4);
 }
 
@@ -134,6 +134,8 @@ Game.prototype.createGUI = function(){
 	this.debugText = this.phaserGame.add.text(600, 50, debugOn ? "Debug" : "Build", BASE_STYLE);
 	this.debugText.fixedToCamera = true;
 	
+	
+	
 	this.dateText = this.phaserGame.add.text(lvlWidth * 0.5, lvlHeight * 0.1, "Date:"+this.gameProgress.getDateString(), BASE_STYLE);
 	this.dateText.anchor.setTo(0.5, 0.5);
 	
@@ -152,6 +154,11 @@ Game.prototype.addEvents = function(){
 }
 
 
+Game.prototype.updateRefugeeAmount = function(){
+	this.debugText.text = this.refugees.getTotalRefugees();
+}
+
+
 Game.prototype.processGameEvent = function(args){
 	var event = args[0];
 	for(effect in event.effects){
@@ -160,7 +167,30 @@ Game.prototype.processGameEvent = function(args){
 }
 
 Game.prototype.completeEffect = function(effect){
-	alert(effect.effect);
+	//TODO: this would really benefit from some kind of real language etc.
+	switch(effect.effectName){
+		case "addRefugees":
+			this.refugees.changeTotalRefugees(effect.data);
+			this.updateRefugeeAmount();
+			break;
+		
+		default:
+			alert(effect.data);
+			break;
+	}
+	if(effect.story && effect.story !== ""){
+		this.addDialog(effect.story);
+		//dialog.silence(menu);
+	}
+}
+
+
+Game.prototype.addDialog = function(text){
+	//TODO: adding parameters
+	var dialog = new Dialog(this.phaserGame, text, function(){},function(){});
+	dialog.setTexts(null, "ok", "ok");
+	dialog.addToLayer(this.GUILayer);
+	dialog.silence(this.gameProgress);
 }
 
 
@@ -233,7 +263,7 @@ Game.prototype.finishHousing = function(nation, amount){
 	{
 		this.refugees.reduceTotalRefugees(amount);
 	}
-	this.debugText.text = this.refugees.getTotalRefugees();
+	this.updateRefugeeAmount();
 	if(this.refugees.getTotalRefugees() < 0){
 		this.debugText.text = "You won the game!";
 	}

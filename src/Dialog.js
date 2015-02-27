@@ -21,6 +21,7 @@ function Dialog(game, text, methodYes, methodNo, x, y, width, height, yesText, n
 	this.background.y = y;
 	this.background.width = width;
 	this.background.height = height;
+	this.background.fixedToCamera = true;
 	var dialog = this;
 	this.silencedObjects = [];
 
@@ -34,15 +35,18 @@ function Dialog(game, text, methodYes, methodNo, x, y, width, height, yesText, n
 	this.text.anchor.setTo(0.5, 0.5);
 	this.text.x = x;
 	this.text.y = y - height * 0.25;
+	this.text.fixedToCamera = true;
 	
 	this.background.inputEnabled = true;
 	this.background.input.priorityID = DIALOG_INPUTPRIORITY;
 	
+	//TODO: some heavy duty refactoring
 	this.yes = new TextButton(game, yesText, 'button', function(){
 		methodYes();
 		dialog.destroy();
 	}, BASE_STYLE, xPosYes, yPos)
 	this.yes.setWidth(xSize);
+	this.yes.setFixedToCamera(true);
 	this.yes.setHeight(ySize);
 	this.yes.setInputPriority(DIALOG_INPUTPRIORITY);
 	this.no = new TextButton(game, noText, 'button', function(){
@@ -50,8 +54,25 @@ function Dialog(game, text, methodYes, methodNo, x, y, width, height, yesText, n
 		dialog.destroy();
 	}, BASE_STYLE, xPosNo, yPos)
 	this.no.setWidth(xSize);
+	this.no.setFixedToCamera(true);
 	this.no.setHeight(ySize);
 	this.no.setInputPriority (DIALOG_INPUTPRIORITY);
+}
+
+
+Dialog.prototype.addToLayer = function(layer){
+	layer.add(this.background);
+	this.yes.addToLayer(layer);
+	this.no.addToLayer(layer);
+	layer.add(this.text);
+}
+
+
+
+Dialog.prototype.setTexts = function(dialogText, yesText, noText){
+	this.text.text = dialogText || this.text.text;
+	this.yes.setText(yesText);
+	this.no.setText(yesText);
 }
 
 
