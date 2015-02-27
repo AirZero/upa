@@ -7,13 +7,20 @@ function Refugees(){
 
 Refugees.prototype.changeTotalRefugees = function(amount){
 	this.totalRefugees += amount;
-	//TODO: response to not having any left	
+	return this.totalRefugees;
 }
 
 
 Refugees.prototype.reduceTotalRefugees = function(amount){
-	this.changeTotalRefugees(-amount);
-	//TODO: response to not having any left	
+	if(amount <= this.totalRefugees){
+		this.changeTotalRefugees(-amount);
+		return 0;
+	}
+	else{
+		var over = amount - this.totalRefugees;
+		this.totalRefugees = 0;
+		return over;
+	}
 }
 
 

@@ -2,7 +2,7 @@
 
 
 function getJsonFromEventsData(){
-	//Think if sizeMultiplier should be set instead of the zoom as playerPref
+	//TODO: assess the scripts again and whether story should be an effectName or not..
 	var x=
 {
 	"events":

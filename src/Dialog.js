@@ -41,22 +41,25 @@ function Dialog(game, text, methodYes, methodNo, x, y, width, height, yesText, n
 	this.background.input.priorityID = DIALOG_INPUTPRIORITY;
 	
 	//TODO: some heavy duty refactoring
-	this.yes = new TextButton(game, yesText, 'button', function(){
+	this.yes = this.createButton(game, yesText, 'button', function(){
 		methodYes();
 		dialog.destroy();
-	}, BASE_STYLE, xPosYes, yPos)
-	this.yes.setWidth(xSize);
-	this.yes.setFixedToCamera(true);
-	this.yes.setHeight(ySize);
-	this.yes.setInputPriority(DIALOG_INPUTPRIORITY);
-	this.no = new TextButton(game, noText, 'button', function(){
+	}, BASE_STYLE, xPosYes, yPos, xSize, ySize);
+
+	this.no = this.createButton(game, noText, 'button', function(){
 		methodNo();
 		dialog.destroy();
-	}, BASE_STYLE, xPosNo, yPos)
-	this.no.setWidth(xSize);
-	this.no.setFixedToCamera(true);
-	this.no.setHeight(ySize);
-	this.no.setInputPriority (DIALOG_INPUTPRIORITY);
+	}, BASE_STYLE, xPosNo, yPos, xSize, ySize);
+}
+
+
+Dialog.prototype.createButton = function(game, text, sprite, method, x, y, xSize, ySize){
+	var button = new TextButton(game, text, 'button', method, BASE_STYLE, x, y)
+	button.setWidth(xSize);
+	button.setFixedToCamera(true);
+	button.setHeight(ySize);
+	button.setInputPriority (DIALOG_INPUTPRIORITY);
+	return button;
 }
 
 

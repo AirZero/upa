@@ -184,10 +184,15 @@ Game.prototype.completeEffect = function(effect){
 }
 
 
-Game.prototype.addDialog = function(text){
-	//TODO: adding parameters
-	var dialog = new Dialog(this.phaserGame, text, function(){},function(){});
-	dialog.setTexts(null, "ok", "ok");
+Game.prototype.addDialog = function(text, yesFunction, noFunction, yesText, noText){
+	//Initialize if not given
+	yesFunction = yesFunction || function(){};
+	noFunction = noFunction || function(){};
+	yesText = yesText || "Ok";
+	noText = noText || "Ok";
+	
+	var dialog = new Dialog(this.phaserGame, text, yesFunction, noFunction);
+	dialog.setTexts(null, yesText, noText);
 	dialog.addToLayer(this.GUILayer);
 	dialog.silence(this.gameProgress);
 }

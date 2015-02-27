@@ -9,7 +9,6 @@ function GameEventHandler(phaserGame){
 }
 
 GameEventHandler.prototype.addOnEventProcessingHandler = function(handler, callBackClass){
-	//TODO: a class from these objects
 	this.onEventProcess.push(new EventHandler(handler, callBackClass));
 	
 }
@@ -56,7 +55,6 @@ GameEventHandler.prototype.checkForEventTick = function(args){
 				for(methodName in this.onEventProcess){
 					this.onEventProcess[methodName].process(event);
 				}
-				//TODO: magix
 			}
 		}
 	}
