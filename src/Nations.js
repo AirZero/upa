@@ -52,7 +52,7 @@ Nations.prototype.preloadNationData = function(){
  */
 Nations.prototype.loadNationData = function(){
 	//this.nationsData = JSON.parse(this.phaserGame.cache.getText('nationsJSON')).nations;
-	var jsonNations = getJson();
+	var jsonNations = getJsonFromNationsData();
 	this.nationsData = jsonNations.nations;
 	this.nationsSizeMultiplier = jsonNations.sizeMultiplier;
 	for(var i = 0; i < this.nationsData.length; i++){

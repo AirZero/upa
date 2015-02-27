@@ -3,7 +3,7 @@
  *
  */
 
-function getJson(){
+function getJsonFromNationsData(){
 	//Think if sizeMultiplier should be set instead of the zoom as playerPref
 	var x=
 {

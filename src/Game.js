@@ -22,6 +22,7 @@ function Game (phaserGame){
 	this.maximumSelectedNations = 5;
 	this.selectedNations = 0;
 	//this.createGroups();
+	//TODO: component type of adding of children would be efficient in the long run with loads of components and scripts.. something like components.add(new MouseMovement) and then the all basic functions are evoked if they exist. Easier for code, more stressful for the engine
 	this.mouseMover = new MouseMovement(phaserGame, CAMERA_MOVEMENT_SPEED);
 	this.nations = new Nations(this.phaserGame);
 	var theGame = this;
@@ -29,6 +30,8 @@ function Game (phaserGame){
 		theGame.onNationClick(nation);
 	}
 	this.gameProgress = new GameProgress(this.phaserGame);
+	this.gameEventHandler = new GameEventHandler(this.phaserGame);
+	
 	this.refugees = new Refugees();
 	
 }
@@ -41,6 +44,7 @@ function Game (phaserGame){
 Game.prototype.preload = function(){
 	this.nations.preload();
 	this.refugees.preload();
+	this.gameEventHandler.preload();
 }
 
 
@@ -72,7 +76,8 @@ Game.prototype.clear = function(){
 	this.BackgroundLayer.destroy(true);
 	this.TextLayer.destroy(true);
 	this.GameLayer.destroy(true);
-	this.gameProgress.onTimeChanged = null;
+	this.gameProgress.clear();
+	this.gameEventHandler.clear();
 	
 	for(var i = 0; i < this.events.length; i++){
 		this.phaserGame.time.events.remove(this.events[i]);
@@ -95,13 +100,21 @@ Game.prototype.start = function(){
 
 	this.setWorld();
 
+	this.resetDate();
 	
 	//this.phaserGame.time.events.repeat(Phaser.Timer.SECOND * 0.25, this.times, this.createLands, this);
 	this.createLands(25);
 
 	
 	this.createGUI();
+	this.addEvents();
+	
 	this.mouseMover.moveCamera(worldWidth * 0.5, worldHeight *0.4);
+}
+
+
+Game.prototype.resetDate = function(){
+	this.gameProgress.resetDate(); //More event based stuff would make less remembering to the start and clears
 }
 
 
@@ -118,23 +131,38 @@ Game.prototype.createGUI = function(){
 	
 	//this.addToObjects(textButton);
 	
-	this.debugText = this.phaserGame.add.text(600, 50,
-	debugOn ? "Debug" : "Build", BASE_STYLE);
+	this.debugText = this.phaserGame.add.text(600, 50, debugOn ? "Debug" : "Build", BASE_STYLE);
 	this.debugText.fixedToCamera = true;
 	
 	this.dateText = this.phaserGame.add.text(lvlWidth * 0.5, lvlHeight * 0.1, "Date:"+this.gameProgress.getDateString(), BASE_STYLE);
 	this.dateText.anchor.setTo(0.5, 0.5);
-	var gameReference = this;
-	this.gameProgress.onTimeChanged = function(){
-		gameReference.refreshDateText();
-	};
+	
+
 	this.dateText.fixedToCamera = true;
 	
 	textButton.addToLayer(this.GUILayer);
 	this.GUILayer.add(this.debugText);
 	this.GUILayer.add(this.dateText);
-	
 }
+
+Game.prototype.addEvents = function(){
+	this.gameProgress.addOnTimeChangedEvent(this.gameEventHandler.checkForEventsOnTimeChange, this.gameEventHandler);
+	this.gameProgress.addOnTimeChangedEvent(this.refreshDateText, this);
+	this.gameEventHandler.addOnEventProcessingHandler(this.processGameEvent, this);
+}
+
+
+Game.prototype.processGameEvent = function(args){
+	var event = args[0];
+	for(effect in event.effects){
+		this.completeEffect(event.effects[effect]);
+	}
+}
+
+Game.prototype.completeEffect = function(effect){
+	alert(effect.effect);
+}
+
 
 Game.prototype.refreshDateText = function(){
 	this.dateText.text = "Date:"+this.gameProgress.getDateString();
@@ -200,9 +228,15 @@ Game.prototype.getRefugeeAmount = function(nation){
 Game.prototype.finishHousing = function(nation, amount){
 	this.selectedNations--;
 	nation.setInProcess(false);
-	this.debugText.text = amount;
 	var space = nation.tryHousing(amount);
-	
+	if(space >= 0)
+	{
+		this.refugees.reduceTotalRefugees(amount);
+	}
+	this.debugText.text = this.refugees.getTotalRefugees();
+	if(this.refugees.getTotalRefugees() < 0){
+		this.debugText.text = "You won the game!";
+	}
 }
 
 
