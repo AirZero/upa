@@ -175,7 +175,6 @@ Game.prototype.completeEffect = function(effect){
 			break;
 		
 		default:
-			alert(effect.data);
 			break;
 	}
 	if(effect.story && effect.story !== ""){
