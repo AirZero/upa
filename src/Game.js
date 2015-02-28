@@ -26,9 +26,7 @@ function Game (phaserGame){
 	this.mouseMover = new MouseMovement(phaserGame, CAMERA_MOVEMENT_SPEED);
 	this.nations = new Nations(this.phaserGame);
 	var theGame = this;
-	this.nations.onNationClick = function(nation){
-		theGame.onNationClick(nation);
-	}
+	this.nations.addOnNationClickHandler(new EventHandler(this.onNationClick, this));
 	this.gameProgress = new GameProgress(this.phaserGame);
 	this.gameEventHandler = new GameEventHandler(this.phaserGame);
 	
@@ -274,7 +272,8 @@ Game.prototype.finishHousing = function(nation, amount){
 }
 
 
-Game.prototype.onNationClick = function(nation){
+Game.prototype.onNationClick = function(args){
+	var nation = args[0];
 	var pointer = this.phaserGame.input.activePointer;
 	
 	if (pointer.msSinceLastClick < TIME_FOR_DOUBLECLICK * 1000 && this.selectedNation === nation){

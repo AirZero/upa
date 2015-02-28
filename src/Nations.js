@@ -30,6 +30,12 @@ Nations.prototype.preload = function(){
 }
 
 
+
+Nations.prototype.addOnNationClickHandler = function(method){
+	this.onNationClick = method;
+}
+
+
 /**
  * Defines what is to happen when the nations are clicked
  */
@@ -103,12 +109,19 @@ Nations.prototype.createNation = function(layer, textLayer, x, y, nationData){
 	nation.angle = nationData.rotation;
 	//this.addToObjects(nation);
 	nation.inputEnabled = true;
-	nation.events.onInputDown.add(this.onNationClick, this);
+	nation.events.onInputDown.add(this.handleNationClick, this);
 	nation.setAutoCulling(true);
 	layer.add(nation);
 	textLayer.add(nation.text);
 	nation.setTextVisibility(playerPrefs.getNumber("showNames"));
 	this.nations[nation.name] = nation;
+	
+}
+
+
+Nations.prototype.handleNationClick = function(nation){
+	if(this.onNationClick)
+		this.onNationClick.process(nation);
 	
 }
 
