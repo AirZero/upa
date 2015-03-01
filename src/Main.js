@@ -65,7 +65,7 @@ function preload()
 			alert('HeadlessRenderer was used');
 	}
 	reset();
-	phaserGame.load.spritesheet('button', 'assets/pictures/buttons2.png', 100, 100);
+	phaserGame.load.spritesheet('button', 'assets/pictures/buttonsWithUp.png', 100, 100);
 	//phaserGame.load.image('finland', 'assets/pictures/finland.png');
 	phaserGame.load.image('dialogBack', 'assets/pictures/dialogBack.png');
 	phaserGame.load.image('bar', 'assets/pictures/Bar.png');

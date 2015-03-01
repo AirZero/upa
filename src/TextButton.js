@@ -4,16 +4,18 @@
  */
 
  
+//TextButton.prototype = Object.create(Phaser.Button.prototype);
+//TextButton.prototype.constructor = TextButton;
+ 
  /**
   * Constructor that initializes the component with given parameters
   * TODO: optional parameters
   */
  function TextButton (gameToAddTo, title, picture, method, style, x, y, callBackClass){
-	this.button = gameToAddTo.add.button(0, 0, picture, callBackClass ? method : this.perform, callBackClass ? callBackClass : this, 1, 0, 2);
-	this.setInputPriority(BUTTON_INPUTPRIORITY);
-	//TODO: fix this.. jos annetaan callBackClass, niin ei voida määrittää itseä enään performia varten, tähän pitäisi keksiä joku fiksu ratkaisu oikaisuksi. Tai sitten vain ei näppäintä saa sulkea? sekään ei ole btw hyvä... Tämän saa hurdurpurkka virityksellä hoidettua Game:n päässä, mutta mutta....
-	
-	this.method = method;
+	// Phaser.Button.call(this, gameToAddTo, 0, 0, picture, this.perform, this, 1, 0, 2, 3);
+	this.button = gameToAddTo.add.button(0, 0, picture, this.perform, this, 1, 0, 2, 3);
+
+	this.eventHandler = new EventHandler(method, callBackClass);
 	this.active = true;
 	this.button.anchor.setTo(0.5, 0.5);
 
@@ -57,14 +59,27 @@ TextButton.prototype.setInputPriority = function(inputPriority){
  */
 TextButton.prototype.perform = function(){
 	if(this.active)
-		this.method();
+		this.eventHandler.process();
 }
+
+
+
+/**
+ * Destroys Phaser components related to this textbutton
+ */
+TextButton.prototype.setVisible = function(visibility){
+	this.setActive(visibility);
+	this.button.visible = visibility;
+	this.text.visible = visibility;
+}
+
 
 /**
  * Destroys Phaser components related to this textbutton
  */
 TextButton.prototype.destroy = function(){
-	this.button.destroy();
+	this.active = false;
+	this.button.destroy(true);
 	this.text.destroy();
 }
 

@@ -13,6 +13,7 @@ ProgressBar.prototype.constructor = ProgressBar;
 	this.anchor.setTo(0, 0.5);
 	//this.timeFromStart = phaserGame.time.totalElapsedSeconds();
 	this.wholeWidth = this.width;
+	this.times = times;
 	var interval = time / times;
 	this.repeatEvent = phaserGame.time.events.repeat(Phaser.Timer.SECOND * interval, times, this.updateProgressBarsSize, this);
 	this.method = method;
@@ -34,7 +35,7 @@ ProgressBar.prototype.constructor = ProgressBar;
  
  ProgressBar.prototype.updateProgressBarsSize = function(){
 	 //TODO: make it work with low fps since with low fps its skipping steps
-	this.width -= wholeWidth / times;
+	this.width -= this.wholeWidth / this.times;
  }
  
  
