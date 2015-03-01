@@ -11,11 +11,10 @@ ProgressBar.prototype.constructor = ProgressBar;
 	Phaser.Sprite.call(this, phaserGame, x, y, sprite);
 	this.x = this.x - this.width * 0.5;
 	this.anchor.setTo(0, 0.5);
-	var wholeWidth = this.width;
+	//this.timeFromStart = phaserGame.time.totalElapsedSeconds();
+	this.wholeWidth = this.width;
 	var interval = time / times;
-	this.repeatEvent = phaserGame.time.events.repeat(Phaser.Timer.SECOND * interval, times, function(){
-		this.width -= wholeWidth / times;
-	}, this);
+	this.repeatEvent = phaserGame.time.events.repeat(Phaser.Timer.SECOND * interval, times, this.updateProgressBarsSize, this);
 	this.method = method;
 	this.timedEvent = phaserGame.time.events.add(Phaser.Timer.SECOND * time, function(){
 		this.timeEnded();
@@ -32,6 +31,13 @@ ProgressBar.prototype.constructor = ProgressBar;
 	}
  }
 
+ 
+ ProgressBar.prototype.updateProgressBarsSize = function(){
+	 //TODO: make it work with low fps since with low fps its skipping steps
+	this.width -= wholeWidth / times;
+ }
+ 
+ 
  ProgressBar.prototype.timeEnded = function(){
 	 this.destroy();
 		if(this.method)

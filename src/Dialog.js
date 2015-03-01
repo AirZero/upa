@@ -53,8 +53,8 @@ function Dialog(game, text, methodYes, methodNo, x, y, width, height, yesText, n
 }
 
 
-Dialog.prototype.createButton = function(game, text, sprite, method, x, y, xSize, ySize){
-	var button = new TextButton(game, text, 'button', method, BASE_STYLE, x, y)
+Dialog.prototype.createButton = function(game, text, sprite, method, font,x, y, xSize, ySize){
+	var button = new TextButton(game, text, 'button', method, font, x, y)
 	button.setWidth(xSize);
 	button.setFixedToCamera(true);
 	button.setHeight(ySize);

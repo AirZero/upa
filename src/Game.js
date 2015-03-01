@@ -153,7 +153,7 @@ Game.prototype.addEvents = function(){
 
 
 Game.prototype.updateRefugeeAmount = function(){
-	this.debugText.text = this.refugees.getTotalRefugees();
+	this.debugText.text = ""+this.refugees.getTotalRefugees();
 }
 
 
@@ -240,7 +240,7 @@ Game.prototype.startHousing = function(nation){
 	
 	//So that the function can be handled properly, if theres no function(), then the tryHousing is called directly
 	var nationsReference = this;
-	var bar = new ProgressBar(nation.x, nation.y-lvlHeight*0.05, 'bar', this.phaserGame,2.5, 100, function(){nationsReference.finishHousing(nation, amount);}, this.BarLayer);
+	var bar = new ProgressBar(nation.x, nation.y-lvlHeight*0.05, 'bar', this.phaserGame,2.5, 20, function(){nationsReference.finishHousing(nation, amount);}, this.BarLayer);
 	
 }
 
