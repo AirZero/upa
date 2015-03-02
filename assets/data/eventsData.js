@@ -32,12 +32,12 @@ function getJsonFromEventsData(){
 			]
 		},
 		{
-			"date":"x.x.x",
+			"date":"1.x.x",
 			"chance":100,
 			"effects":[
 				{
 					"effectName":"addMaxRefugees",
-					"data": 1000,
+					"data": 100,
 					"description": "Increases the maxrefugee amount by 100. This really needs something more beautiful to handle this stuff.",
 					"story": ""
 				}

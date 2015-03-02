@@ -140,7 +140,6 @@ Nations.prototype.handleNationClick = function(nation){
 
 Nations.prototype.parseNationSize = function(nation, width, height){
 	//TODO: ponder if necessary, most likely will not be with spritesheet and spritesheet is probably the better approach
-	debugger;
 	var size = {
 		"width":0,
 		"height":0

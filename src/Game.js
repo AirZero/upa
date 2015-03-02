@@ -152,6 +152,7 @@ Game.prototype.addEvents = function(){
 	this.gameProgress.addOnTimeChangedEvent(this.gameEventHandler.checkForEventsOnTimeChange, this.gameEventHandler);
 	this.gameProgress.addOnTimeChangedEvent(this.refreshDateText, this);
 	this.gameEventHandler.addOnEventProcessingHandler(this.processGameEvent, this);
+	this.refugees.addOnRefugeeAmountChange(this.updateRefugeeAmount, this);
 }
 
 
@@ -172,7 +173,6 @@ Game.prototype.completeEffect = function(effect){
 	switch(effect.effectName){
 		case "addRefugees":
 			this.refugees.changeTotalRefugees(effect.data);
-			this.updateRefugeeAmount();
 			break;
 		case "addMaxRefugees":
 			this.nations.increaseMaxRefugeeAmounts(effect.data);
@@ -242,10 +242,11 @@ Game.prototype.startHousing = function(nation){
 	nation.setInProcess(true);
 	this.selectedNations++;
 	var amount = this.getRefugeeAmount(nation);
+	var processLength = 4;
 	
 	//So that the function can be handled properly, if theres no function(), then the tryHousing is called directly
 	var nationsReference = this;
-	var bar = new ProgressBar(nation.x, nation.y-lvlHeight*0.05, 'bar', this.phaserGame,2.5, 20, function(){nationsReference.finishHousing(nation, amount);}, this.BarLayer);
+	var bar = new ProgressBar(nation.x, nation.y-lvlHeight*0.05, 'bar', this.phaserGame, processLength, 20, function(){nationsReference.finishHousing(nation, amount);}, this.BarLayer);
 	
 }
 
@@ -266,11 +267,9 @@ Game.prototype.finishHousing = function(nation, amount){
 	this.selectedNations--;
 	nation.setInProcess(false);
 	var space = nation.tryHousing(amount);
-	if(space >= 0)
-	{
-		this.refugees.reduceTotalRefugees(amount);
-	}
-	this.updateRefugeeAmount();
+	//amount +space because space is negative if not enough space
+	amount = space > 0 ? amount : amount + space;
+	this.refugees.reduceTotalRefugees(amount);
 	if(this.refugees.getTotalRefugees() < 0){
 		this.debugText.text = "You won the game!";
 	}
@@ -286,6 +285,7 @@ Game.prototype.onNationClick = function(args){
 	}
 	else this.selectNation(nation);
 }
+
 
 Game.prototype.selectNation = function(nation){
 	if(this.selectedNation){
