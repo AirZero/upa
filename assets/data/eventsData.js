@@ -2,7 +2,8 @@
 
 
 function getJsonFromEventsData(){
-	//TODO: assess the scripts again and whether story should be an effectName or not..
+	//TODO: the damn scrip engine that does me magic on this
+	//Lets not break it before the first test day though
 	var x=
 {
 	"events":
@@ -20,12 +21,12 @@ function getJsonFromEventsData(){
 			]
 		},
 		{
-			"date":"x.1.x",
+			"date":"1.1.x",
 			"chance":100,
 			"effects":[
 				{
-					"effectName":"",
-					"data": "test",
+					"effectName":"story",
+					"data": "Year Changed",
 					"description": "Easy for adding year change event, no hurdur code, me proud of not no HURDUR! Still, the syntax is horrible so changed coming sitll!"
 				}
 			]
