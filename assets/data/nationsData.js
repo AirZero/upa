@@ -159,8 +159,8 @@ function getJsonFromNationsData(){
 		},
 		{
 			"name": "Romania",
-			"x": "Same:Ukraina,Percent:-69",
 			"y": "Down:Ukraina,Percent:-86",
+			"x": "Same:Ukraina,Percent:-69",
 			"width": 89,
 			"height": 40,
 			"rotation": 0,
@@ -177,8 +177,8 @@ function getJsonFromNationsData(){
 		},
 		{
 			"name": "Sveitsi",
-			"x": 400,
-			"y": 400,
+			"x": Same:Italia,
+			"y": Same:Italia, Percent -30,
 			"width": 88,
 			"height": 36,
 			"rotation": 0,
