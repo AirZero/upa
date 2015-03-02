@@ -32,6 +32,7 @@ function Nation(game, x,y, name, sprite, maxRefugees){
 
 Nation.prototype.increaseMaxRefugeeAmount = function(amount){
 	this.maxRefugees += amount;
+	this.nationState.updateState(this.maxRefugees, this.refugees, this);
 }
 
 
