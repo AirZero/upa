@@ -9,6 +9,7 @@
   * Needs atleast the game, text and methods for Yes and No.
   */
 function Dialog(game, text, methodYes, methodNo, x, y, width, height, yesText, noText){
+	//TODO: automatic textwrapping
 	x = x || lvlWidth * 0.5;
 	y = y || lvlHeight * 0.5;
 	width = width || lvlWidth * 0.8;
