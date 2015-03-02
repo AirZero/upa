@@ -177,12 +177,14 @@ Game.prototype.completeEffect = function(effect){
 		case "addMaxRefugees":
 			this.nations.increaseMaxRefugeeAmounts(effect.data);
 			break;
+		case "endGame":
+			this.nations.increaseMaxRefugeeAmounts(effect.data);
+			break;
+		case "story":
+			this.addDialog(effect.data);
+			break;
 		default:
 			break;
-	}
-	if(effect.story && effect.story !== ""){
-		this.addDialog(effect.story);
-		//dialog.silence(menu);
 	}
 }
 

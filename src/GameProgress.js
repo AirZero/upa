@@ -4,9 +4,10 @@
 function GameProgress(phaserGame){
 	this.phaserGame = phaserGame;
 	this.monthInterval = 5;
-	this.startDate = new GameDate(1,9,2000);
+	this.dayInterval = this.monthInterval / 30;
+	this.startDate = new GameDate(1,9,2011);
 	this.resetDate(); //Initializes this.date also as well as sets it to startdate
-	this.lastMonthTime = this.phaserGame.time.totalElapsedSeconds();
+	this.lastDayTime = this.phaserGame.time.totalElapsedSeconds();
 	this.onTimeChangedEvents = [];
 	this.active = true;
 }
@@ -54,17 +55,21 @@ GameProgress.prototype.getDateString = function(){
 GameProgress.prototype.update = function(){
 	if(!this.active) return;
 	var totalTime = this.phaserGame.time.totalElapsedSeconds();
-	if(totalTime >= this.lastMonthTime + this.monthInterval){
-		this.lastMonthTime = totalTime;
-		this.date.progressMonth();
-		for(methodName in this.onTimeChangedEvents){
-			var methodObject = this.onTimeChangedEvents[methodName];
-			methodObject.process(this.date.getDay(), this.date.getMonth(), this.date.getYear());
-			//if(methodObject.callBackClass){
-			//	methodObject.method.call(methodObject.callBackClass, this.date.getDay(), this.date.getMonth(), this.date.getYear());
-			//}
-			//else 
-			//	methodObject.method(this.date.getDay(), this.date.getMonth(), this.date.getYear());
+	if(totalTime > this.lastDayTime + this.dayInterval){
+		this.lastDayTime = totalTime;
+		var month = this.date.getMonth();
+		this.date.progressDay();
+		if(month !== this.date.getMonth){
+			for(methodName in this.onTimeChangedEvents){
+				var methodObject = this.onTimeChangedEvents[methodName];
+				methodObject.process(this.date.getDay(), this.date.getMonth(), this.date.getYear());
+			}
 		}
 	}
+	//
+	//if(totalTime >= this.lastMonthTime + this.monthInterval){
+	//	this.lastMonthTime = totalTime;
+	//	this.date.progressMonth();
+    //
+	//}
 }

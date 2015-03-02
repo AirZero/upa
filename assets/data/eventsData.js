@@ -26,8 +26,7 @@ function getJsonFromEventsData(){
 				{
 					"effectName":"",
 					"data": "test",
-					"description": "Easy for adding year change event, no hurdur code, me proud of not no HURDUR! Still, the syntax is horrible so changed coming sitll!",
-					"story": "Year changed"
+					"description": "Easy for adding year change event, no hurdur code, me proud of not no HURDUR! Still, the syntax is horrible so changed coming sitll!"
 				}
 			]
 		},
@@ -38,8 +37,25 @@ function getJsonFromEventsData(){
 				{
 					"effectName":"addMaxRefugees",
 					"data": 100,
-					"description": "Increases the maxrefugee amount by 100. This really needs something more beautiful to handle this stuff.",
-					"story": ""
+					"description": "Increases the maxrefugee amount by 100. This really needs something more beautiful to handle this stuff."
+				}
+			]
+		},
+		{
+			"date":"x.3.2015",
+			"chance":100,
+			"effects":[
+				{
+					"effectName":"story",
+					"data": "The conflict still ensues!",
+					"description": "Game ends here",
+					
+				},
+				{
+					"effectName":"endGame",
+					"data": 0,
+					"description": "Game ends here",
+					
 				}
 			]
 		}

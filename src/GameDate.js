@@ -23,7 +23,7 @@ GameDate.prototype.progress = function(days, months, years){
 	months = months % 12;
 	
 	if(months > 12 || days > 30)
-		this.progress(days, month, years);
+		this.progress(days, months, years);
 	else{
 		this.year += years;
 		this.month += months
@@ -33,9 +33,9 @@ GameDate.prototype.progress = function(days, months, years){
 			this.month = Math.floor(this.month);
 			this.day = this.day % 30;
 			
-			this.year += this.month / 12;
+			this.year += this.month / 13;
 			this.year = Math.floor(this.year);
-			this.month = this.month % 12;
+			this.month = (this.month % 13 === 0) ? 1 : this.month % 13;
 			
 		}
 	}
@@ -71,7 +71,12 @@ GameDate.prototype.getYear = function(){
 }
 
 GameDate.prototype.getDateString = function(){
-	var date = ""+this.day+this.divider +this.month+this.divider+this.year;
+	//TODO: check if this is horribly slow
+	var day = ""+this.day;
+	var month = ""+this.month;
+	var date = (day.length == 2 ? day : "0"+day) +this.divider +
+			(month.length == 2 ? month : "0"+month)+this.divider +
+			this.year;
 	return date;
 }
 
