@@ -40,9 +40,10 @@ Nations.prototype.addOnNationClickHandler = function(method){
  * 
  */
 Nations.prototype.increaseMaxRefugeeAmounts = function(amount){
-	this.nations.forEach(function(element, index, array){
-		element.increaseMaxRefugeeAmount(amount);
-	});
+
+	for(nationName in this.nations){
+		this.nations[nationName].increaseMaxRefugeeAmount(amount);
+	}
 }
 
 
