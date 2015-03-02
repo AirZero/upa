@@ -39349,9 +39349,11 @@ Object.defineProperty(Phaser.Image.prototype, "frame", {
     },
 
     set: function(value) {
-
+		
         if (value !== this.frame)
         {
+			//TP: wanted to get rid of the constant error hence the null check for game
+			if(this.game === null) return;
             var frameData = this.game.cache.getFrameData(this.key);
 
             if (frameData && value < frameData.total && frameData.getFrame(value))

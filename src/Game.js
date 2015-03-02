@@ -251,7 +251,7 @@ Game.prototype.getRefugeeAmount = function(nation){
 	var year = this.gameProgress.getYear();
 	
 	var amount = this.refugees.getRefugees(nation.name, month, year);
-	
+	amount = 2000;
 	//TODO:Loading from a file
 	return amount;
 }
@@ -284,7 +284,7 @@ Game.prototype.onNationClick = function(args){
 
 Game.prototype.selectNation = function(nation){
 	if(this.selectedNation){
-		this.selectedNation.tint = this.unselectedTint;
+		this.selectedNation.tintNormal();
 	}
 	if(nation !== null)
 		nation.tint = this.selectedTint;

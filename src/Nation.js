@@ -11,6 +11,7 @@ Nation.prototype.constructor = Nation;
 function Nation(game, x,y, name, sprite, maxRefugees){
 	Phaser.Sprite.call(this, game, 0, 0, sprite);
 	this.createText(game, name, x, y);
+
 	
 	this.inProcess = false;
 	this.name = name;
@@ -24,6 +25,8 @@ function Nation(game, x,y, name, sprite, maxRefugees){
 	//this.sprite.y = y;
 	this.refugees = 0;
 	this.maxRefugees = maxRefugees;
+	
+	this.nationState = new NationState(this.maxRefugees );
 }
 
 Nation.prototype.getInProcess = function(){
@@ -49,6 +52,11 @@ Nation.prototype.setTextVisibility = function(visibility){
 Nation.prototype.setAutoCulling = function(cull){
 	this.autoCull = cull;
 	this.text.autoCull = cull;
+}
+
+
+Nation.prototype.tintNormal = function(){
+	this.nationState.tintNormal(this);
 }
 
 
@@ -109,5 +117,6 @@ Nation.prototype.tryHousing = function(amount){
 		space =-( this.maxRefugees - this.refugees);
 		this.refugees = this.maxRefugees;
 	}
+	this.nationState.updateState(this.refugees, this);
 	return space;
 }

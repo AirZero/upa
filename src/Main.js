@@ -32,10 +32,11 @@ init();
  * not to be called separately
  */
 function init(){
+	var renderMode = Phaser.AUTO;
 	if(debugOn)
-	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, Phaser.AUTO, '', { preload: preload, create: create, update: update, render : render });
+	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, renderMode, '', { preload: preload, create: create, update: update, render : render });
 	else
-	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, Phaser.AUTO, '', { preload: preload, create: create, update: update});
+	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, renderMode, '', { preload: preload, create: create, update: update});
 }
 
 /**
