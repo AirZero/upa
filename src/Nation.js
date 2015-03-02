@@ -29,9 +29,16 @@ function Nation(game, x,y, name, sprite, maxRefugees){
 	this.nationState = new NationState(this.maxRefugees );
 }
 
+
+Nation.prototype.increaseMaxRefugeeAmount = function(amount){
+	this.maxRefugees += amount;
+}
+
+
 Nation.prototype.getInProcess = function(){
 	return this.inProcess;
 }
+
 
 
 Nation.prototype.setInProcess = function(inProcess){
@@ -117,6 +124,7 @@ Nation.prototype.tryHousing = function(amount){
 		space =-( this.maxRefugees - this.refugees);
 		this.refugees = this.maxRefugees;
 	}
-	this.nationState.updateState(this.refugees, this);
+	//TODO: only 1 access from nations class to the update state
+	this.nationState.updateState(this.maxRefugees, this.refugees, this);
 	return space;
 }

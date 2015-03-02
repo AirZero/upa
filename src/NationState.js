@@ -12,7 +12,8 @@ NationState.prototype.tintNormal = function(nation){
 }
 
 
-NationState.prototype.updateState = function(refugees, nation){
+NationState.prototype.updateState = function(maxRefugees, refugees, nation){
+	this.maxRefugees = maxRefugees;
 	this.refugees = refugees;
 	//TODO: no passing nation as argument but event
 	//To avoid multiple divisions since it is not necessary 

@@ -37,6 +37,17 @@ Nations.prototype.addOnNationClickHandler = function(method){
 
 
 /**
+ * 
+ */
+Nations.prototype.increaseMaxRefugeeAmounts = function(amount){
+	this.nations.forEach(function(element, index, array){
+		element.increaseMaxRefugeeAmount(amount);
+	});
+}
+
+
+
+/**
  * Defines what is to happen when the nations are clicked
  */
 

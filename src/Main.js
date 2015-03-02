@@ -180,6 +180,7 @@ function screenSettings(){
 	var titles = ['Kokonäytön tila',
 	//Notice the parenthese around the ternary, this is required or else the start of the string will be absorped to the condition
 	"Näytä maiden nimet " + (playerPrefs.getNumber("showNames") ? "X" : "_"),
+	"Liikkuva kartta " + (playerPrefs.getNumber("moveMap") ? "X" : "_"),
 	'Takaisin'];
 	xName = null;
 	var methods = new Array();
@@ -190,8 +191,13 @@ function screenSettings(){
 		playerPrefs.set("showNames", playerPrefs.getNumber("showNames") ? 0 : 1);
 		screenSettings();
 		}
-	}
-	methods[2] = { 'method': function(){ settings();}};
+	};
+	methods[2] = { 'method': function(){
+		playerPrefs.set("moveMap", playerPrefs.getNumber("moveMap") ? 0 : 1);
+		screenSettings();
+		}
+	};
+	methods[3] = { 'method': function(){ settings();}};
 	menu.create(titles, methods);
 
 }

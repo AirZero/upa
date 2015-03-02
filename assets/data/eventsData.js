@@ -30,6 +30,18 @@ function getJsonFromEventsData(){
 					"story": "Year changed"
 				}
 			]
+		},
+		{
+			"date":"1.x.x",
+			"chance":500,
+			"effects":[
+				{
+					"effectName":"addMaxRefugees",
+					"data": 100,
+					"description": "Increases the maxrefugee amount by 100. This really needs something more beautiful to handle this stuff.",
+					"story": ""
+				}
+			]
 		}
 		
 	]

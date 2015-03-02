@@ -32,6 +32,8 @@ function Game (phaserGame){
 	
 	this.refugees = new Refugees();
 	
+	this.moveOnMap = true;
+	
 }
 
 
@@ -95,7 +97,8 @@ Game.prototype.start = function(){
 	this.createGroups();
 	//this.phaserGame.input.onDown.add(this.clickStar, this);
 	//this.events[this.events.length] = 
-
+	this.moveOnMap = playerPrefs.getNumber("moveMap") === 1 ? true :false;
+	
 	this.setWorld();
 
 	this.resetDate();
@@ -107,7 +110,7 @@ Game.prototype.start = function(){
 	this.createGUI();
 	this.addEvents();
 	this.updateRefugeeAmount();
-	this.mouseMover.moveCamera(worldWidth * 0.5, worldHeight *0.4);
+	this.mouseMover.moveCamera(worldWidth * 0.5, worldHeight *0.23);
 }
 
 
@@ -171,7 +174,9 @@ Game.prototype.completeEffect = function(effect){
 			this.refugees.changeTotalRefugees(effect.data);
 			this.updateRefugeeAmount();
 			break;
-		
+		case "addMaxRefugees":
+			this.nations.increaseMaxRefugeeAmounts(effect.data);
+			break;
 		default:
 			break;
 	}
@@ -345,7 +350,9 @@ Game.prototype.update = function(){
 		this.zoom(1.05);
 	else if(this.phaserGame.input.keyboard.isDown("X".charCodeAt(0)))
 		this.zoom(0.95238);
-	this.mouseMover.update();
+	//TODO:Playtest on or off
+	if(this.moveOnMap)
+		this.mouseMover.update();
 	this.gameProgress.update();
 }
 
