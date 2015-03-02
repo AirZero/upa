@@ -57,14 +57,12 @@ GameProgress.prototype.update = function(){
 	var totalTime = this.phaserGame.time.totalElapsedSeconds();
 	if(totalTime > this.lastDayTime + this.dayInterval){
 		this.lastDayTime = totalTime;
-		var month = this.date.getMonth();
 		this.date.progressDay();
-		if(month !== this.date.getMonth){
-			for(methodName in this.onTimeChangedEvents){
-				var methodObject = this.onTimeChangedEvents[methodName];
-				methodObject.process(this.date.getDay(), this.date.getMonth(), this.date.getYear());
-			}
+		for(methodName in this.onTimeChangedEvents){
+			var methodObject = this.onTimeChangedEvents[methodName];
+			methodObject.process(this.date.getDay(), this.date.getMonth(), this.date.getYear());
 		}
+
 	}
 	//
 	//if(totalTime >= this.lastMonthTime + this.monthInterval){
