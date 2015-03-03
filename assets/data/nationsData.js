@@ -79,7 +79,7 @@ function getJsonFromNationsData(){
 		{
 			"name": "Liettua",
 			"x": "Same:Latvia,Percent:-11",
-			"y": "Down:Latvia,Percent:-30",
+			"y": "Down:Latvia,Percent:-34",
 			"width": 55,
 			"height": 29,
 			"rotation": 0,
@@ -150,7 +150,7 @@ function getJsonFromNationsData(){
 		},
 		{
 			"name": "Romania",
-			"y": "Down:Ukraina,Percent:-86",
+			"y": "Down:Ukraina,Percent:-88",
 			"x": "Same:Ukraina,Percent:-69",
 			"width": 89,
 			"height": 40,
@@ -174,7 +174,75 @@ function getJsonFromNationsData(){
 			"height": 18,
 			"rotation": 0,
 			"sprite": "Sveitsi"	
+		},
+		{
+			"name": "Espanja",
+			"x": "Same:Ranska,Percent:-45",
+			"y": "Down:Ranska,Percent:-31",
+			"width": 102,
+			"height": 59,
+			"rotation": 0,
+			"sprite": "Espanja"	
+		},
+				{
+			"name": "Portugal",
+			"x": "Left:Espanja,Percent:100",
+			"y": "Same:Espanja,Percent:8",
+			"width": 27,
+			"height": 39,
+			"rotation": 0,
+			"sprite": "Portugal"	
+		},
+		{
+			"name": "Itavalta",
+			"x": "Right:Sveitsi,Percent:-18",
+			"y": "Same:Sveitsi,Percent:-30",
+			"width": 70,
+			"height": 24,
+			"rotation": 0,
+			"sprite": "Itavalta"	
+		},
+				{
+			"name": "Tsekki",
+			"x": "Right:Saksa,Percent:-40",
+			"y": "Same:Saksa,Percent:61",
+			"width": 73,
+			"height": 23,
+			"rotation": 0,
+			"sprite": "Tsekki"	
+		},
+			{
+			"name": "Slovakia",
+			"x": "Right:Tsekki,Percent:-55",
+			"y": "Same:Tsekki,Percent:72",
+			"width": 52,
+			"height": 16,
+			"rotation": 0,
+			"sprite": "Slovakia"	
+		},
+		
+		{
+			"name": "Unkari",
+			"x": "Right:Itavalta,Percent:-13",
+			"y": "Down:Slovakia,Percent:-32",
+			"width": 60,
+			"height": 26,
+			"rotation": 0,
+			"sprite": "Unkari"	
+		},
+		
+		{
+			"name": "Entinen-Jugoslavia",
+			"x": "Right:Italia,Percent:-45",
+			"y": "Same:Italia,Percent:-15",
+			"width": 65,
+			"height": 39,
+			"rotation": 0,
+			"sprite": "Entinen-Jugoslavia"	
 		}
+
+		
+
 	]
 };
 return x;
