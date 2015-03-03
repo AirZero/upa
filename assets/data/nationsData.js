@@ -122,13 +122,13 @@ function getJsonFromNationsData(){
 			"sprite": "Tanska"	
 		},
 		{
-			"name": "Alankomaat",
+			"name": "Benelux",
 			"x": "Left:Saksa,Percent:43",
-			"y": "Same:Saksa,Percent:-32",
-			"width": 38,
-			"height": 25,
+			"y": "Same:Saksa,Percent:-2",
+			"width": 40,
+			"height": 38,
 			"rotation": 0,
-			"sprite": "Alankomaat"	
+			"sprite": "Benelux"	
 		},
 		{
 			"name": "Ranska",
@@ -138,15 +138,6 @@ function getJsonFromNationsData(){
 			"height": 82,
 			"rotation": 0,
 			"sprite": "Ranska"	
-		},
-		{
-			"name": "Belgia",
-			"x": "Left:Saksa,Percent:10",
-			"y": "Same:Saksa,Percent:50",
-			"width": 28,
-			"height": 18,
-			"rotation": 0,
-			"sprite": "Belgia"	
 		},
 		{
 			"name": "Italia",
@@ -177,8 +168,8 @@ function getJsonFromNationsData(){
 		},
 		{
 			"name": "Sveitsi",
-			"x": "Same:Italia",
-			"y": "Same:Italia,Percent:-20",
+			"x": "Same:Italia,Percent:-80.5",
+			"y": "Same:Italia,Percent:-215",
 			"width": 44,
 			"height": 18,
 			"rotation": 0,
