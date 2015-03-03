@@ -178,9 +178,9 @@ function getJsonFromNationsData(){
 		{
 			"name": "Sveitsi",
 			"x": "Same:Italia",
-			"y": "Same:Italia,Percent:-30",
-			"width": 88,
-			"height": 36,
+			"y": "Same:Italia,Percent:-20",
+			"width": 44,
+			"height": 18,
 			"rotation": 0,
 			"sprite": "Sveitsi"	
 		}
