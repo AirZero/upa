@@ -233,10 +233,10 @@ function getJsonFromNationsData(){
 		
 		{
 			"name": "Entinen-Jugoslavia",
-			"x": "Right:Italia,Percent:-47",
+			"x": "Right:Italia,Percent:-48",
 			"y": "Same:Italia,Percent:-25",
-			"width": 85,
-			"height": 53,
+			"width": 86,
+			"height": 52,
 			"rotation": 0,
 			"sprite": "Entinen-Jugoslavia"	
 		},
@@ -251,12 +251,39 @@ function getJsonFromNationsData(){
 		},
 			{
 			"name": "Kreikka",
-			"x": "Right:Italia,Percent:33",
-			"y": "Down:Romania,Percent:33",
+			"x": "Right:Italia,Percent:13",
+			"y": "Down:Romania,Percent:28",
 			"width": 78,
 			"height": 54,
 			"rotation": 0,
 			"sprite": "Kreikka"	
+		},
+			{
+			"name": "Iso-Britannia",
+			"x": "Same:Ranska,Percent:-50",
+			"y": "Up:Ranska,Percent:10",
+			"width": 84,
+			"height": 119,
+			"rotation": 0,
+			"sprite": "Iso-Britannia"	
+		},
+			{
+			"name": "Islanti",
+			"x": "Same:Iso-Britannia,Percent:-50",
+			"y": "Up:Iso-Britannia,Percent:-60",
+			"width": 92,
+			"height": 48,
+			"rotation": 0,
+			"sprite": "Islanti"	
+		},
+		{
+			"name": "Turkki",
+			"x": "Right:Kreikka,Percent:0",
+			"y": "Same:Kreikka,Percent:10",
+			"width": 186,
+			"height": 53,
+			"rotation": 0,
+			"sprite": "Turkki"	
 		}/*,
 		
 		{
