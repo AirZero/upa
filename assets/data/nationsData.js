@@ -233,14 +233,42 @@ function getJsonFromNationsData(){
 		
 		{
 			"name": "Entinen-Jugoslavia",
-			"x": "Right:Italia,Percent:-45",
-			"y": "Same:Italia,Percent:-15",
-			"width": 65,
-			"height": 39,
+			"x": "Right:Italia,Percent:-47",
+			"y": "Same:Italia,Percent:-25",
+			"width": 85,
+			"height": 53,
 			"rotation": 0,
 			"sprite": "Entinen-Jugoslavia"	
+		},
+		{
+			"name": "Bulgaria",
+			"x": "Right:Italia,Percent:65",
+			"y": "Down:Romania,Percent:-22",
+			"width": 59,
+			"height": 26,
+			"rotation": 0,
+			"sprite": "Bulgaria"	
+		},
+			{
+			"name": "Kreikka",
+			"x": "Right:Italia,Percent:33",
+			"y": "Down:Romania,Percent:33",
+			"width": 78,
+			"height": 54,
+			"rotation": 0,
+			"sprite": "Kreikka"	
+		}/*,
+		
+		{
+			"name": "Albania",
+			"x": "Right:Italia,Percent:33",
+			"y": "Down:Romania,Percent:33",
+			"width": 78,
+			"height": 54,
+			"rotation": 0,
+			"sprite": "Albania"	
 		}
-
+*/
 		
 
 	]
