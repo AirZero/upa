@@ -71,6 +71,7 @@ function preload()
 	phaserGame.load.image('dialogBack', 'assets/pictures/dialogBack.png');
 	phaserGame.load.image('bar', 'assets/pictures/Bar.png');
 	phaserGame.load.image('textFeed', 'assets/pictures/TextFeed.png');
+	phaserGame.load.image('hunam', 'assets/pictures/Hunam.png');
 	preloadGame();
 	preloadMenu();
 }

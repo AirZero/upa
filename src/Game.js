@@ -115,6 +115,7 @@ Game.prototype.start = function(){
 
 	
 	this.createGUI();
+	this.initializeParticleSystem();
 	this.addEvents();
 	this.updateRefugeeAmount();
 	this.mouseMover.moveCamera(worldWidth * 0.5, worldHeight *0.23);
@@ -155,6 +156,13 @@ Game.prototype.createGUI = function(){
 	textButton.addToLayer(this.GUILayer);
 	this.GUILayer.add(this.debugText);
 	this.GUILayer.add(this.dateText);
+}
+
+
+Game.prototype.initializeParticleSystem = function(){
+	this.humanParticleSystem = new HumanParticleSystem(this.phaserGame, 'hunam', 2000, 250, 50);
+	this.humanParticleSystem.setOrigin(2000,2000); //TODO: Syrians location here
+	
 }
 
 Game.prototype.addEvents = function(){
@@ -266,6 +274,7 @@ Game.prototype.startHousing = function(nation){
 	//So that the function can be handled properly, if theres no function(), then the tryHousing is called directly
 	var nationsReference = this;
 	var bar = new ProgressBar(nation.x, nation.y-lvlHeight*0.05, 'bar', this.phaserGame, processLength, 20, function(){nationsReference.finishHousing(nation, amount);}, this.BarLayer);
+	this.humanParticleSystem.send(2000, 2000, nation.x, nation.y, 1); //Because no divisions when avoidable!
 	
 }
 
