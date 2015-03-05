@@ -58,8 +58,15 @@ NewsFeed.prototype.resetForShow = function(shownMessage){
 
 
 NewsFeed.prototype.update = function(){
+	//TODO: only works from right to left atm
 	if(this.shownTexts.length < 2 && this.queue.length > 0){
-		this.setNextMessageToBeShown();
+		if(this.shownTexts.length == 1)
+		{
+			if(this.shownTexts[0].cameraOffset.x < lvlWidth *0.5)
+				this.setNextMessageToBeShown();
+			
+		}
+		else this.setNextMessageToBeShown();
 		
 	}
 	var updateTime = this.game.time.physicsElapsed;

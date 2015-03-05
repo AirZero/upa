@@ -69,6 +69,17 @@ function getJsonFromEventsData(){
                 }
             ],
             "description": "testing the news feed"
+        },
+        {
+            "date": "2.12.x",
+            "chance": 100,
+            "effects": [
+                {
+                    "effectName": "feed",
+                    "data": "Another Feed here!"
+                }
+            ],
+            "description": "testing the news feed"
         }
 		
     ]
