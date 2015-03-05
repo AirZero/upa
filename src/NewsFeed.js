@@ -22,6 +22,7 @@ function NewsFeed (phaserGame, sprite, height, layerToAddTo, z, x, y){
 	this.maximumShowingTimes = 3;
 	this.queue = [];
 	this.shownTexts = [];
+	this.margin = lvlWidth * 0.25;
 	
 	this.textGroup = this.game.add.group();
 	this.textGroup.z = z;
@@ -62,7 +63,8 @@ NewsFeed.prototype.update = function(){
 	if(this.shownTexts.length < 2 && this.queue.length > 0){
 		if(this.shownTexts.length == 1)
 		{
-			if(this.shownTexts[0].cameraOffset.x < lvlWidth *0.5)
+			var shown = this.shownTexts[0];
+			if(shown.cameraOffset.x + shown.width < lvlWidth - this.margin)
 				this.setNextMessageToBeShown();
 			
 		}

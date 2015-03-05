@@ -60,23 +60,45 @@ function getJsonFromEventsData(){
             "description": "Game ends here"
         },
         {
-            "date": "1.12.x",
+            "date": "3.12.x",
             "chance": 100,
             "effects": [
                 {
                     "effectName": "feed",
-                    "data": "Add to the feed!"
+                    "data": "I'm so blue!"
                 }
             ],
             "description": "testing the news feed"
         },
         {
-            "date": "2.12.x",
+            "date": "4.12.x",
             "chance": 100,
             "effects": [
                 {
                     "effectName": "feed",
-                    "data": "Another Feed here!"
+                    "data": "Da bu dee da bu dai da bu dee dabu!"
+                }
+            ],
+            "description": "testing the news feed"
+        },
+        {
+            "date": "5.12.x",
+            "chance": 100,
+            "effects": [
+                {
+                    "effectName": "feed",
+                    "data": "I have a blue house with a blue window"
+                }
+            ],
+            "description": ""
+        },
+        {
+            "date": "6.12.x",
+            "chance": 100,
+            "effects": [
+                {
+                    "effectName": "feed",
+                    "data": "Blue is the color, i often wear!"
                 }
             ],
             "description": "testing the news feed"
