@@ -70,6 +70,7 @@ function preload()
 	//phaserGame.load.image('finland', 'assets/pictures/finland.png');
 	phaserGame.load.image('dialogBack', 'assets/pictures/dialogBack.png');
 	phaserGame.load.image('bar', 'assets/pictures/Bar.png');
+	phaserGame.load.image('textFeed', 'assets/pictures/TextFeed.png');
 	preloadGame();
 	preloadMenu();
 }

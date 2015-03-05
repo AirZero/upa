@@ -58,7 +58,19 @@ function getJsonFromEventsData(){
                 }
             ],
             "description": "Game ends here"
+        },
+        {
+            "date": "1.12.x",
+            "chance": 100,
+            "effects": [
+                {
+                    "effectName": "feed",
+                    "data": "Add to the feed!"
+                }
+            ],
+            "description": "testing the news feed"
         }
+		
     ]
 };
 	return x;

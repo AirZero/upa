@@ -31,6 +31,7 @@ function Game (phaserGame){
 	this.gameEventHandler = new GameEventHandler(this.phaserGame);
 	
 	this.refugees = new Refugees();
+	this.nextZ = 0;
 	
 	this.moveOnMap = true;
 	
@@ -56,16 +57,22 @@ Game.prototype.createGroups =function(){
 	this.BackgroundLayer = this.phaserGame.add.group();
 	
 	//TODO: maybe an array for Layers would be more useable
-	this.BackgroundLayer.z = 0;
+	this.BackgroundLayer.z = this.getNextAvailableZ();
 	this.GameLayer = this.phaserGame.add.group();
-	this.GameLayer.z = 1;
+	this.GameLayer.z = this.getNextAvailableZ();
 	this.BarLayer = this.phaserGame.add.group();
-	this.BarLayer.z = 2;
+	this.BarLayer.z = this.getNextAvailableZ();
 	this.TextLayer = this.phaserGame.add.group();
-	this.TextLayer.z = 3;
+	this.TextLayer.z = this.getNextAvailableZ();
 	this.GUILayer = this.phaserGame.add.group();
-	this.GUILayer.z = 4;	
+	this.GUILayer.z = this.getNextAvailableZ();	
 }
+
+
+Game.prototype.getNextAvailableZ = function(){
+	return this.nextZ++;
+}
+
 
 /**
  * Will clear the Phaser game objects in the game.
@@ -132,6 +139,8 @@ Game.prototype.createGUI = function(){
 	
 	//this.addToObjects(textButton);
 	
+	this.newsFeed = new NewsFeed(this.phaserGame, 'textFeed', lvlHeight * 0.1, this.GUILayer, this.getNextAvailableZ());
+	
 	this.debugText = this.phaserGame.add.text(600, 50, debugOn ? "Debug" : "Build", BASE_STYLE);
 	this.debugText.fixedToCamera = true;
 	
@@ -183,9 +192,17 @@ Game.prototype.completeEffect = function(effect){
 		case "story":
 			this.addDialog(effect.data);
 			break;
+		case "feed":
+			this.addFeedData(effect.data);
+			break;
 		default:
 			break;
 	}
+}
+
+
+Game.prototype.addFeedData = function(text){
+	this.newsFeed.addText(text);
 }
 
 
@@ -356,6 +373,8 @@ Game.prototype.update = function(){
 	if(this.moveOnMap)
 		this.mouseMover.update();
 	this.gameProgress.update();
+	//Not sure if needs invoking but when added through group is not automatically called?
+	this.newsFeed.update();
 }
 
 
