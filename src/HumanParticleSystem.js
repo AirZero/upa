@@ -1,8 +1,17 @@
 
+/**
+ * HumanParticleSystem inherits the Phasers own particle system and adds on top of that the possibility of sending particles to the given destination.
+ * Can handle one sending at a time.
+ */
+
+
 HumanParticleSystem.prototype = Object.create(Phaser.Particles.Arcade. Emitter.prototype);
 HumanParticleSystem.prototype.constructor = HumanParticleSystem;
 
-
+/**
+ * Initializes the particle system based on given parameters and basic settings.
+ * Handles the inheritance of Emitter class.
+ */
 function HumanParticleSystem(game, sprite, lifeSpan, frequency, quantity){
 	Phaser.Particles.Arcade.Emitter.call(this, game, 0, 0, quantity);
 	this.particleClass = HumanParticle;
@@ -27,7 +36,9 @@ function HumanParticleSystem(game, sprite, lifeSpan, frequency, quantity){
 	this.forEach(this.initializeParticle, this, false);
 }
 
-
+/**
+ * Initializes the given particle with an onEmit event that allows for the sending of the particle.
+ */
 HumanParticleSystem.prototype.initializeParticle = function(particle){
 	var particleSystemRef = this;
 	 particle.onEmit = function(){
@@ -38,30 +49,50 @@ HumanParticleSystem.prototype.initializeParticle = function(particle){
 		}
 	};
 }
-	
+
+/**
+ * Returns the current tweenDuration
+ */
 HumanParticleSystem.prototype.getTweenDuration = function(){
 	 return this.tweenDuration;
 }
-	
+
+/**
+ * Returns the current x coordinate of the destination
+ */
 HumanParticleSystem.prototype.getXDestination = function(){
 	 return this.xDestination;
 }
 	
+/**
+ * Returns the current y coordinate of the destination
+ */
 HumanParticleSystem.prototype.getYDestination = function(){
 	return this.yDestination;
 }
-	
+
+/**
+ * Sets the origin point of from where the particles are sent from
+ */ 
 HumanParticleSystem.prototype.setOrigin = function(x,y){
 	this.x = x;
 	this.y = y;
 }
 
+/**
+ * Handles the stopping of the particle sending
+ */
 HumanParticleSystem.prototype.stop = function(){
 	this.busy = false;
 }
 
 
-
+/**
+ * Sends particles from the given point to the given point.
+ * Sends the given amount and counts that they hit the target point in duration.
+ * Upon completion will call the given eventhandler.
+ * If frequency and amount are too compared to the duration, the sending might take 0 seconds.
+ */
 HumanParticleSystem.prototype.send = function(xStart,yStart, xDest, yDest, amount, duration, eventHandler){
 	this.x = xStart;
 	this.y = yStart;

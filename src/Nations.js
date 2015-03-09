@@ -109,7 +109,9 @@ Nations.prototype.createNations = function(layer, textLayer){
 }
 
 
-
+/**
+ * Creates a new nation based on the given parameters and its it as this child
+ */
 Nations.prototype.createNation = function(layer, textLayer, x, y, nationData){
 	//TODO: Add an option to define the text position compared to the nations eg. anchor for text. See also what is ready for it
 	//var nation = new Nation(this.phaserGame, nationData.x, nationData.y, nationData.name, nationData.sprite);
@@ -130,14 +132,18 @@ Nations.prototype.createNation = function(layer, textLayer, x, y, nationData){
 	
 }
 
-
+/**
+ * Handles a click on nation
+ */
 Nations.prototype.handleNationClick = function(nation){
 	if(this.onNationClick)
 		this.onNationClick.process(nation);
 	
 }
 
-
+/**
+ * Parses the nations size from stringful information
+ */
 Nations.prototype.parseNationSize = function(nation, width, height){
 	//TODO: ponder if necessary, most likely will not be with spritesheet and spritesheet is probably the better approach
 	var size = {
@@ -161,7 +167,9 @@ Nations.prototype.parseNationSize = function(nation, width, height){
 	return size;
 }
 
-
+/**
+ * Fixes the nations datas X coordinate depending on if its number or a string
+ */
 Nations.prototype.parseNationX = function(nationData){
 	if(isNaN(nationData.x)){
 		var scripts = nationData.x.split(",");
@@ -190,6 +198,9 @@ Nations.prototype.parseNationX = function(nationData){
 }
 
 
+/**
+ * Fixes the nations datas X coordinate depending on if its number or a string
+ */
 Nations.prototype.parseNationY = function(nationData){
 	if(isNaN(nationData.y)){
 		var scripts = nationData.y.split(",");
@@ -217,6 +228,9 @@ Nations.prototype.parseNationY = function(nationData){
 }
 
 
+/**
+ * Parses the scripts in nations data so the nation can be made from the data
+ */
 Nations.prototype.parseScripts = function(nationData, dataObject, scripts, relativeNation){
 	for(var i = 1; i < scripts.length;i++){
 		var scriptData = scripts[i].split(":");

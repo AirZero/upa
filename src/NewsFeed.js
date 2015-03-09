@@ -1,8 +1,13 @@
 
-
+/**
+ * Creates a news feed to the bottom of the screen. Can be fed feeds to show on screen.
+ */
 NewsFeed.prototype = Object.create(Phaser.Sprite.prototype);
 NewsFeed.prototype.constructor = NewsFeed;
 
+/**
+ * initializes the news feed and all its components
+ */
 function NewsFeed (phaserGame, sprite, height, layerToAddTo, z, x, y){
 	x = x || lvlWidth * 0.5;
 	y = y || lvlHeight - height * 0.5;
@@ -30,6 +35,9 @@ function NewsFeed (phaserGame, sprite, height, layerToAddTo, z, x, y){
 }
 
 
+/**
+ * Adds a new text to the queue to be shown
+ */
 NewsFeed.prototype.addText = function(title){
 	var text = new FeedText(this.game, this.textStartingPoint, 575 , title, this.style);
 	text.anchor.setTo(0, 0.5);
@@ -38,6 +46,9 @@ NewsFeed.prototype.addText = function(title){
 }
 
 
+/**
+ * Destroys news feed and all components associated with it
+ */
 NewsFeed.prototype.destroy = function(){
 	this.textGroup.destroy();
 	this.queue = [];
@@ -45,6 +56,10 @@ NewsFeed.prototype.destroy = function(){
 	Phaser.Sprite.prototype.destroy.call(this);
 }
 
+
+/**
+ * Innerly sents forward the next message in queue
+ */
 NewsFeed.prototype.setNextMessageToBeShown = function(){
 	var nextInRow = this.queue[0];
 	this.textGroup.add(nextInRow);
@@ -54,12 +69,17 @@ NewsFeed.prototype.setNextMessageToBeShown = function(){
 	this.queue.splice(0,1);
 }
 
+/**
+ * Resets message to be able to be shown again
+ */
 NewsFeed.prototype.resetForShow = function(shownMessage){
 	shownMessage.cameraOffset.x = this.textStartingPoint;
 }
 
 
-
+/**
+ * handles the movement and updating of the texts
+ */
 NewsFeed.prototype.update = function(){
 	//TODO: only works from right to left atm
 	if(this.shownTexts.length < 2 && this.queue.length > 0){
@@ -87,6 +107,9 @@ NewsFeed.prototype.update = function(){
 
 }
 
+/**
+ * Nothing
+ */
 NewsFeed.prototype.moveTexts = function(element, index, array){
 	//TODO: not exactly this.textTime
 		

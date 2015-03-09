@@ -8,6 +8,9 @@
 Nation.prototype = Object.create(Phaser.Sprite.prototype);
 Nation.prototype.constructor = Nation;
 
+/**
+ * Initializes the sprite for the nation and maxrefugee amounts for this nation
+ */
 function Nation(game, x,y, name, sprite, maxRefugees){
 	Phaser.Sprite.call(this, game, 0, 0, sprite);
 	this.createText(game, name, x, y);
@@ -30,18 +33,26 @@ function Nation(game, x,y, name, sprite, maxRefugees){
 }
 
 
+/**
+ * Increases max refugee amount for nation
+ */
 Nation.prototype.increaseMaxRefugeeAmount = function(amount){
 	this.maxRefugees += amount;
 	this.nationState.updateState(this.maxRefugees, this.refugees, this);
 }
 
 
+/**
+ * Tells if the nation is under process of housing refugees
+ */
 Nation.prototype.getInProcess = function(){
 	return this.inProcess;
 }
 
 
-
+/**
+ * Sets the nation to be under refugee taking process
+ */
 Nation.prototype.setInProcess = function(inProcess){
 	this.inProcess = inProcess;
 }

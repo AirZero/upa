@@ -1,5 +1,11 @@
 
+/**
+ * Handles the games events based on the data in eventData.js
+ */
 
+/**
+ * initializes a new GameEventHandler and its event listeneres
+ */
 function GameEventHandler(phaserGame){
 	this.events = [];
 	//Needed for randoms for example, its good practice to use same place for all randoms.
@@ -8,16 +14,28 @@ function GameEventHandler(phaserGame){
 	
 }
 
+
+/**
+ * Adds a new eventhandler based on the given handler method and callbackClass
+ */
 GameEventHandler.prototype.addOnEventProcessingHandler = function(handler, callBackClass){
 	this.onEventProcess.push(new EventHandler(handler, callBackClass));
 	
 }
 
+
+/**
+ * Clears this
+ */
 GameEventHandler.prototype.clear = function(){
 	this.onEventProcess = [];
 	
 }
 
+
+/**
+ * Handles the loading of data before game starts
+ */
 GameEventHandler.prototype.preload = function(){
 	var jsonEvents = getJsonFromEventsData();
 	var events = jsonEvents.events
@@ -28,6 +46,10 @@ GameEventHandler.prototype.preload = function(){
 }
 
 
+/**
+ * Checks whether some events are to be updated.
+ * Needs to be called on change of day
+ */
 GameEventHandler.prototype.checkForEventsOnTimeChange = function(day, month, year){
 	//TODO: this needs some kind of statemachine/language far beyond current skill and time
 	
@@ -36,7 +58,9 @@ GameEventHandler.prototype.checkForEventsOnTimeChange = function(day, month, yea
 	
 }
 
-
+/**
+ * Checks if any of the events match the current date given as an args array
+ */
 GameEventHandler.prototype.checkForEventTick = function(args){
 	//Will be this way as long as eventhandler cant send it better way
 	var day = args[0];
@@ -58,22 +82,21 @@ GameEventHandler.prototype.checkForEventTick = function(args){
 			}
 		}
 	}
-	
 }
 
 
-
-GameEventHandler.prototype.parseAndProcessEffect = function(effect){
-	alert(effect.effect);
-}
-
-
-
+/**
+ * Returns the given string as a number if it is parseable
+ */
 GameEventHandler.prototype.parseIfNumber = function(toParse){
 	return isNaN(toParse) ? toParse : parseFloat(toParse)
 	
 }
 
+
+/**
+ * Checks if the events date matches that of the current date 
+ */
 GameEventHandler.prototype.eventDateMatch = function(day, month, year, eDay, eMonth, eYear){
 	//TODO: is ugly.. why so ugly..? Maybe arrays or something to make beauty code?
 	if(eDay !== day && eDay !== 'x')

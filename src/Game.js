@@ -209,12 +209,17 @@ Game.prototype.completeEffect = function(effect){
 	}
 }
 
-
+/**
+ * Writes the given text into the newsfeed of the game
+ * @param text string to be written to the newsFeed
+ */
 Game.prototype.addFeedData = function(text){
 	this.newsFeed.addText(text);
 }
 
-
+/**
+ * Adds a dialog to the game with given text and yes/no functions and texts
+ */
 Game.prototype.addDialog = function(text, yesFunction, noFunction, yesText, noText){
 	//Initialize if not given
 	yesFunction = yesFunction || function(){};
@@ -228,7 +233,9 @@ Game.prototype.addDialog = function(text, yesFunction, noFunction, yesText, noTe
 	dialog.silence(this.gameProgress);
 }
 
-
+/**
+ * Is used to innerly refresh date text whenever date changes
+ */
 Game.prototype.refreshDateText = function(){
 	this.dateText.text = "Date:"+this.gameProgress.getDateString();
 }
@@ -255,14 +262,18 @@ function countIfInside(object, x, y){
 }
 
 
-
-
+/**
+ * Resets selected nation and starts the housing process with startHousing
+ */
 Game.prototype.nationSelectedForMoving = function(nation){
 	this.selectNation(null);
 	
 	this.startHousing(nation);
 }
 
+/**
+ * Start the housing process for given nation
+ */
 Game.prototype.startHousing = function(nation){
 	if(nation.getInProcess() || this.selectedNations >= this.maximumSelectedNations)
 		return;
@@ -281,7 +292,9 @@ Game.prototype.startHousing = function(nation){
 	
 }
 
-
+/**
+ * Calculates the refugee amount for the given nation based on the current month and year
+ */
 Game.prototype.getRefugeeAmount = function(nation){
 
 	var month = this.gameProgress.getMonth();
@@ -294,6 +307,9 @@ Game.prototype.getRefugeeAmount = function(nation){
 }
 
 
+/**
+ * Stops the housing process for the given nation, houses the given amount into the nation
+ */
 Game.prototype.finishHousing = function(nation, amount){
 	this.selectedNations--;
 	nation.setInProcess(false);
@@ -307,6 +323,9 @@ Game.prototype.finishHousing = function(nation, amount){
 }
 
 
+/**
+ * Handles the inner process of nation clicking 
+ */
 Game.prototype.onNationClick = function(args){
 	var nation = args[0];
 	var pointer = this.phaserGame.input.activePointer;
@@ -318,6 +337,9 @@ Game.prototype.onNationClick = function(args){
 }
 
 
+/**
+ * Sets the given nation selected and resets any nations that were selected prior to it
+ */
 Game.prototype.selectNation = function(nation){
 	if(this.selectedNation){
 		this.selectedNation.tintNormal();

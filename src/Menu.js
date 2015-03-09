@@ -1,6 +1,11 @@
 
+/**
+ * Menu class that is used for showing stuff on menu
+ */
 
-
+ /**
+ * Initializes a new menu based on the given attributes. Create will create something showeable to the screen
+ */ 
 function Menu(gameToAddTo, xMargin, yMargin, yMarginBetweenButtons){
 
 this.titles = [];
@@ -15,17 +20,26 @@ this.style = BASE_STYLE;
 
 }
 
+/**
+ * Sets the given style to be used on next create
+ */
 Menu.prototype.setStyle = function(style){
 	this.style = style;
 }
 
+/**
+ * Set whether menu and its components are active
+ */
 Menu.prototype.setActive = function(activity){
 	for(var i = 0; i < this.textButtons.length; i++){
 		this.textButtons[i].setActive(activity);
 	}
 }
 
-
+/**
+ * Creates new menu components based on the given titles and methods associated with them.
+ * If only 1 picture is in the pictuers array, that will be used for all buttons
+ */
 Menu.prototype.create = function(titles, methods, pictures, gameToAddTo, xMargin, yMargin, yMarginBetweenButtons){
 	this.pictures = pictures || this.pictures;
 	this.game = gameToAddTo || this.game;
@@ -41,6 +55,9 @@ Menu.prototype.create = function(titles, methods, pictures, gameToAddTo, xMargin
 }
 
 
+/**
+ * Clears the menu component and all its children
+ */
 Menu.prototype.clear = function(){
 	if(this.textButtons.length != 0){
 		for(var i = 0; i < this.textButtons.length; i++){
@@ -51,6 +68,9 @@ Menu.prototype.clear = function(){
 }
 
 
+/**
+ * Innerly creates the buttons based on the stored information
+ */
 Menu.prototype.createButtons = function(){
 	this.clear();
 	var BUTTON_HEIGHT = 100;
@@ -73,6 +93,10 @@ Menu.prototype.createButtons = function(){
 }
 
 
+/**
+ * If start is wanted to invoke here, it will start the menu with a manu
+ * @DEPRECATED at least i think so
+ */
 Menu.prototype.start = function(){
 	this.createButtons();
 }
