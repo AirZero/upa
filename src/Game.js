@@ -60,6 +60,7 @@ Game.prototype.createGroups =function(){
 	this.BackgroundLayer.z = this.getNextAvailableZ();
 	this.GameLayer = this.phaserGame.add.group();
 	this.GameLayer.z = this.getNextAvailableZ();
+	this.particleLayerZ = this.getNextAvailableZ(); 
 	this.BarLayer = this.phaserGame.add.group();
 	this.BarLayer.z = this.getNextAvailableZ();
 	this.TextLayer = this.phaserGame.add.group();
@@ -160,8 +161,8 @@ Game.prototype.createGUI = function(){
 
 
 Game.prototype.initializeParticleSystem = function(){
-	this.humanParticleSystem = new HumanParticleSystem(this.phaserGame, 'hunam', 2000, 250, 50);
-	this.humanParticleSystem.setOrigin(2000,2000); //TODO: Syrians location here
+	this.humanParticleSystem = new HumanParticleSystemController(this.phaserGame, this.maximumSelectedNations, 'hunam', 500, 50, this.particleLayerZ);
+	this.humanParticleSystem.setOrigin(1000,1000); //TODO: Syrians location here
 	
 }
 
@@ -272,9 +273,11 @@ Game.prototype.startHousing = function(nation){
 	var processLength = 4;
 	
 	//So that the function can be handled properly, if theres no function(), then the tryHousing is called directly
-	var nationsReference = this;
-	var bar = new ProgressBar(nation.x, nation.y-lvlHeight*0.05, 'bar', this.phaserGame, processLength, 20, function(){nationsReference.finishHousing(nation, amount);}, this.BarLayer);
-	this.humanParticleSystem.send(2000, 2000, nation.x, nation.y, 1); //Because no divisions when avoidable!
+	//var nationsReference = this;
+	//var bar = new ProgressBar(nation.x, nation.y-lvlHeight*0.05, 'bar', this.phaserGame, processLength, 20, function(){nationsReference.finishHousing(nation, amount);}, this.BarLayer);
+	this.humanParticleSystem.send(1000, 1000, nation.x, nation.y, amount * 0.002, processLength, new EventHandler(function(){
+		this.finishHousing(nation, amount);
+	}, this)); //Because no divisions when avoidable!
 	
 }
 

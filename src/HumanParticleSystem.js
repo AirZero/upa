@@ -5,31 +5,83 @@ HumanParticleSystem.prototype.constructor = HumanParticleSystem;
 
 function HumanParticleSystem(game, sprite, lifeSpan, frequency, quantity){
 	Phaser.Particles.Arcade.Emitter.call(this, game, 0, 0, quantity);
-	this.makeParticles(sprite);
+	this.particleClass = HumanParticle;
+	this.makeParticles();
+	this.setRotation(0,0);
 	this.emittedSprite = sprite;
 	this.particleLifeSpan = lifeSpan;
-	this.emitFrequency = frequency;
-	this.emittedQuantity = quantity;
+	this.gravity = 0;
+	this.busy = false;
 	
+	this.minParticleScale = 0.8;
+	this.maxParticleSpeed = 1;
+	
+	this.minParticleSpeed.x = 0;
+	this.minParticleSpeed.y = 0;
+	this.maxParticleSpeed.x = 0;
+	this.maxParticleSpeed.y = 0;
+	
+	this.emitFrequency = frequency;
+	this.xDestination = 0;
+	this.yDestination = 0;
+	this.forEach(this.initializeParticle, this, false);
 }
 
+
+HumanParticleSystem.prototype.initializeParticle = function(particle){
+	var particleSystemRef = this;
+	 particle.onEmit = function(){
+		particle.gravity = 0;
+		if(particle.destination === null){
+			particle.setDestination(particleSystemRef.getXDestination(), particleSystemRef.getYDestination());
+			particle.send(particleSystemRef.getTweenDuration());				
+		}
+	};
+}
+	
+HumanParticleSystem.prototype.getTweenDuration = function(){
+	 return this.tweenDuration;
+}
+	
+HumanParticleSystem.prototype.getXDestination = function(){
+	 return this.xDestination;
+}
+	
+HumanParticleSystem.prototype.getYDestination = function(){
+	return this.yDestination;
+}
+	
 HumanParticleSystem.prototype.setOrigin = function(x,y){
 	this.x = x;
 	this.y = y;
 }
 
+HumanParticleSystem.prototype.stop = function(){
+	this.busy = false;
+}
 
-HumanParticleSystem.prototype.send = function(xStart,yStart, xDest, yDest, amount){
-	//TODO based heavily on example at http://www.html5gamedevs.com/topic/5448-emitte-particles-from-one-point-to-another/ Redo it to be more functional here
-	var particleSystemReference = this;
-	//this.x = xStart;
-	//this.y = yStart;
-	this.start(false, this.particleLifeSpan, this.emitFrequency, amount);
-	setTimeout(function(){
-		particleSystemReference.forEach(function(particle){
-			particle.gravity = 0;
-			var tween = particleSystemReference.game.add.tween(particle).to({ x: xDest, y: yDest}, particleSystemReference.particleLifeSpan, Phaser.Easing.Linear.None, true, 0, false);
-			tween.onComplete.addOnce(function(){ particle.kill();}, particleSystemReference);
-		}, this, false);
-	}, 100);
+
+
+HumanParticleSystem.prototype.send = function(xStart,yStart, xDest, yDest, amount, duration, eventHandler){
+	this.x = xStart;
+	this.y = yStart;
+	this.xDestination = xDest;
+	this.yDestination = yDest;
+	//Lets do this before breaking duration
+	this.game.time.events.add(Phaser.Timer.SECOND * duration, function(){
+		this.stop();
+		eventHandler.process();
+	}, this);
+	
+	//Because from here on its in ms
+	duration = duration*1000;
+	//This is done to allow the last invidual to finish in duration
+	duration -= this.emitFrequency * amount;
+	this.tweenDuration = duration;
+	//Phaser actually has _quantity += quantity, making the amount constantly increase which is definitely not what we want, hence resetting the inner property
+	this._quantity = 0;
+	this.busy = true;
+	this.start(false, 0, this.emitFrequency, amount);
+	
+
 }

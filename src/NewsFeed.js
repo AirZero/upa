@@ -39,8 +39,10 @@ NewsFeed.prototype.addText = function(title){
 
 
 NewsFeed.prototype.destroy = function(){
+	this.textGroup.destroy();
+	this.queue = [];
+	this.shownTexts = [];
 	Phaser.Sprite.prototype.destroy.call(this);
-	this.texts.destroy();
 }
 
 NewsFeed.prototype.setNextMessageToBeShown = function(){
