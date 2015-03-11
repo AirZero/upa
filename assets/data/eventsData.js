@@ -39,13 +39,13 @@ function getJsonFromEventsData(){
             "effects": [
                 {
                     "effectName": "addMaxRefugees",
-                    "data": 100
+                    "data": "relative"
                 }
             ],
             "description": "Increases the maxrefugee amount by 100. This really needs something more beautiful to handle this stuff."
         },
         {
-            "date": "x.3.2015",
+            "date": "1.3.2015",
             "chance": 100,
             "effects": [
                 {

@@ -39,6 +39,21 @@ Nations.prototype.addOnNationClickHandler = function(method){
 /**
  * 
  */
+Nations.prototype.increaseMaxRefugeeAmountsByData = function(data){
+	//TODO: see if this can be optimised somehow
+	for(dataQuery in data.data){
+		var nation = this.nations[data.data[dataQuery].name];
+		//Probably not needed if-statement
+		if(nation)
+			nation.increaseMaxRefugeeAmount(data.data[dataQuery].amount);
+	}
+}
+
+
+
+/**
+ * 
+ */
 Nations.prototype.increaseMaxRefugeeAmounts = function(amount){
 
 	for(nationName in this.nations){

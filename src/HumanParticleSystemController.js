@@ -28,6 +28,15 @@ HumanParticleSystemController.prototype.setOrigin = function(x, y){
 }
 
 
+HumanParticleSystemController.prototype.clear = function(){
+	for(var i = 0; i < this.particleSystems.length; i++){
+		this.particleSystems[i].destroy();
+	}
+	this.particleSystems = [];
+}
+
+
+
 /**
  * Allocates one of the available particle systems to send particles with the given parameters. Returns true if particle system was allocated and false if one was not available
  */

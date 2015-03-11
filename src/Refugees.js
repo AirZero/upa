@@ -28,6 +28,7 @@ Refugees.prototype.addOnRefugeeAmountChange = function(method, callBackclass){
  */
 Refugees.prototype.clear = function(){
 	this.onRefugeeAmountChange = [];
+	this.totalRefugees = 100000;
 }
 
 
@@ -74,6 +75,21 @@ Refugees.prototype.getTotalRefugees = function(){
  */
 Refugees.prototype.preload = function(){
 	//TODO: json reading
+	
+}
+
+
+Refugees.prototype.getAllRefugeesOfMonth = function(month, year){
+	return {
+		"data":[
+		{
+			"name":"Suomi",
+			"month": 5,
+			"year":1999,
+			"amount":5000
+		}
+		]
+	};
 	
 }
 

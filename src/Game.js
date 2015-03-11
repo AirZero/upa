@@ -75,6 +75,12 @@ Game.prototype.getNextAvailableZ = function(){
 }
 
 
+Game.prototype.reMenu = function(){
+	this.clear();
+	reMenu();
+}
+
+
 /**
  * Will clear the Phaser game objects in the game.
  * Does not destroy games' loaded data, only screen components.
@@ -85,7 +91,9 @@ Game.prototype.clear = function(){
 	this.TextLayer.destroy(true);
 	this.GameLayer.destroy(true);
 	this.gameProgress.clear();
+	this.refugees.clear();
 	this.gameEventHandler.clear();
+	this.humanParticleSystem.clear();
 	
 	for(var i = 0; i < this.events.length; i++){
 		this.phaserGame.time.events.remove(this.events[i]);
@@ -133,10 +141,7 @@ Game.prototype.resetDate = function(){
  */
 Game.prototype.createGUI = function(){
 	var thisGame = this;
-	var textButton = new TextButton(this.phaserGame, 'Menu', 'button', function(){
-		thisGame.clear();
-		reMenu();
-	}, BASE_STYLE, lvlWidth * 0.1, lvlHeight * 0.1);
+	var textButton = new TextButton(this.phaserGame, 'Menu', 'button', this.reMenu, BASE_STYLE, lvlWidth * 0.1, lvlHeight * 0.1, this);
 	textButton.setFixedToCamera(true);
 	
 	//this.addToObjects(textButton);
@@ -193,10 +198,10 @@ Game.prototype.completeEffect = function(effect){
 			this.refugees.changeTotalRefugees(effect.data);
 			break;
 		case "addMaxRefugees":
-			this.nations.increaseMaxRefugeeAmounts(effect.data);
+			this.increaseMaxRefugeeAmounts(effect.data);
 			break;
 		case "endGame":
-			this.nations.increaseMaxRefugeeAmounts(effect.data);
+			this.endGame();
 			break;
 		case "story":
 			this.addDialog(effect.data);
@@ -209,6 +214,23 @@ Game.prototype.completeEffect = function(effect){
 	}
 }
 
+
+Game.prototype.endGame = function(){
+	this.createTimedEvent(2, this.reMenu);
+}
+
+
+Game.prototype.increaseMaxRefugeeAmounts = function(data){
+	if(isNaN(data)){
+		if(data === "relative"){
+			var refugeeData = this.refugees.getAllRefugeesOfMonth(this.gameProgress.getMonth(), this.gameProgress.getYear());
+			this.nations.increaseMaxRefugeeAmountsByData(refugeeData);
+		}
+	}
+	else this.nations.increaseMaxRefugeeAmounts(data);
+}
+
+
 /**
  * Writes the given text into the newsfeed of the game
  * @param text string to be written to the newsFeed
@@ -220,15 +242,13 @@ Game.prototype.addFeedData = function(text){
 /**
  * Adds a dialog to the game with given text and yes/no functions and texts
  */
-Game.prototype.addDialog = function(text, yesFunction, noFunction, yesText, noText){
+Game.prototype.addDialog = function(text, method, text){
 	//Initialize if not given
-	yesFunction = yesFunction || function(){};
-	noFunction = noFunction || function(){};
-	yesText = yesText || "Ok";
-	noText = noText || "Ok";
+	method = method || function(){};
+	text = text || "Ok";
 	
-	var dialog = new Dialog(this.phaserGame, text, yesFunction, noFunction);
-	dialog.setTexts(null, yesText, noText);
+	var dialog = new Dialog(this.phaserGame, text, [method], [text]);
+//	dialog.setTexts(null, yesText, noText);
 	dialog.addToLayer(this.GUILayer);
 	dialog.silence(this.gameProgress);
 }
@@ -286,7 +306,7 @@ Game.prototype.startHousing = function(nation){
 	//So that the function can be handled properly, if theres no function(), then the tryHousing is called directly
 	//var nationsReference = this;
 	//var bar = new ProgressBar(nation.x, nation.y-lvlHeight*0.05, 'bar', this.phaserGame, processLength, 20, function(){nationsReference.finishHousing(nation, amount);}, this.BarLayer);
-	this.humanParticleSystem.send(1000, 1000, nation.x, nation.y, amount * 0.02, processLength, new EventHandler(function(){
+	this.humanParticleSystem.send(1500, 1000, nation.x, nation.y, amount * 0.02, processLength, new EventHandler(function(){
 		this.finishHousing(nation, amount);
 	}, this)); //Because no divisions when avoidable!
 	

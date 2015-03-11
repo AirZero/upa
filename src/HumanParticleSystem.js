@@ -22,8 +22,8 @@ function HumanParticleSystem(game, sprite, lifeSpan, frequency, quantity){
 	this.gravity = 0;
 	this.busy = false;
 	
-	this.minParticleScale = 0.8;
-	this.maxParticleSpeed = 1;
+	this.minParticleScale = 0.9;
+	this.maxParticleScale = 1;
 	
 	this.minParticleSpeed.x = 0;
 	this.minParticleSpeed.y = 0;
@@ -84,6 +84,15 @@ HumanParticleSystem.prototype.setOrigin = function(x,y){
  */
 HumanParticleSystem.prototype.stop = function(){
 	this.busy = false;
+}
+
+
+/**
+ * Handles the stopping of the particle sending
+ */
+HumanParticleSystem.prototype.destroy = function(){
+	//Phaser.Particles.Arcade.Emitter.prototype.removeAll.call(this, true, true);
+	Phaser.Particles.Arcade.Emitter.prototype.destroy.call(this);
 }
 
 
