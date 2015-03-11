@@ -242,12 +242,12 @@ Game.prototype.addFeedData = function(text){
 /**
  * Adds a dialog to the game with given text and yes/no functions and texts
  */
-Game.prototype.addDialog = function(text, method, text){
+Game.prototype.addDialog = function(text, method, buttonText){
 	//Initialize if not given
 	method = method || function(){};
-	text = text || "Ok";
+	buttonText = buttonText || "Ok";
 	
-	var dialog = new Dialog(this.phaserGame, text, [method], [text]);
+	var dialog = new Dialog(this.phaserGame, text, [method], [buttonText]);
 //	dialog.setTexts(null, yesText, noText);
 	dialog.addToLayer(this.GUILayer);
 	dialog.silence(this.gameProgress);

@@ -38,9 +38,11 @@ function Dialog(game, text, methods, texts, x, y, width, height){
 	this.background.input.priorityID = DIALOG_INPUTPRIORITY;
 	this.buttons = [];
 	for(var i = 0; i < methods.length; i++){
-		var xPos = this.background.x + ((methods.length -1) - (i * methods.length * 0.5)) * (width) * 0.5 * 0.8;
+		var startingPoint = this.background.x - xSize*0.5 * ( methods.length - 1)
+		var xPos = startingPoint + ((methods.length -1) - (i * methods.length * 0.5)) * (width) * 0.5 * 0.8;
+		var method = methods[i];
 		this.buttons.push( this.createButton(game, texts[i], 'button', function(){
-			methods[i]();
+			method();
 			dialog.destroy();
 		}, BASE_STYLE, xPos, yPos, xSize, ySize));
 	}
