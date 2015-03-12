@@ -22,6 +22,14 @@ function Nations(phaserGame){
 }
 
 
+
+Nations.prototype.setActive = function(activity){
+	for(nationName in this.nations){
+		this.nations[nationName].setActive(activity);
+	}
+}
+
+
 /**
  * Preloads data needed by Nations
  */
@@ -151,8 +159,9 @@ Nations.prototype.createNation = function(layer, textLayer, x, y, nationData){
  * Handles a click on nation
  */
 Nations.prototype.handleNationClick = function(nation){
-	if(this.onNationClick)
-		this.onNationClick.process(nation);
+	if(nation.active)
+		if(this.onNationClick)
+			this.onNationClick.process(nation);
 	
 }
 

@@ -18,6 +18,7 @@ function Nation(game, x,y, name, sprite, maxRefugees){
 	
 	this.inProcess = false;
 	this.name = name;
+	this.active = true;
 	
 	this.anchor.setTo(0.5, 0.5);
 	this.x = x;
@@ -30,6 +31,11 @@ function Nation(game, x,y, name, sprite, maxRefugees){
 	this.maxRefugees = maxRefugees;
 	
 	this.nationState = new NationState(this.maxRefugees );
+}
+
+
+Nation.prototype.setActive = function(activity){
+	this.active = activity;
 }
 
 
@@ -55,6 +61,7 @@ Nation.prototype.getInProcess = function(){
  */
 Nation.prototype.setInProcess = function(inProcess){
 	this.inProcess = inProcess;
+	this.tintNormal();
 }
 
 /**

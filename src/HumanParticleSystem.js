@@ -21,6 +21,7 @@ function HumanParticleSystem(game, sprite, lifeSpan, frequency, quantity){
 	this.particleLifeSpan = lifeSpan;
 	this.gravity = 0;
 	this.busy = false;
+	this.active = true;
 	
 	this.minParticleScale = 0.9;
 	this.maxParticleScale = 1;
@@ -35,6 +36,17 @@ function HumanParticleSystem(game, sprite, lifeSpan, frequency, quantity){
 	this.yDestination = 0;
 	this.forEach(this.initializeParticle, this, false);
 }
+
+
+HumanParticleSystem.prototype.setActive = function(activity){
+	this.active = activity;
+	this.forEach(function(particle){
+		particle.setActive(activity);
+	});
+	
+}
+
+
 
 /**
  * Initializes the given particle with an onEmit event that allows for the sending of the particle.

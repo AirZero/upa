@@ -72,6 +72,7 @@ function preload()
 	phaserGame.load.image('bar', 'assets/pictures/Bar.png');
 	phaserGame.load.image('textFeed', 'assets/pictures/TextFeed.png');
 	phaserGame.load.image('hunam', 'assets/pictures/HunamSmall.png');
+	phaserGame.load.image('infoLabel', 'assets/pictures/InfoLabel.png');
 	preloadGame();
 	preloadMenu();
 }
@@ -183,6 +184,7 @@ function screenSettings(){
 	//Notice the parenthese around the ternary, this is required or else the start of the string will be absorped to the condition
 	"Näytä maiden nimet " + (playerPrefs.getNumber("showNames") ? "X" : "_"),
 	"Liikkuva kartta " + (playerPrefs.getNumber("moveMap") ? "X" : "_"),
+	"Tuplaklikkaus päällä " + (playerPrefs.getNumber("doubleClickOn") ? "X" : "_"),
 	'Takaisin'];
 	xName = null;
 	var methods = new Array();
@@ -199,7 +201,12 @@ function screenSettings(){
 		screenSettings();
 		}
 	};
-	methods[3] = { 'method': function(){ settings();}};
+	methods[3] = { 'method': function(){
+		playerPrefs.set("doubleClickOn", playerPrefs.getNumber("doubleClickOn") ? 0 : 1);
+		screenSettings();
+		}
+	};
+	methods[4] = { 'method': function(){ settings();}};
 	menu.create(titles, methods);
 
 }

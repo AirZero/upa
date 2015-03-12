@@ -15,8 +15,22 @@ function NationState(maxRefugees){
  * Tints the object based current state of the nation
  */
 NationState.prototype.tintNormal = function(nation){
+	if(nation.getInProcess())
+		this.tintSelected(nation);
+	else
+		this.tintOnState(nation);
+}
+
+
+NationState.prototype.tintOnState = function(nation){
 	nation.tint = this.nationState.tint;
 }
+
+NationState.prototype.tintSelected = function(nation){
+	nation.tint = 0x029999;
+}
+
+
 
 /**
  * Updates the state of the nation based on given amounts of refugees and max refugees
@@ -37,5 +51,6 @@ NationState.prototype.updateState = function(maxRefugees, refugees, nation){
 		}
 		
 	}
-	nation.tint = this.nationState.tint;
+	this.tintNormal(nation);
+	
 }

@@ -13,7 +13,18 @@ HumanParticle.prototype.constructor = HumanParticle;
 function HumanParticle (game, x, y){
 	 Phaser.Particle.call(this, game, x, y, 'hunam');
 	 this.destination = null;
+	 this.tween = null;
+	 this.active = true;
 }
+
+
+HumanParticle.prototype.setActive = function(activity){
+	this.active = activity;
+	if(this.tween){
+		this.tween.isPaused = !activity;
+	}
+}
+
 
 
 /**
@@ -22,8 +33,9 @@ function HumanParticle (game, x, y){
  */
 HumanParticle.prototype.send = function(tweenDuration){
 	if(this.destination){
-		var tween = this.game.add.tween(this).to({ x: this.destination.x, y: this.destination.y}, tweenDuration, Phaser.Easing.Linear.None, true, 0, 0);
-		tween.onComplete.addOnce(this.kill, this);
+		this.tween = this.game.add.tween(this).to({ x: this.destination.x, y: this.destination.y}, tweenDuration, Phaser.Easing.Linear.None, true, 0, 0);
+		this.tween.onComplete.addOnce(this.kill, this);
+		this.tween.isPaused = !this.active;
 	}
 }
 
@@ -39,6 +51,7 @@ HumanParticle.prototype.setDestination = function(x, y){
  * Resets destination and calls inherited kill method
  */
 HumanParticle.prototype.kill = function(){
+	this.tween = null;
 	this.destination = null;
 	Phaser.Particle.prototype.kill.call(this);
 }

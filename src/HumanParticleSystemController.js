@@ -18,6 +18,14 @@ function HumanParticleSystemController(game, particleSystems, sprite, frequency,
 	
 }
 
+HumanParticleSystemController.prototype.setActive = function(activity){
+		for(var i = 0; i < this.particleSystems.length; i++){
+			this.particleSystems[i].setActive(activity);
+		}
+}
+
+
+
 /**
  * Sets the origin point of all particle systems to the given point
  */

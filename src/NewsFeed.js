@@ -19,6 +19,7 @@ function NewsFeed (phaserGame, sprite, height, layerToAddTo, z, x, y){
 	this.width = lvlWidth;
 	this.height = height;
 	this.textTime = 8;
+	this.active = true;
 	this.fixedToCamera = true;
 	this.style = BASE_STYLE;
 	if(layerToAddTo)
@@ -32,6 +33,11 @@ function NewsFeed (phaserGame, sprite, height, layerToAddTo, z, x, y){
 	this.textGroup = this.game.add.group();
 	this.textGroup.z = z;
 	
+}
+
+
+NewsFeed.prototype.setActive = function(activity){
+	this.active = activity;
 }
 
 
@@ -81,6 +87,7 @@ NewsFeed.prototype.resetForShow = function(shownMessage){
  * handles the movement and updating of the texts
  */
 NewsFeed.prototype.update = function(){
+	if(!this.active) return;
 	//TODO: only works from right to left atm
 	if(this.shownTexts.length < 2 && this.queue.length > 0){
 		if(this.shownTexts.length == 1)

@@ -18,7 +18,7 @@ function Game (phaserGame){
 //this.GUIGroup.bringToTop();
 	this.selectedNation = null;
 	this.selectedTint = 0x029999;
-	this.unselectedTint = 0xFFFFFF;
+	//this.unselectedTint = 0xFFFFFF;
 	this.maximumSelectedNations = 5;
 	this.selectedNations = 0;
 	//this.createGroups();
@@ -67,6 +67,8 @@ Game.prototype.createGroups =function(){
 	this.TextLayer.z = this.getNextAvailableZ();
 	this.GUILayer = this.phaserGame.add.group();
 	this.GUILayer.z = this.getNextAvailableZ();	
+	this.UpperGUILayer = this.phaserGame.add.group();
+	this.UpperGUILayer.z = this.getNextAvailableZ();
 }
 
 
@@ -87,6 +89,7 @@ Game.prototype.reMenu = function(){
  */
 Game.prototype.clear = function(){
 	this.GUILayer.destroy(true);
+	this.UpperGUILayer.destroy(true);
 	this.BackgroundLayer.destroy(true);
 	this.TextLayer.destroy(true);
 	this.GameLayer.destroy(true);
@@ -140,13 +143,26 @@ Game.prototype.resetDate = function(){
  * Creates all the gui elements needed for the functionality of the game
  */
 Game.prototype.createGUI = function(){
+	//Here could have been a simple interface kind of solution for these
 	var thisGame = this;
 	var textButton = new TextButton(this.phaserGame, 'Menu', 'button', this.reMenu, BASE_STYLE, lvlWidth * 0.1, lvlHeight * 0.1, this);
 	textButton.setFixedToCamera(true);
 	
 	//this.addToObjects(textButton);
 	
-	this.newsFeed = new NewsFeed(this.phaserGame, 'textFeed', lvlHeight * 0.1, this.GUILayer, this.getNextAvailableZ());
+	var feedHeight = lvlHeight * 0.1
+	
+	var infoLabel = this.phaserGame.add.sprite(0, lvlHeight - feedHeight, 'infoLabel');
+	infoLabel.anchor.setTo(0,1);
+	infoLabel.fixedToCamera = true;
+	this.GUILayer.add(infoLabel);
+	
+	this.refugeeText = this.phaserGame.add.text(infoLabel.x +20, infoLabel.y - infoLabel.height *0.3, "", NATION_TEXT_STYLE);
+	this.updateRefugeeAmount();
+	this.refugeeText.fixedToCamera = true;
+	this.GUILayer.add(this.refugeeText);
+	
+	this.newsFeed = new NewsFeed(this.phaserGame, 'textFeed', feedHeight, this.GUILayer, this.getNextAvailableZ());
 	
 	this.debugText = this.phaserGame.add.text(600, 50, debugOn ? "Debug" : "Build", BASE_STYLE);
 	this.debugText.fixedToCamera = true;
@@ -180,7 +196,7 @@ Game.prototype.addEvents = function(){
 
 
 Game.prototype.updateRefugeeAmount = function(){
-	this.debugText.text = ""+this.refugees.getTotalRefugees();
+	this.refugeeText.text = "Refugees left: "+this.refugees.getTotalRefugees();
 }
 
 
@@ -239,6 +255,15 @@ Game.prototype.addFeedData = function(text){
 	this.newsFeed.addText(text);
 }
 
+
+Game.prototype.silenceGame = function(silencer){
+	silencer.silence(this.gameProgress);
+	silencer.silence(this.newsFeed);
+	silencer.silence(this.nations);
+	silencer.silence(this.humanParticleSystem);
+}
+
+
 /**
  * Adds a dialog to the game with given text and yes/no functions and texts
  */
@@ -249,8 +274,11 @@ Game.prototype.addDialog = function(text, method, buttonText){
 	
 	var dialog = new Dialog(this.phaserGame, text, [method], [buttonText]);
 //	dialog.setTexts(null, yesText, noText);
-	dialog.addToLayer(this.GUILayer);
-	dialog.silence(this.gameProgress);
+	dialog.addToLayer(this.UpperGUILayer);
+	this.silenceGame(dialog);
+	//dialog.silence(this.gameProgress);
+	//dialog.silence(this.newsFeed);
+	//dialog.silence(this.nations);
 }
 
 /**
@@ -350,10 +378,17 @@ Game.prototype.onNationClick = function(args){
 	var nation = args[0];
 	var pointer = this.phaserGame.input.activePointer;
 	
-	if (pointer.msSinceLastClick < TIME_FOR_DOUBLECLICK * 1000 && this.selectedNation === nation){
-		this.nationSelectedForMoving(this.selectedNation);	
+	//Doubleclick made optional
+	//TODO: if this is all needed to set double click on/off without drag
+	if(playerPrefs.getNumber("doubleClickOn") >0){
+		if (pointer.msSinceLastClick < TIME_FOR_DOUBLECLICK * 1000 && this.selectedNation === nation){
+			this.nationSelectedForMoving(this.selectedNation);	
+		}
+		else this.selectNation(nation);
 	}
-	else this.selectNation(nation);
+	else{
+		this.nationSelectedForMoving(nation);
+	}
 }
 
 
@@ -365,7 +400,7 @@ Game.prototype.selectNation = function(nation){
 		this.selectedNation.tintNormal();
 	}
 	if(nation !== null)
-		nation.tint = this.selectedTint;
+		nation.tintNormal();
  
 	this.selectedNation = nation;	
 }
