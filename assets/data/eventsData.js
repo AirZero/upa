@@ -80,28 +80,6 @@ function getJsonFromEventsData(){
                 }
             ],
             "description": "testing the news feed"
-        },
-        {
-            "date": "5.12.x",
-            "chance": 100,
-            "effects": [
-                {
-                    "effectName": "feed",
-                    "data": "I have a blue house with a blue window"
-                }
-            ],
-            "description": ""
-        },
-        {
-            "date": "6.12.x",
-            "chance": 100,
-            "effects": [
-                {
-                    "effectName": "feed",
-                    "data": "Blue is the color, i often wear!"
-                }
-            ],
-            "description": "testing the news feed"
         }
 		
     ]

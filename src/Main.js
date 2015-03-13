@@ -43,7 +43,7 @@ function init(){
  * reset returns the state of the game to the starting point of the game.
  */
 function reset(){
-	phaserGame.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+	phaserGame.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
 	phaserGame.world.setBounds(0,0, lvlWidth, lvlHeight);
 	phaserGame.camera.scale.x = 1;
 	phaserGame.camera.scale.y = 1;
@@ -73,6 +73,7 @@ function preload()
 	phaserGame.load.image('textFeed', 'assets/pictures/TextFeed.png');
 	phaserGame.load.image('hunam', 'assets/pictures/HunamSmall.png');
 	phaserGame.load.image('infoLabel', 'assets/pictures/InfoLabel.png');
+	phaserGame.load.image('progress', 'assets/pictures/progress.png');
 	preloadGame();
 	preloadMenu();
 }

@@ -20,7 +20,10 @@ function Game (phaserGame){
 	this.selectedTint = 0x029999;
 	//this.unselectedTint = 0xFFFFFF;
 	this.maximumSelectedNations = 5;
-	this.selectedNations = 0;
+	this._selectedNations = 0;
+	this.selectedNationListener = null;
+	
+	//this.selectedNations = 0;
 	//this.createGroups();
 	//TODO: component type of adding of children would be efficient in the long run with loads of components and scripts.. something like components.add(new MouseMovement) and then the all basic functions are evoked if they exist. Easier for code, more stressful for the engine
 	this.mouseMover = new MouseMovement(phaserGame, CAMERA_MOVEMENT_SPEED);
@@ -29,13 +32,26 @@ function Game (phaserGame){
 	this.nations.addOnNationClickHandler(new EventHandler(this.onNationClick, this));
 	this.gameProgress = new GameProgress(this.phaserGame);
 	this.gameEventHandler = new GameEventHandler(this.phaserGame);
-	
+	this.refugeeProblemHandler = new RefugeeProblemHandler(this.phaserGame);
 	this.refugees = new Refugees();
 	this.nextZ = 0;
 	
 	this.moveOnMap = true;
 	
 }
+
+
+
+Object.defineProperty(Game.prototype, 'selectedNations',{
+	get: function(){
+		return this._selectedNations;
+	},	
+	set: function(value){
+		this._selectedNations = value;
+		if(this.selectedNationListener)
+			this.selectedNationListener.process();
+	}
+});
 
 
 
@@ -60,7 +76,10 @@ Game.prototype.createGroups =function(){
 	this.BackgroundLayer.z = this.getNextAvailableZ();
 	this.GameLayer = this.phaserGame.add.group();
 	this.GameLayer.z = this.getNextAvailableZ();
-	this.particleLayerZ = this.getNextAvailableZ(); 
+	this.particleLayerZs = []; 
+	for(var i = 0; i < this.maximumSelectedNations; i++){
+		this.particleLayerZs[this.particleLayerZs.length] = this.getNextAvailableZ();
+	}
 	this.BarLayer = this.phaserGame.add.group();
 	this.BarLayer.z = this.getNextAvailableZ();
 	this.TextLayer = this.phaserGame.add.group();
@@ -94,9 +113,12 @@ Game.prototype.clear = function(){
 	this.TextLayer.destroy(true);
 	this.GameLayer.destroy(true);
 	this.gameProgress.clear();
+	this.refugeeProblemHandler.clear();
 	this.refugees.clear();
 	this.gameEventHandler.clear();
 	this.humanParticleSystem.clear();
+	this.progressList.clear();
+	this.selectedNationListener = null;
 	
 	for(var i = 0; i < this.events.length; i++){
 		this.phaserGame.time.events.remove(this.events[i]);
@@ -130,7 +152,7 @@ Game.prototype.start = function(){
 	this.initializeParticleSystem();
 	this.addEvents();
 	this.updateRefugeeAmount();
-	this.mouseMover.moveCamera(worldWidth * 0.5, worldHeight *0.23);
+	this.mouseMover.moveCamera(worldWidth * 0.4, worldHeight *0.27);
 }
 
 
@@ -164,6 +186,10 @@ Game.prototype.createGUI = function(){
 	
 	this.newsFeed = new NewsFeed(this.phaserGame, 'textFeed', feedHeight, this.GUILayer, this.getNextAvailableZ());
 	
+	this.progressList = new SpriteList(this.phaserGame, infoLabel.x+20, infoLabel.x + infoLabel.width *0.5, infoLabel.y - infoLabel.height * 0.6, infoLabel.y - infoLabel.height * 0.6, 5, 'progress', this.GUILayer, true);
+	this.selectedNationListener = new EventHandler(this.updateProgressList, this);
+	
+	
 	this.debugText = this.phaserGame.add.text(600, 50, debugOn ? "Debug" : "Build", BASE_STYLE);
 	this.debugText.fixedToCamera = true;
 	
@@ -181,19 +207,40 @@ Game.prototype.createGUI = function(){
 }
 
 
+Game.prototype.updateProgressList = function(){
+	this.progressList.changeObjectAmount(this.maximumSelectedNations - this.selectedNations);
+}
+
+
 Game.prototype.initializeParticleSystem = function(){
-	this.humanParticleSystem = new HumanParticleSystemController(this.phaserGame, this.maximumSelectedNations, 'hunam', 50, 500, this.particleLayerZ);
+	this.humanParticleSystem = new HumanParticleSystemController(this.phaserGame, this.maximumSelectedNations, 'hunam', 50, 500, this.particleLayerZs);
 	this.humanParticleSystem.setOrigin(1000,1000); //TODO: Syrians location here
 	
 }
 
 Game.prototype.addEvents = function(){
 	this.gameProgress.addOnTimeChangedEvent(this.gameEventHandler.checkForEventsOnTimeChange, this.gameEventHandler);
+	this.gameProgress.addOnTimeChangedEvent(this.dayChangedForRefugeeProblemHandler, this);
+	this.refugeeProblemHandler.addProblemHandler(this.handleNewProblem, this);
+	
 	this.gameProgress.addOnTimeChangedEvent(this.refreshDateText, this);
 	this.gameEventHandler.addOnEventProcessingHandler(this.processGameEvent, this);
 	this.refugees.addOnRefugeeAmountChange(this.updateRefugeeAmount, this);
 }
 
+Game.prototype.handleNewProblem = function(args){
+	var problem = args[0];
+	
+	this.newsFeed.addText(problem.name + " has occurred with death toll of "+problem.deathToll, 1);
+	this.refugees.kill(problem.deathToll);
+}
+
+
+Game.prototype.dayChangedForRefugeeProblemHandler = function(){
+	//This helps to give the amount of refugees + future needed parameters.
+	//No anon function because this is neater
+	this.refugeeProblemHandler.dayChanged(this.refugees.getTotalRefugees());
+}
 
 Game.prototype.updateRefugeeAmount = function(){
 	this.refugeeText.text = "Refugees left: "+this.refugees.getTotalRefugees();
@@ -318,6 +365,7 @@ Game.prototype.nationSelectedForMoving = function(nation){
 	
 	this.startHousing(nation);
 }
+
 
 /**
  * Start the housing process for given nation

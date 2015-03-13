@@ -12,7 +12,7 @@
 function Refugees(){
 	this.totalRefugees = 100000;
 	this.onRefugeeAmountChange = [];
-	
+	this.deaths = 0;
 }
 
 
@@ -21,6 +21,12 @@ function Refugees(){
  */
 Refugees.prototype.addOnRefugeeAmountChange = function(method, callBackclass){
 	this.onRefugeeAmountChange.push(new EventHandler(method, callBackclass));
+}
+
+
+Refugees.prototype.kill = function(amount){
+	this.deaths += amount;
+	this.reduceTotalRefugees(amount);
 }
 
 /**

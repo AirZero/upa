@@ -10,10 +10,10 @@ FeedText.prototype.constructor = FeedText;
 /**
  * Initializes a new FeedText with the given attributes
  */
-function FeedText(game, x, y, title, style){
+function FeedText(game, x, y, title, style, timesToShow){
 	Phaser.Text.call(this, game, x, y, title, style);
 	this.fixedToCamera = true;
 	
-	this.timesShown = 0;
+	this.timesToShow = timesToShow || 1;
 	
 }

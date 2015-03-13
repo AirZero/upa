@@ -25,7 +25,7 @@ function NewsFeed (phaserGame, sprite, height, layerToAddTo, z, x, y){
 	if(layerToAddTo)
 		layerToAddTo.add(this);
 	this.layerToAddTo = layerToAddTo;
-	this.maximumShowingTimes = 3;
+	//this.maximumShowingTimes = 3;
 	this.queue = [];
 	this.shownTexts = [];
 	this.margin = lvlWidth * 0.25;
@@ -44,8 +44,9 @@ NewsFeed.prototype.setActive = function(activity){
 /**
  * Adds a new text to the queue to be shown
  */
-NewsFeed.prototype.addText = function(title){
-	var text = new FeedText(this.game, this.textStartingPoint, 575 , title, this.style);
+NewsFeed.prototype.addText = function(title, times){
+	times = times || 3;
+	var text = new FeedText(this.game, this.textStartingPoint, 575 , title, this.style, times);
 	text.anchor.setTo(0, 0.5);
 	this.queue.push(text);
 	//this.layerToAddTo.add(text);
@@ -70,7 +71,7 @@ NewsFeed.prototype.setNextMessageToBeShown = function(){
 	var nextInRow = this.queue[0];
 	this.textGroup.add(nextInRow);
 	this.shownTexts[this.shownTexts.length] = (nextInRow);
-	nextInRow.timesShown++;
+	nextInRow.timesToShow--;
 	this.resetForShow(nextInRow);
 	this.queue.splice(0,1);
 }
@@ -107,7 +108,7 @@ NewsFeed.prototype.update = function(){
 		if(element.cameraOffset.x + element.width <= this.textEndingPoint){
 			this.textGroup.remove(element, false);
 			this.shownTexts.splice(i, 1);
-			if(element.timesShown < this.maximumShowingTimes)
+			if(element.timesToShow > 0)
 				this.queue.push(element);
 		}
 	}

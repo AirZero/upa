@@ -72,6 +72,14 @@ GameProgress.prototype.getDateString = function(){
 	return this.date.getDateString();
 }
 
+
+GameProgress.prototype.invokeListeners = function(){
+	for(methodName in this.onTimeChangedEvents){
+			var methodObject = this.onTimeChangedEvents[methodName];
+			methodObject.process(this.date.getDay(), this.date.getMonth(), this.date.getYear());
+	}
+}
+
 /**
  * Updates the date situation and changes it according to game changes
  */
@@ -81,10 +89,7 @@ GameProgress.prototype.update = function(){
 	if(totalTime > this.lastDayTime + this.dayInterval){
 		this.lastDayTime = totalTime;
 		this.date.progressDay();
-		for(methodName in this.onTimeChangedEvents){
-			var methodObject = this.onTimeChangedEvents[methodName];
-			methodObject.process(this.date.getDay(), this.date.getMonth(), this.date.getYear());
-		}
+		this.invokeListeners();
 
 	}
 	//

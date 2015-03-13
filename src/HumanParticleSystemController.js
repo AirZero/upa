@@ -7,12 +7,12 @@
  /**
   * Initializes the particle systems based on the amount given with given sprites and frequencies. Will divide the total sprites to all of the particleSystems
   */
-function HumanParticleSystemController(game, particleSystems, sprite, frequency, totalSprites, z){
+function HumanParticleSystemController(game, particleSystems, sprite, frequency, totalSprites, zs){
 	
 	this.particleSystems = [];
 	for(var i = 0; i < particleSystems; i++){
-		var system = new HumanParticleSystem(game, sprite, 0, frequency, totalSprites / particleSystems);
-		system.z = z;
+		var system = new HumanParticleSystem(game, sprite, 0, frequency, totalSprites / particleSystems, zs[i]);
+		//system.z = zs[i];
 		this.particleSystems[this.particleSystems.length] = system;
 	}
 	

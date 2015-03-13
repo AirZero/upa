@@ -12,9 +12,11 @@ HumanParticleSystem.prototype.constructor = HumanParticleSystem;
  * Initializes the particle system based on given parameters and basic settings.
  * Handles the inheritance of Emitter class.
  */
-function HumanParticleSystem(game, sprite, lifeSpan, frequency, quantity){
+function HumanParticleSystem(game, sprite, lifeSpan, frequency, quantity, z){
+	z = z || 1;
 	Phaser.Particles.Arcade.Emitter.call(this, game, 0, 0, quantity);
 	this.particleClass = HumanParticle;
+	this.z = z;
 	this.makeParticles();
 	this.setRotation(0,0);
 	this.emittedSprite = sprite;
@@ -56,6 +58,7 @@ HumanParticleSystem.prototype.initializeParticle = function(particle){
 	 particle.onEmit = function(){
 		particle.gravity = 0;
 		if(particle.destination === null){
+			particle.z = this.z;
 			particle.setDestination(particleSystemRef.getXDestination(), particleSystemRef.getYDestination());
 			particle.send(particleSystemRef.getTweenDuration());				
 		}
