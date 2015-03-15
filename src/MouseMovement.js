@@ -9,17 +9,23 @@ function MouseMovement (phaserGame, cameraMovementSpeed){
 	this.phaserGame = phaserGame;
 	this.cameraMovementSpeed = cameraMovementSpeed;
 	
+	this.active = true;
 	this.pointerXMovement = null;
 	this.pointerYMovement = null;
 	
 }
 
 
+MouseMovement.prototype.setActive = function(activity){
+	this.active = activity;
+}
+
 /**
  * Observes the states of the input devices and manages movement according to this information.
  * Needs to be called by the parent of this object.
  */
 MouseMovement.prototype.update = function(){
+	if(!this.active) return;
 	var pointer = this.phaserGame.input.activePointer;
 	if (this.phaserGame.input.activePointer.isDown)
     {

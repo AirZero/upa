@@ -126,7 +126,7 @@ Game.prototype.clear = function(){
 	this.events = [];
 	//this.phaserGame.time.events.stop();
 	//this.phaserGame.time.events.removeAll();
-	this.selectNations = 0;
+	this._selectedNations = 0;
 }
 
 
@@ -169,7 +169,7 @@ Game.prototype.createGUI = function(){
 	var thisGame = this;
 	var textButton = new TextButton(this.phaserGame, 'Menu', 'button', this.reMenu, BASE_STYLE, lvlWidth * 0.1, lvlHeight * 0.1, this);
 	textButton.setFixedToCamera(true);
-	
+	textButton.addToLayer(this.UpperGUILayer);
 	//this.addToObjects(textButton);
 	
 	var feedHeight = lvlHeight * 0.1
@@ -201,7 +201,7 @@ Game.prototype.createGUI = function(){
 
 	this.dateText.fixedToCamera = true;
 	
-	textButton.addToLayer(this.GUILayer);
+	
 	this.GUILayer.add(this.debugText);
 	this.GUILayer.add(this.dateText);
 }
@@ -307,6 +307,7 @@ Game.prototype.silenceGame = function(silencer){
 	silencer.silence(this.gameProgress);
 	silencer.silence(this.newsFeed);
 	silencer.silence(this.nations);
+	silencer.silence(this.mouseMover);
 	silencer.silence(this.humanParticleSystem);
 }
 
@@ -502,10 +503,10 @@ Game.prototype.zoom = function(zoomAmount){
  */
 Game.prototype.update = function(){
 	
-	if(this.phaserGame.input.keyboard.isDown("Z".charCodeAt(0)))
-		this.zoom(1.05);
-	else if(this.phaserGame.input.keyboard.isDown("X".charCodeAt(0)))
-		this.zoom(0.95238);
+	//if(this.phaserGame.input.keyboard.isDown("Z".charCodeAt(0)))
+	//	this.zoom(1.05);
+	//else if(this.phaserGame.input.keyboard.isDown("X".charCodeAt(0)))
+	//	this.zoom(0.95238);
 	//TODO:Playtest on or off
 	if(this.moveOnMap)
 		this.mouseMover.update();
