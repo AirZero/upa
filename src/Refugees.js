@@ -13,6 +13,40 @@ function Refugees(){
 	this.totalRefugees = 100000;
 	this.onRefugeeAmountChange = [];
 	this.deaths = 0;
+	
+	this.refugeeData =[
+		{
+			"name":"Suomi",
+			"month": 2,
+			"year":2012,
+			"amount":1000
+		},
+		{
+			"name":"Suomi",
+			"month": 3,
+			"year":2012,
+			"amount":1000
+		},
+		{
+			"name":"Suomi",
+			"month": 4,
+			"year":2012,
+			"amount":1000
+		},
+		{
+			"name":"Suomi",
+			"month": 5,
+			"year":2012,
+			"amount":1500
+		},
+		{
+			"name":"Suomi",
+			"month": 6,
+			"year":2012,
+			"amount":1250
+		}
+	];
+	
 }
 
 
@@ -86,16 +120,18 @@ Refugees.prototype.preload = function(){
 
 
 Refugees.prototype.getAllRefugeesOfMonth = function(month, year){
-	return {
-		"data":[
-		{
-			"name":"Suomi",
-			"month": 5,
-			"year":1999,
-			"amount":5000
+	var data = [];
+	for(dataName in this.refugeeData){
+		var singleData = this.refugeeData[dataName];
+		if(singleData.month === month && singleData.year === year){
+			data.push({
+				"name": singleData.name,
+				"amount": singleData.amount
+			});
 		}
-		]
-	};
+	}
+	
+	return data;
 	
 }
 

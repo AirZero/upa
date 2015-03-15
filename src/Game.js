@@ -372,7 +372,7 @@ Game.prototype.nationSelectedForMoving = function(nation){
  * Start the housing process for given nation
  */
 Game.prototype.startHousing = function(nation){
-	if(nation.getInProcess() || this.selectedNations >= this.maximumSelectedNations)
+	if(nation.getInProcess() || nation.isFull() || this.selectedNations >= this.maximumSelectedNations)
 		return;
 	//TODO: make pretty
 	nation.setInProcess(true);
@@ -410,9 +410,9 @@ Game.prototype.getRefugeeAmount = function(nation){
 Game.prototype.finishHousing = function(nation, amount){
 	this.selectedNations--;
 	nation.setInProcess(false);
-	var space = nation.tryHousing(amount);
+	var notHoused = nation.tryHousing(amount);
 	//amount +space because space is negative if not enough space
-	amount = space > 0 ? amount : amount + space;
+	amount -= notHoused;
 	this.refugees.reduceTotalRefugees(amount);
 	if(this.refugees.getTotalRefugees() < 0){
 		this.debugText.text = "You won the game!";
@@ -511,6 +511,9 @@ Game.prototype.update = function(){
 	if(this.moveOnMap)
 		this.mouseMover.update();
 	this.gameProgress.update();
+	var nation = this.nations.getNationByName("Suomi");
+	//if(nation)
+	//	this.debugText.text = ""+nation.maxRefugees;
 	//Not sure if needs invoking but when added through group is not automatically called?
 	this.newsFeed.update();
 }
