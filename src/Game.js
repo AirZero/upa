@@ -126,7 +126,7 @@ Game.prototype.clear = function(){
 	this.events = [];
 	//this.phaserGame.time.events.stop();
 	//this.phaserGame.time.events.removeAll();
-	this.selectNations = 0;
+	this._selectedNations = 0;
 }
 
 
@@ -169,7 +169,7 @@ Game.prototype.createGUI = function(){
 	var thisGame = this;
 	var textButton = new TextButton(this.phaserGame, 'Menu', 'button', this.reMenu, BASE_STYLE, lvlWidth * 0.1, lvlHeight * 0.1, this);
 	textButton.setFixedToCamera(true);
-	
+	textButton.addToLayer(this.UpperGUILayer);
 	//this.addToObjects(textButton);
 	
 	var feedHeight = lvlHeight * 0.1
@@ -201,7 +201,7 @@ Game.prototype.createGUI = function(){
 
 	this.dateText.fixedToCamera = true;
 	
-	textButton.addToLayer(this.GUILayer);
+	
 	this.GUILayer.add(this.debugText);
 	this.GUILayer.add(this.dateText);
 }
@@ -307,6 +307,7 @@ Game.prototype.silenceGame = function(silencer){
 	silencer.silence(this.gameProgress);
 	silencer.silence(this.newsFeed);
 	silencer.silence(this.nations);
+	silencer.silence(this.mouseMover);
 	silencer.silence(this.humanParticleSystem);
 }
 
@@ -371,7 +372,7 @@ Game.prototype.nationSelectedForMoving = function(nation){
  * Start the housing process for given nation
  */
 Game.prototype.startHousing = function(nation){
-	if(nation.getInProcess() || this.selectedNations >= this.maximumSelectedNations)
+	if(nation.getInProcess() || nation.isFull() || this.selectedNations >= this.maximumSelectedNations)
 		return;
 	//TODO: make pretty
 	nation.setInProcess(true);
@@ -409,9 +410,9 @@ Game.prototype.getRefugeeAmount = function(nation){
 Game.prototype.finishHousing = function(nation, amount){
 	this.selectedNations--;
 	nation.setInProcess(false);
-	var space = nation.tryHousing(amount);
+	var notHoused = nation.tryHousing(amount);
 	//amount +space because space is negative if not enough space
-	amount = space > 0 ? amount : amount + space;
+	amount -= notHoused;
 	this.refugees.reduceTotalRefugees(amount);
 	if(this.refugees.getTotalRefugees() < 0){
 		this.debugText.text = "You won the game!";
@@ -502,14 +503,17 @@ Game.prototype.zoom = function(zoomAmount){
  */
 Game.prototype.update = function(){
 	
-	if(this.phaserGame.input.keyboard.isDown("Z".charCodeAt(0)))
-		this.zoom(1.05);
-	else if(this.phaserGame.input.keyboard.isDown("X".charCodeAt(0)))
-		this.zoom(0.95238);
+	//if(this.phaserGame.input.keyboard.isDown("Z".charCodeAt(0)))
+	//	this.zoom(1.05);
+	//else if(this.phaserGame.input.keyboard.isDown("X".charCodeAt(0)))
+	//	this.zoom(0.95238);
 	//TODO:Playtest on or off
 	if(this.moveOnMap)
 		this.mouseMover.update();
 	this.gameProgress.update();
+	var nation = this.nations.getNationByName("Suomi");
+	//if(nation)
+	//	this.debugText.text = ""+nation.maxRefugees;
 	//Not sure if needs invoking but when added through group is not automatically called?
 	this.newsFeed.update();
 }

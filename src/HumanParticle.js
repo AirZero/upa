@@ -47,11 +47,27 @@ HumanParticle.prototype.setDestination = function(x, y){
 		this.destination = { x: x, y: y};
 }
 
+
+HumanParticle.prototype.destroy = function(){
+	this.resetTweenAndDestination();
+	Phaser.Particle.prototype.destroy.call(this);
+}
+
+
+HumanParticle.prototype.resetTweenAndDestination = function(){
+	if(this.tween)
+		this.tween.stop();
+	this.tween = null;
+	this.destination = null;
+}
+
+
+
+
 /**
  * Resets destination and calls inherited kill method
  */
 HumanParticle.prototype.kill = function(){
-	this.tween = null;
-	this.destination = null;
+	this.resetTweenAndDestination();
 	Phaser.Particle.prototype.kill.call(this);
 }

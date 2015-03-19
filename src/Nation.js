@@ -121,6 +121,12 @@ Nation.prototype.setWidth = function(width){
 	this.width = width;
 }
 
+
+Nation.prototype.isFull = function(){
+	return this.maxRefugees <= this.refugees;
+}
+
+
 /**
  * Sets the height of the nation
  */
@@ -136,14 +142,15 @@ Nation.prototype.setHeight = function(height){
 Nation.prototype.tryHousing = function(amount){
 	//TODO: Fix this method, not working 100%
 	var space = this.maxRefugees - this.refugees;
+	var notSent = 0;
 	if(space >= amount){
 		this.refugees += amount;
 	}
 	else {
-		space =-( this.maxRefugees - this.refugees);
+		notSent = amount - space;
 		this.refugees = this.maxRefugees;
 	}
 	//TODO: only 1 access from nations class to the update state
 	this.nationState.updateState(this.maxRefugees, this.refugees, this);
-	return space;
+	return notSent;
 }

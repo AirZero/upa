@@ -38,6 +38,11 @@ Nations.prototype.preload = function(){
 }
 
 
+Nations.prototype.getNationByName = function(name){
+	return this.nations[name];
+}
+
+
 
 Nations.prototype.addOnNationClickHandler = function(method){
 	this.onNationClick = method;
@@ -49,11 +54,11 @@ Nations.prototype.addOnNationClickHandler = function(method){
  */
 Nations.prototype.increaseMaxRefugeeAmountsByData = function(data){
 	//TODO: see if this can be optimised somehow
-	for(dataQuery in data.data){
-		var nation = this.nations[data.data[dataQuery].name];
+	for(dataQuery in data){
+		var nation = this.nations[data[dataQuery].name];
 		//Probably not needed if-statement
 		if(nation)
-			nation.increaseMaxRefugeeAmount(data.data[dataQuery].amount);
+			nation.increaseMaxRefugeeAmount(data[dataQuery].amount);
 	}
 }
 
@@ -139,7 +144,7 @@ Nations.prototype.createNation = function(layer, textLayer, x, y, nationData){
 	//TODO: Add an option to define the text position compared to the nations eg. anchor for text. See also what is ready for it
 	//var nation = new Nation(this.phaserGame, nationData.x, nationData.y, nationData.name, nationData.sprite);
 	this.textLayer = textLayer;
-	var nation = new Nation(this.phaserGame, x, y, nationData.name, nationData.sprite, 10000);
+	var nation = new Nation(this.phaserGame, x, y, nationData.name, nationData.sprite, 3500);
 	//var nationSize = this.parseNationSize(nation, nationData.width, nationData.height);
 	nation.setWidth(nationData.width);
 	nation.setHeight(nationData.height);
@@ -159,6 +164,7 @@ Nations.prototype.createNation = function(layer, textLayer, x, y, nationData){
  * Handles a click on nation
  */
 Nations.prototype.handleNationClick = function(nation){
+	//TODO: array of listeners
 	if(nation.active)
 		if(this.onNationClick)
 			this.onNationClick.process(nation);

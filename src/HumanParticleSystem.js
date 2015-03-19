@@ -24,6 +24,7 @@ function HumanParticleSystem(game, sprite, lifeSpan, frequency, quantity, z){
 	this.gravity = 0;
 	this.busy = false;
 	this.active = true;
+	this.events = [];
 	
 	this.minParticleScale = 0.9;
 	this.maxParticleScale = 1;
@@ -99,6 +100,10 @@ HumanParticleSystem.prototype.setOrigin = function(x,y){
  */
 HumanParticleSystem.prototype.stop = function(){
 	this.busy = false;
+	for(eventName in this.events){
+		this.game.time.events.remove(this.events[eventName]);
+	}
+	this.events = [];
 }
 
 
@@ -107,6 +112,7 @@ HumanParticleSystem.prototype.stop = function(){
  */
 HumanParticleSystem.prototype.destroy = function(){
 	//Phaser.Particles.Arcade.Emitter.prototype.removeAll.call(this, true, true);
+	this.stop();
 	Phaser.Particles.Arcade.Emitter.prototype.destroy.call(this);
 }
 
@@ -123,11 +129,11 @@ HumanParticleSystem.prototype.send = function(xStart,yStart, xDest, yDest, amoun
 	this.xDestination = xDest;
 	this.yDestination = yDest;
 	//Lets do this before breaking duration
-	this.game.time.events.add(Phaser.Timer.SECOND * duration, function(){
+	var timedEvent = this.game.time.events.add(Phaser.Timer.SECOND * duration, function(){
 		this.stop();
 		eventHandler.process();
 	}, this);
-	
+	this.events.push(timedEvent);
 	//Because from here on its in ms
 	duration = duration*1000;
 	//This is done to allow the last invidual to finish in duration
