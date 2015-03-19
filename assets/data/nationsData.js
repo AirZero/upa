@@ -7,7 +7,7 @@ function getJsonFromNationsData(){
 	//Think if sizeMultiplier should be set instead of the zoom as playerPref
 	var x=
 {
-	"sizeMultiplier": 1.5, 
+	"sizeMultiplier": 1.0, 
 	"nations":
 	[
 		{
@@ -94,8 +94,71 @@ function getJsonFromNationsData(){
 			"height": 202,
 			"rotation": 0,
 			"sprite": "Ukraina"	
+		}	,
+		{
+			"name": "Puola",
+			"x": "Left:Valko-Venaja,Percent:6",
+			"y": "Same:Valko-Venaja,Percent:39.7",
+			"width": 373,
+			"height": 165,
+			"rotation": 0,
+			"sprite": "Puola"	
+		},
+		{
+			"name": "Saksa",
+			"x": "Left:Puola,Percent:6",
+			"y": "Same:Puola,Percent:25",
+			"width": 341,
+			"height": 213,
+			"rotation": 0,
+			"sprite": "Saksa"	
+		},
+		{
+			"name": "Tanska",
+			"x": "Same:Saksa,Percent:28",
+			"y": "Up:Saksa,Percent:3",
+			"width": 152,
+			"height": 84	,
+			"rotation": 0,
+			"sprite": "Tanska"	
+		},
+		{
+			"name": "Ranska",
+			"x": "Left:Saksa,Percent:18",
+			"y": "Down:Saksa,Percent:-34.5",
+			"width": 308,
+			"height": 247,
+			"rotation": 0,
+			"sprite": "Ranska"	
+		},
+		{
+			"name": "Italia",
+			"x": "Same:Saksa,Percent:0.4",
+			"y": "Down:Saksa,Percent:1.5",
+			"width": 421,
+			"height": 271,
+			"rotation": 0,
+			"sprite": "Italia"	
+		},
+		{
+			"name": "Sveitsi",
+			"x": "Same:Saksa,Percent:-75.5",
+			"y": "Same:Saksa,Percent:222",
+			"width": 178,
+			"height": 57,
+			"rotation": 0,
+			"sprite": "Sveitsi"	
+		},
+		{
+			"name": "Espanja",
+			"x": "Same:Ranska,Percent:-105",
+			"y": "Down:Ranska,Percent:-41",
+			"width": 162,
+			"height": 153,
+			"rotation": 0,
+			"sprite": "Espanja"	
 		}
-		
+
 		
 		
 		
