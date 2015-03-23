@@ -216,19 +216,28 @@ Game.prototype.createGUI = function(){
 }
 
 
+/**
+ * Changes the game into fullscreen mode
+ */
 Game.prototype.goFullScreen = function(){
 	this.phaserGame.scale.startFullScreen();
 }
 
 
+/**
+ * Keeps the progress list up to date
+ */
 Game.prototype.updateProgressList = function(){
 	this.progressList.changeObjectAmount(this.maximumSelectedNations - this.selectedNations);
 }
 
-
+/**
+ * Initializes the particle system controller and sets the origin
+ */
 Game.prototype.initializeParticleSystem = function(){
 	this.humanParticleSystem = new HumanParticleSystemController(this.phaserGame, this.maximumSelectedNations, 'hunam', 50, 500, this.particleLayerZs);
-	this.humanParticleSystem.setOrigin(1000,1000); //TODO: Syrians location here
+	var nation = this.nations.getNationByName("Syyria");
+	this.humanParticleSystem.setOrigin(nation.x,nation.y); //TODO: Syrians location here
 	
 }
 
@@ -397,7 +406,8 @@ Game.prototype.startHousing = function(nation){
 	//So that the function can be handled properly, if theres no function(), then the tryHousing is called directly
 	//var nationsReference = this;
 	//var bar = new ProgressBar(nation.x, nation.y-lvlHeight*0.05, 'bar', this.phaserGame, processLength, 20, function(){nationsReference.finishHousing(nation, amount);}, this.BarLayer);
-	this.humanParticleSystem.send(1500, 1000, nation.x, nation.y, amount * 0.02, processLength, new EventHandler(function(){
+	//Too lazy to change design and the origin is set right earlier
+	this.humanParticleSystem.send(undefined, undefined, nation.x, nation.y, amount * 0.02, processLength, new EventHandler(function(){
 		this.finishHousing(nation, amount);
 	}, this)); //Because no divisions when avoidable!
 	

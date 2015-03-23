@@ -1,5 +1,8 @@
 
 
+/**
+ * A simple class that creates objects to fill from starting x to end x and starting y to end y with the given sprites.
+ */
 function SpriteList (game, startX, endX, startY, endY, objects, sprite, layer, fillAtStart){
 	this.game = game;
 	
@@ -24,12 +27,18 @@ function SpriteList (game, startX, endX, startY, endY, objects, sprite, layer, f
 }
 
 
+/**
+ * Destroys all the phaser objects associated with this spriteList and resets memory for the spritelist
+ */
 SpriteList.prototype.clear = function(){
 	this.removeAll();
 	this.sprites= [];
 }
 
 
+/**
+ * Changes the amount of sprite objects to the given amount
+ */
 SpriteList.prototype.changeObjectAmount = function(amount){
 	//Could be done with only while(this.addNewSprite) and removeSprite
 	while(amount > this.sprites.length){
@@ -40,11 +49,17 @@ SpriteList.prototype.changeObjectAmount = function(amount){
 	}
 }
 
+/**
+ * Removes all of the objects using removeSprite
+ */
 SpriteList.prototype.removeAll = function(){
 	while(this.removeSprite());
 }
 
 
+/**
+ * Destroys the last object from the list
+ */
 SpriteList.prototype.removeSprite = function(){
 	if(this.sprites.length == 0) return false;
 	this.sprites[this.sprites.length-1].destroy();
@@ -53,7 +68,9 @@ SpriteList.prototype.removeSprite = function(){
 	return true;
 }
 
-
+/**
+ * Adds a new object to the list, if it is not full yet.
+ */
 SpriteList.prototype.addNewSprite = function(){
 	if(this.objects <= this.sprites.length)
 		return false;

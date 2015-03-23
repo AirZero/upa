@@ -1,5 +1,7 @@
 
-
+/**
+ * Class that handles all the problems in the refugee camps
+ */
 function RefugeeProblemHandler (game){
 	this.problems = getJsonFromProblemData().problems;
 	this.problemHandlers = [];
@@ -7,18 +9,24 @@ function RefugeeProblemHandler (game){
 	this.numberAndPercentRegex = new RegExp("([0-9])+%");
 }
 
+/**
+ * Adds a new handler for when a problem occurs
+ */
 RefugeeProblemHandler.prototype.addProblemHandler = function(method, callBackClass){
 	this.problemHandlers[this.problemHandlers.length] = new EventHandler(method, callBackClass);
 }
 
-
-
+/**
+ * Clears this and all the memory associated with it
+ */
 RefugeeProblemHandler.prototype.clear = function(){
 	this.problemHandlers = [];	
 }
 
 
-
+/**
+ * Needs to be called when day changes so the problems can occur
+ */
 RefugeeProblemHandler.prototype.dayChanged = function(refugees){
 	for(problemName in this.problems){
 		var problem = this.problems[problemName];
@@ -29,6 +37,9 @@ RefugeeProblemHandler.prototype.dayChanged = function(refugees){
 	}
 }
 
+/**
+ * Parses the data into useable format removing the strings
+ */
 RefugeeProblemHandler.prototype.parseProblemData = function(problemData, refugees){
 	var problem;
 	if(isNaN(problemData.deathToll))
@@ -45,7 +56,9 @@ RefugeeProblemHandler.prototype.parseProblemData = function(problemData, refugee
 }
 
 
-
+/**
+ * Invokes the problem with refugeebased data
+ */
 RefugeeProblemHandler.prototype.invokeProblem = function(refugees, problemData){
 	//var problemData = this.game.rnd.pick(this.problems);
 	var problem = this.parseProblemData(problemData, refugees);
