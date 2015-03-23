@@ -9,43 +9,13 @@
  /**
   * Initializes the refugee data ready for the game
   */
-function Refugees(){
+function Refugees(game){
+	this.game = game;
 	this.totalRefugees = 100000;
 	this.onRefugeeAmountChange = [];
 	this.deaths = 0;
 	
-	this.refugeeData =[
-		{
-			"name":"Suomi",
-			"month": 2,
-			"year":2012,
-			"amount":1000
-		},
-		{
-			"name":"Suomi",
-			"month": 3,
-			"year":2012,
-			"amount":1000
-		},
-		{
-			"name":"Suomi",
-			"month": 4,
-			"year":2012,
-			"amount":1000
-		},
-		{
-			"name":"Suomi",
-			"month": 5,
-			"year":2012,
-			"amount":1500
-		},
-		{
-			"name":"Suomi",
-			"month": 6,
-			"year":2012,
-			"amount":1250
-		}
-	];
+	this.refugeeData =[	];
 	
 }
 
@@ -114,8 +84,33 @@ Refugees.prototype.getTotalRefugees = function(){
  * Handles the preloading of data for refugees class
  */
 Refugees.prototype.preload = function(){
-	//TODO: json reading
-	
+	this.game.load.text('refugeeDataCSV', 'assets/data/refugeeData.csv')
+	//this.game.load.onLoadComplete.addOnce(this.parseData, this);
+}
+
+Refugees.prototype.parseData = function(){
+	var textData = this.game.cache.getText('refugeeDataCSV');
+	var nationsSplit = textData.split(/\r\n|\r|\n/g);
+	var startingYear = 2010;
+	for(var i = 0; i < nationsSplit.length; i++){
+		var data = nationsSplit[i].split(",");
+		
+		for(var j = 1; j < data.length; j++){
+			var yearly = data[j];
+			var left = yearly;
+			for(var month = 1; month <= 12; month++){
+				var monthly = month !== 12 ? Math.floor(yearly * 0.0833333333333333) : left;
+				left -= monthly;
+				this.refugeeData.push(new RefugeeMonth(data[0], month, startingYear+ j -1, monthly)); //same as /12
+			}
+				
+		}
+	}	
+
+}
+
+Refugees.prototype.start = function(){
+	this.parseData();
 }
 
 
@@ -125,7 +120,7 @@ Refugees.prototype.getAllRefugeesOfMonth = function(month, year){
 		var singleData = this.refugeeData[dataName];
 		if(singleData.month === month && singleData.year === year){
 			data.push({
-				"name": singleData.name,
+				"name": singleData.nationName,
 				"amount": singleData.amount
 			});
 		}

@@ -185,8 +185,17 @@ function getJsonFromNationsData(){
 			"height": 75,
 			"rotation": 0,
 			"sprite": "Tsekki"	
-		}	,
-			{
+		},
+		{
+			"name": "Unkari",
+			"x": "Right:Itavalta,Percent:-16",
+			"y": "Same:Itavalta,Percent:5",
+			"width": 275,
+			"height": 97,
+			"rotation": 0,
+			"sprite": "Unkari"	
+		},
+		{
 			"name": "Slovakia",
 			"x": "Right:Tsekki,Percent:-55",
 			"y": "Same:Tsekki,Percent:38",
@@ -194,15 +203,15 @@ function getJsonFromNationsData(){
 			"height": 61,
 			"rotation": 0,
 			"sprite": "Slovakia"	
-		},
+		},		
 		{
-			"name": "Unkari",
-			"x": "Right:Itavalta,Percent:-16",
-			"y": "Down:Slovakia,Percent:-37",
-			"width": 275,
-			"height": 97,
+			"name": "Bulgaria",
+			"x": "Same:Ukraina,Percent:-46",
+			"y": "Down:Ukraina,Percent:-56",
+			"width": 368,
+			"height": 139,
 			"rotation": 0,
-			"sprite": "Unkari"	
+			"sprite": "Bulgaria"	
 		},
 		{
 			"name": "Moldova",
@@ -212,16 +221,6 @@ function getJsonFromNationsData(){
 			"height": 86,
 			"rotation": 0,
 			"sprite": "Moldova"	
-		},
-		
-		{
-			"name": "Bulgaria",
-			"x": "Same:Ukraina,Percent:-46",
-			"y": "Down:Ukraina,Percent:-56",
-			"width": 368,
-			"height": 139,
-			"rotation": 0,
-			"sprite": "Bulgaria"	
 		},
 		{
 			"name": "Romania",

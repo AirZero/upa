@@ -33,7 +33,7 @@ function Game (phaserGame){
 	this.gameProgress = new GameProgress(this.phaserGame);
 	this.gameEventHandler = new GameEventHandler(this.phaserGame);
 	this.refugeeProblemHandler = new RefugeeProblemHandler(this.phaserGame);
-	this.refugees = new Refugees();
+	this.refugees = new Refugees(this.phaserGame);
 	this.nextZ = 0;
 	
 	this.moveOnMap = true;
@@ -136,6 +136,8 @@ Game.prototype.clear = function(){
  */
 Game.prototype.start = function(){
 	this.createGroups();
+	this.refugees.start();
+	
 	//this.phaserGame.input.onDown.add(this.clickStar, this);
 	//this.events[this.events.length] = 
 	this.moveOnMap = playerPrefs.getNumber("moveMap") === 1 ? true :false;
@@ -172,6 +174,13 @@ Game.prototype.createGUI = function(){
 	textButton.addToLayer(this.UpperGUILayer);
 	//this.addToObjects(textButton);
 	
+	var fullScreenButtonHeight = textButton.button.height * 0.5;
+	var fullScreenButton = new TextButton(this.phaserGame, 'FullScreen', 'button', this.goFullScreen, BASE_STYLE, textButton.button.x - textButton.button.width * 0.25, textButton.button.y + textButton.button.height * 0.5 + fullScreenButtonHeight, this);
+	fullScreenButton.setFixedToCamera(true);
+	fullScreenButton.setWidth(textButton.button.width * 0.5);
+	fullScreenButton.setHeight(fullScreenButtonHeight);
+	fullScreenButton.addToLayer(this.UpperGUILayer);
+	
 	var feedHeight = lvlHeight * 0.1
 	
 	var infoLabel = this.phaserGame.add.sprite(0, lvlHeight - feedHeight, 'infoLabel');
@@ -204,6 +213,11 @@ Game.prototype.createGUI = function(){
 	
 	this.GUILayer.add(this.debugText);
 	this.GUILayer.add(this.dateText);
+}
+
+
+Game.prototype.goFullScreen = function(){
+	this.phaserGame.scale.startFullScreen();
 }
 
 
@@ -394,11 +408,11 @@ Game.prototype.startHousing = function(nation){
  */
 Game.prototype.getRefugeeAmount = function(nation){
 
-	var month = this.gameProgress.getMonth();
-	var year = this.gameProgress.getYear();
+	//var month = this.gameProgress.getMonth();
+	//var year = this.gameProgress.getYear();
 	
-	var amount = this.refugees.getRefugees(nation.name, month, year);
-	amount = 2000;
+	var amount = Math.floor(nation.maxRefugees * 0.25);
+	//amount = 2000;
 	//TODO:Loading from a file
 	return amount;
 }
@@ -413,6 +427,13 @@ Game.prototype.finishHousing = function(nation, amount){
 	var notHoused = nation.tryHousing(amount);
 	//amount +space because space is negative if not enough space
 	amount -= notHoused;
+	var text = this.phaserGame.add.text(nation.x,nation.y, ""+amount, SMALL_STYLE);
+	var tween = this.phaserGame.add.tween(text).to({ x: text.x, y: text.y - lvlHeight * 0.1}, 500, Phaser.Easing.Linear.None, 0);
+	//TODO: check if this actually eats huge amounts of memory!
+	tween.onComplete.addOnce(function(){
+		text.destroy();
+	});
+	tween.start();
 	this.refugees.reduceTotalRefugees(amount);
 	if(this.refugees.getTotalRefugees() < 0){
 		this.debugText.text = "You won the game!";

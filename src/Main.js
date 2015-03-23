@@ -21,6 +21,7 @@ var phaserGame;
 var game;
 var menu;
 var BASE_STYLE = { font: '32px Arial', fill: '#ff0044', align: 'center' };
+var SMALL_STYLE = {font: '22px Arial', fill: '#aa1122', align: 'center' };
 var NATION_TEXT_STYLE = { font: '26px Arial', fill: '#111111', align: 'center' };
 var state;
 var playerPrefs = new PlayerPrefs(); //TODO: assess if global access is the best or should not be object or etc..
@@ -66,14 +67,14 @@ function preload()
 			alert('HeadlessRenderer was used');
 	}
 	reset();
-	phaserGame.load.spritesheet('button', 'assets/pictures/buttonsWithUp.png', 100, 100);
+	phaserGame.load.spritesheet('button', PICTURE_PATH+'buttonsWithUp.png', 100, 100);
 	//phaserGame.load.image('finland', 'assets/pictures/finland.png');
-	phaserGame.load.image('dialogBack', 'assets/pictures/dialogBack.png');
-	phaserGame.load.image('bar', 'assets/pictures/Bar.png');
-	phaserGame.load.image('textFeed', 'assets/pictures/TextFeed.png');
-	phaserGame.load.image('hunam', 'assets/pictures/HunamSmall.png');
-	phaserGame.load.image('infoLabel', 'assets/pictures/InfoLabel.png');
-	phaserGame.load.image('progress', 'assets/pictures/progress.png');
+	phaserGame.load.image('dialogBack', PICTURE_PATH+'dialogBack.png');
+	phaserGame.load.image('bar', PICTURE_PATH+'Bar.png');
+	phaserGame.load.image('textFeed', PICTURE_PATH+'TextFeed.png');
+	phaserGame.load.image('hunam', PICTURE_PATH+'HunamSmall.png');
+	phaserGame.load.image('infoLabel', PICTURE_PATH+'InfoLabel.png');
+	phaserGame.load.image('progress', PICTURE_PATH+'progress.png');
 	preloadGame();
 	preloadMenu();
 }
@@ -124,8 +125,9 @@ function reMenu(){
  * Method associated with Phasers create. Sets up the starting screen of the game
  */
 function create(){
-	reMenu();
-
+	//reMenu();
+	//Direct start
+	start();
 }
 
 /**

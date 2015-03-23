@@ -102,7 +102,7 @@ Nations.prototype.loadNationData = function(){
 	this.nationsData = jsonNations.nations;
 	this.nationsSizeMultiplier = jsonNations.sizeMultiplier;
 	for(var i = 0; i < this.nationsData.length; i++){
-		this.phaserGame.load.image(this.nationsData[i].sprite,PICTURE_PATH + this.nationsData[i].sprite+".png");
+		this.phaserGame.load.image(this.nationsData[i].sprite,PICTURE_PATH + 'nations/'+ this.nationsData[i].sprite+".png");
 	}
 }
 
