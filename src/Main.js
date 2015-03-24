@@ -68,6 +68,7 @@ function preload()
 	}
 	reset();
 	phaserGame.load.spritesheet('button', PICTURE_PATH+'buttonsWithUp.png', 100, 100);
+	phaserGame.load.spritesheet('fullscreenButton', PICTURE_PATH+'fullscreenButtons.png', 100, 100);
 	//phaserGame.load.image('finland', 'assets/pictures/finland.png');
 	phaserGame.load.image('dialogBack', PICTURE_PATH+'dialogBack.png');
 	phaserGame.load.image('bar', PICTURE_PATH+'Bar.png');

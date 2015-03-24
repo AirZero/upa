@@ -174,6 +174,11 @@ Game.prototype.waitForPlayer = function(){
 	
 	this.newsFeed.addText("Voit aloittaa pelin klikkaamalla karttaa", 999);
 	this.newsFeed.addText("Maita klikkaamalla pakolaisia siirtyy kyseiseen maahan", 999);
+	this.newsFeed.addText("Syyriassa on alkanut vuosikymmenen pahin sisällissota.", 100);
+	this.newsFeed.addText("Kansainvälinen yhteisö on voimaton ja inhimillinen kärsimys lisääntyy.", 100);
+	this.newsFeed.addText("Ihmiset joutuvat jättämään kotinsa.",100);
+	this.newsFeed.addText("Sinulle on annettu tehtäväksi auttaa pakolaisia löytämään oleskelupaikka Euroopasta.",100);
+	this.newsFeed.addText("Toiset maat ovat vastaanottavaisempia kuin toiset.", 100);
 }
 
 
@@ -200,11 +205,14 @@ Game.prototype.createGUI = function(){
 	//this.addToObjects(textButton);
 	
 	var fullScreenButtonHeight = textButton.button.height * 0.5;
-	var fullScreenButton = new TextButton(this.phaserGame, 'FullScreen', 'button', this.goFullScreen, BASE_STYLE, textButton.button.x - textButton.button.width * 0.25, textButton.button.y + textButton.button.height * 0.5 + fullScreenButtonHeight, this);
-	fullScreenButton.setFixedToCamera(true);
-	fullScreenButton.setWidth(textButton.button.width * 0.5);
-	fullScreenButton.setHeight(fullScreenButtonHeight);
-	fullScreenButton.addToLayer(this.UpperGUILayer);
+	var fullScreenButton = new Phaser.Button(this.phaserGame, textButton.button.x - textButton.button.width * 0.25, textButton.button.y + textButton.button.height * 0.5 + fullScreenButtonHeight,
+	'fullscreenButton', this.goFullScreen, this, 1, 0, 2, 3);
+	fullScreenButton.fixedToCamera =(true);
+	fullScreenButton.anchor.setTo(0.5, 0.5);
+	fullScreenButton.width =(textButton.button.width * 0.5);
+	fullScreenButton.height =(fullScreenButtonHeight);
+	this.UpperGUILayer.add(fullScreenButton);
+	//fullScreenButton.addToLayer(this.UpperGUILayer);
 	
 	var feedHeight = lvlHeight * 0.1
 	

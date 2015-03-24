@@ -241,6 +241,15 @@ function getJsonFromNationsData(){
 			"sprite": "Serbia"	
 		},
 		{
+			"name": "Kroatia",
+			"y": "Same:Italia,Percent:-76.6",
+			"x": "Same:Italia,Percent:69",
+			"width": 252,
+			"height": 95,
+			"rotation": 0,
+			"sprite": "Kroatia"	
+		},
+		{
 			"name": "Bosnia-Herzegovina",
 			"y": "Same:Serbia,Percent:11",
 			"x": "Same:Serbia,Percent:-86",
@@ -259,15 +268,6 @@ function getJsonFromNationsData(){
 			"sprite": "Slovenia"	
 		},
 		{
-			"name": "Kroatia",
-			"y": "Same:Italia,Percent:-76.6",
-			"x": "Same:Italia,Percent:69",
-			"width": 252,
-			"height": 95,
-			"rotation": 0,
-			"sprite": "Kroatia"	
-		},
-		{
 			"name": "Montenegro",
 			"y": "Same:Italia,Percent:-46.6",
 			"x": "Same:Italia,Percent:321",
@@ -275,6 +275,15 @@ function getJsonFromNationsData(){
 			"height": 51,
 			"rotation": 0,
 			"sprite": "Montenegro"	
+		},
+		{
+			"name": "Kreikka",
+			"x": "Right:Italia,Percent:15",
+			"y": "Down:Romania,Percent:-14.5",
+			"width": 331,
+			"height": 183,
+			"rotation": 0,
+			"sprite": "Kreikka"	
 		},	
 		{
 			"name": "Albania",
@@ -293,16 +302,6 @@ function getJsonFromNationsData(){
 			"height": 50,
 			"rotation": 0,
 			"sprite": "Makedonia"	
-		},
-
-			{
-			"name": "Kreikka",
-			"x": "Right:Italia,Percent:15",
-			"y": "Down:Romania,Percent:-14.5",
-			"width": 331,
-			"height": 183,
-			"rotation": 0,
-			"sprite": "Kreikka"	
 		},
 		{
 			"name": "Turkki",
