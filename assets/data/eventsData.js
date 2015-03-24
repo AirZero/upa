@@ -58,30 +58,7 @@ function getJsonFromEventsData(){
                 }
             ],
             "description": "Game ends here"
-        },
-        {
-            "date": "3.12.x",
-            "chance": 100,
-            "effects": [
-                {
-                    "effectName": "feed",
-                    "data": "I'm so blue!"
-                }
-            ],
-            "description": "testing the news feed"
-        },
-        {
-            "date": "4.12.x",
-            "chance": 100,
-            "effects": [
-                {
-                    "effectName": "feed",
-                    "data": "Da bu dee da bu dai da bu dee dabu!"
-                }
-            ],
-            "description": "testing the news feed"
-        }
-		
+        }		
     ]
 };
 	return x;

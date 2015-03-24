@@ -71,6 +71,7 @@ function preload()
 	//phaserGame.load.image('finland', 'assets/pictures/finland.png');
 	phaserGame.load.image('dialogBack', PICTURE_PATH+'dialogBack.png');
 	phaserGame.load.image('bar', PICTURE_PATH+'Bar.png');
+	phaserGame.load.spritesheet('shade', PICTURE_PATH+'Shade.png', 200, 200);
 	phaserGame.load.image('textFeed', PICTURE_PATH+'TextFeed.png');
 	phaserGame.load.image('hunam', PICTURE_PATH+'HunamSmall.png');
 	phaserGame.load.image('infoLabel', PICTURE_PATH+'InfoLabel.png');

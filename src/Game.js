@@ -155,6 +155,31 @@ Game.prototype.start = function(){
 	this.addEvents();
 	this.updateRefugeeAmount();
 	this.mouseMover.moveCamera(worldWidth * 0.4, worldHeight *0.27);
+	
+	this.waitForPlayer();
+}
+
+
+Game.prototype.waitForPlayer = function(){
+	this.shadeButton = new TextButton(this.phaserGame, 'Start by clicking the game', 'shade', 
+	this.destroyShade, BASE_STYLE, lvlWidth*0.5, lvlHeight*0.5, this, 0, 0, 0, 0);
+	
+	this.shadeButton.setFixedToCamera(true);
+	this.shadeButton.setWidth(lvlWidth);
+	this.shadeButton.setHeight(lvlHeight);
+	this.shadeButton.addToLayer(this.UpperGUILayer);
+	this.silenceGame(this.shadeButton);
+	
+	this.newsFeed.setActive(true);
+	
+	this.newsFeed.addText("Voit aloittaa pelin klikkaamalla karttaa", 999);
+	this.newsFeed.addText("Maita klikkaamalla pakolaisia siirtyy kyseiseen maahan", 999);
+}
+
+
+Game.prototype.destroyShade = function(){
+	this.shadeButton.destroy();
+	this.newsFeed.clearQueue();
 }
 
 

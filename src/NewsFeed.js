@@ -53,6 +53,13 @@ NewsFeed.prototype.addText = function(title, times){
 }
 
 
+NewsFeed.prototype.clearQueue = function(){
+	this.queue = [];
+	for(var i = 0; i < this.shownTexts.length; i++){
+		this.shownTexts[i].timesToShow = 0;
+	}
+}
+
 /**
  * Destroys news feed and all components associated with it
  */
