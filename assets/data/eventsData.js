@@ -58,7 +58,40 @@ function getJsonFromEventsData(){
                 }
             ],
             "description": "Game ends here"
-        }		
+        },
+        {
+            "date": "6.3.2011",
+            "chance": 100,
+            "effects": [
+                {
+                    "effectName": "feed",
+                    "data": "Syyrian salainen poliisi pidättää 15 poikaa, jotka maalasivat arabikevään innoittamana hallituksen vastaisia graffiteja"
+                }
+            ],
+            "description": "basic news"
+        },
+        {
+            "date": "15.3.2011",
+            "chance": 100,
+            "effects": [
+                {
+                    "effectName": "feed",
+                    "data": "Tuhannet syyrialaiset protestoivat poikien pidätystä vastaan"
+                }
+            ],
+            "description": "basic news"
+        },
+        {
+            "date": "18.3.2011",
+            "chance": 100,
+            "effects": [
+                {
+                    "effectName": "feed",
+                    "data": "Hallituksen joukot avaavat tulen mielenosoittajia vastaan - syntyy lisää protesteja"
+                }
+            ],
+            "description": "basic news"
+        }	
     ]
 };
 	return x;

@@ -7,7 +7,7 @@ function getJsonFromNationsData(){
 	//Think if sizeMultiplier should be set instead of the zoom as playerPref
 	var x=
 {
-	"sizeMultiplier": 0.8, 
+	"sizeMultiplier": 0.6, 
 	"nations":
 	[
 	
@@ -32,6 +32,16 @@ function getJsonFromNationsData(){
 		
 		},
 		{
+			"name": "Ruotsi",
+			"x": "Same:Venaja,Percent:-90",
+			"y": "Same:Venaja,Percent:-54.5",
+			"width": 424,
+			"height": 287,
+			"rotation": 0,
+			"sprite": "Ruotsi"
+		
+		},
+		{
 			"name": "Suomi",
 			"x": "Left:Venaja,Percent:100",
 			"y": "Same:Venaja,Percent:-150.5",
@@ -39,16 +49,6 @@ function getJsonFromNationsData(){
 			"height": 154,
 			"rotation": 0,
 			"sprite": "Suomi"
-		},
-			{
-			"name": "Ruotsi",
-			"x": "Same:Suomi,Percent:-56.5",
-			"y": "Same:Suomi,Percent:27",
-			"width": 424,
-			"height": 287,
-			"rotation": 0,
-			"sprite": "Ruotsi"
-		
 		},
 		{
 			"name": "Viro",

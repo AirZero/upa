@@ -5,7 +5,7 @@
  */
 
 function GameDate(day, month, year){
-	this.date = new Date(year, month, day);
+	this.date = new Date(year, month-1, day);
 	//this.day = day;
 	//this.month = month;
 	//this.year = year;

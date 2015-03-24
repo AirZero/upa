@@ -154,7 +154,7 @@ Game.prototype.start = function(){
 	this.initializeParticleSystem();
 	this.addEvents();
 	this.updateRefugeeAmount();
-	this.mouseMover.moveCamera(worldWidth * 0.4, worldHeight *0.27);
+	this.mouseMover.moveCamera(worldWidth * 0.45, worldHeight *0.33);
 	
 	this.waitForPlayer();
 }
@@ -162,14 +162,18 @@ Game.prototype.start = function(){
 
 Game.prototype.waitForPlayer = function(){
 	this.shadeButton = new TextButton(this.phaserGame, 'Start by clicking the game', 'shade', 
-	this.destroyShade, BASE_STYLE, lvlWidth*0.5, lvlHeight*0.5, this, 0, 0, 0, 0);
+	this.tweenToCenter, BASE_STYLE, lvlWidth*0.5, lvlHeight*0.5, this, 0, 0, 0, 0);
+	
+	var syria = this.nations.getNationByName("Syyria");
+	syria.tint = 0x990000;
+	syria.setActive(false);
 	
 	this.shadeButton.setFixedToCamera(true);
 	this.shadeButton.setWidth(lvlWidth);
 	this.shadeButton.setHeight(lvlHeight);
 	this.shadeButton.addToLayer(this.UpperGUILayer);
 	this.silenceGame(this.shadeButton);
-	
+
 	this.newsFeed.setActive(true);
 	
 	this.newsFeed.addText("Voit aloittaa pelin klikkaamalla karttaa", 999);
@@ -182,8 +186,18 @@ Game.prototype.waitForPlayer = function(){
 }
 
 
+Game.prototype.tweenToCenter = function(){
+	this.shadeButton.setActive(false);
+	var tween = this.phaserGame.add.tween(this.phaserGame.camera).to({ x: worldWidth * 0.38, y: worldHeight *0.28});
+	tween.onComplete.addOnce(this.destroyShade, this);
+	tween.start();
+	//this.mouseMover.moveCameraTo(worldWidth * 0.38, worldHeight *0.27);
+}
+
+
 Game.prototype.destroyShade = function(){
 	this.shadeButton.destroy();
+	
 	this.newsFeed.clearQueue();
 }
 
@@ -232,8 +246,8 @@ Game.prototype.createGUI = function(){
 	this.selectedNationListener = new EventHandler(this.updateProgressList, this);
 	
 	
-	this.debugText = this.phaserGame.add.text(600, 50, debugOn ? "Debug" : "Build", BASE_STYLE);
-	this.debugText.fixedToCamera = true;
+	//this.debugText = this.phaserGame.add.text(600, 50, debugOn ? "Debug" : "Build", BASE_STYLE);
+	//this.debugText.fixedToCamera = true;
 	
 	
 	
@@ -244,7 +258,7 @@ Game.prototype.createGUI = function(){
 	this.dateText.fixedToCamera = true;
 	
 	
-	this.GUILayer.add(this.debugText);
+	//this.GUILayer.add(this.debugText);
 	this.GUILayer.add(this.dateText);
 }
 
@@ -354,8 +368,9 @@ Game.prototype.increaseMaxRefugeeAmounts = function(data){
  * Writes the given text into the newsfeed of the game
  * @param text string to be written to the newsFeed
  */
-Game.prototype.addFeedData = function(text){
-	this.newsFeed.addText(text);
+Game.prototype.addFeedData = function(text, amount){
+	amount = amount || 1;
+	this.newsFeed.addText(text, amount);
 }
 
 
@@ -479,7 +494,7 @@ Game.prototype.finishHousing = function(nation, amount){
 	tween.start();
 	this.refugees.reduceTotalRefugees(amount);
 	if(this.refugees.getTotalRefugees() < 0){
-		this.debugText.text = "You won the game!";
+		//this.debugText.text = "You won the game!";
 	}
 }
 
@@ -556,8 +571,6 @@ Game.prototype.zoom = function(zoomAmount){
 	this.phaserGame.camera.scale.x *= zoomAmount;
 	this.phaserGame.camera.scale.y *= zoomAmount;
 	this.phaserGame.world.setBounds(0,0, this.phaserGame.world.width * zoomAmount, this.phaserGame.world.height * zoomAmount);
-	if(debugOn)
-		this.debugText.text = "X"+this.phaserGame.world.width +"\nY"+this.phaserGame.world.height;
 }
 
 
