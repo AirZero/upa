@@ -60,28 +60,38 @@ function getJsonFromEventsData(){
             "description": "Game ends here"
         },
         {
-            "date": "3.12.x",
+            "date": "6.3.2011",
             "chance": 100,
             "effects": [
                 {
                     "effectName": "feed",
-                    "data": "I'm so blue!"
+                    "data": "Syyrian salainen poliisi pidättää 15 poikaa, jotka maalasivat arabikevään innoittamana hallituksen vastaisia graffiteja"
                 }
             ],
-            "description": "testing the news feed"
+            "description": "basic news"
         },
         {
-            "date": "4.12.x",
+            "date": "15.3.2011",
             "chance": 100,
             "effects": [
                 {
                     "effectName": "feed",
-                    "data": "Da bu dee da bu dai da bu dee dabu!"
+                    "data": "Tuhannet syyrialaiset protestoivat poikien pidätystä vastaan"
                 }
             ],
-            "description": "testing the news feed"
-        }
-		
+            "description": "basic news"
+        },
+        {
+            "date": "18.3.2011",
+            "chance": 100,
+            "effects": [
+                {
+                    "effectName": "feed",
+                    "data": "Hallituksen joukot avaavat tulen mielenosoittajia vastaan - syntyy lisää protesteja"
+                }
+            ],
+            "description": "basic news"
+        }	
     ]
 };
 	return x;

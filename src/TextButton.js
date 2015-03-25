@@ -11,15 +11,20 @@
   * Constructor that initializes the component with given parameters
   * TODO: optional parameters
   */
- function TextButton (gameToAddTo, title, picture, method, style, x, y, callBackClass){
+ function TextButton (gameToAddTo, title, picture, method, style, x, y, callBackClass, overFrame, outFrame, downFrame, upFrame){
+	overFrame = overFrame || 1;
+	outFrame = outFrame || 0;
+	downFrame = downFrame || 2;
+	upFrame = upFrame || 3;
 	// Phaser.Button.call(this, gameToAddTo, 0, 0, picture, this.perform, this, 1, 0, 2, 3);
-	this.button = gameToAddTo.add.button(0, 0, picture, this.perform, this, 1, 0, 2, 3);
+	this.button = gameToAddTo.add.button(0, 0, picture, this.perform, this, overFrame, outFrame, downFrame, upFrame);
 
 	this.eventHandler = new EventHandler(method, callBackClass);
 	this.active = true;
 	this.button.anchor.setTo(0.5, 0.5);
 
-		
+	this.silencedObjects = [];
+	
 	this.text = gameToAddTo.add.text(0, 0, title, style);
 	this.text.anchor.setTo(0.5, 0.5);
 
@@ -54,6 +59,12 @@ TextButton.prototype.setInputPriority = function(inputPriority){
 }
 
 
+TextButton.prototype.silence = function(theSilenced){
+	theSilenced.setActive(false);
+	this.silencedObjects[this.silencedObjects.length] = theSilenced;
+}
+
+
 /**
  * Will try to perform the method given to the textbutton if the component is active
  */
@@ -81,6 +92,10 @@ TextButton.prototype.destroy = function(){
 	this.active = false;
 	this.button.destroy(true);
 	this.text.destroy();
+	for(var i = 0; i < this.silencedObjects.length; i++){
+		this.silencedObjects[i].setActive(true);
+	}
+	this.silencedObjects = [];
 }
 
 

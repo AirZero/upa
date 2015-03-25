@@ -124,8 +124,8 @@ HumanParticleSystem.prototype.destroy = function(){
  * If frequency and amount are too compared to the duration, the sending might take 0 seconds.
  */
 HumanParticleSystem.prototype.send = function(xStart,yStart, xDest, yDest, amount, duration, eventHandler){
-	this.x = xStart;
-	this.y = yStart;
+	this.x = xStart || this.x;
+	this.y = yStart || this.y;
 	this.xDestination = xDest;
 	this.yDestination = yDest;
 	//Lets do this before breaking duration

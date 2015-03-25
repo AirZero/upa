@@ -75,3 +75,9 @@ MouseMovement.prototype.moveCamera = function(x, y){
 	
 	//this.debugText.text = pointer.screenX+ " . "+pointer.screenY;
 }
+
+MouseMovement.prototype.moveCameraTo = function(x,y){
+	this.phaserGame.camera.x = x;
+	this.phaserGame.camera.y = y;
+}
+

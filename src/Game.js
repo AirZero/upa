@@ -154,7 +154,51 @@ Game.prototype.start = function(){
 	this.initializeParticleSystem();
 	this.addEvents();
 	this.updateRefugeeAmount();
-	this.mouseMover.moveCamera(worldWidth * 0.4, worldHeight *0.27);
+	this.mouseMover.moveCamera(worldWidth * 0.45, worldHeight *0.33);
+	
+	this.waitForPlayer();
+}
+
+
+Game.prototype.waitForPlayer = function(){
+	this.shadeButton = new TextButton(this.phaserGame, 'Start by clicking the game', 'shade', 
+	this.tweenToCenter, BASE_STYLE, lvlWidth*0.5, lvlHeight*0.5, this, 0, 0, 0, 0);
+	
+	var syria = this.nations.getNationByName("Syyria");
+	syria.tint = 0x990000;
+	syria.setActive(false);
+	
+	this.shadeButton.setFixedToCamera(true);
+	this.shadeButton.setWidth(lvlWidth);
+	this.shadeButton.setHeight(lvlHeight);
+	this.shadeButton.addToLayer(this.UpperGUILayer);
+	this.silenceGame(this.shadeButton);
+
+	this.newsFeed.setActive(true);
+	
+	this.newsFeed.addText("Voit aloittaa pelin klikkaamalla karttaa", 999);
+	this.newsFeed.addText("Maita klikkaamalla pakolaisia siirtyy kyseiseen maahan", 999);
+	this.newsFeed.addText("Syyriassa on alkanut vuosikymmenen pahin sisällissota.", 100);
+	this.newsFeed.addText("Kansainvälinen yhteisö on voimaton ja inhimillinen kärsimys lisääntyy.", 100);
+	this.newsFeed.addText("Ihmiset joutuvat jättämään kotinsa.",100);
+	this.newsFeed.addText("Sinulle on annettu tehtäväksi auttaa pakolaisia löytämään oleskelupaikka Euroopasta.",100);
+	this.newsFeed.addText("Toiset maat ovat vastaanottavaisempia kuin toiset.", 100);
+}
+
+
+Game.prototype.tweenToCenter = function(){
+	this.shadeButton.setActive(false);
+	var tween = this.phaserGame.add.tween(this.phaserGame.camera).to({ x: worldWidth * 0.38, y: worldHeight *0.28});
+	tween.onComplete.addOnce(this.destroyShade, this);
+	tween.start();
+	//this.mouseMover.moveCameraTo(worldWidth * 0.38, worldHeight *0.27);
+}
+
+
+Game.prototype.destroyShade = function(){
+	this.shadeButton.destroy();
+	
+	this.newsFeed.clearQueue();
 }
 
 
@@ -175,11 +219,14 @@ Game.prototype.createGUI = function(){
 	//this.addToObjects(textButton);
 	
 	var fullScreenButtonHeight = textButton.button.height * 0.5;
-	var fullScreenButton = new TextButton(this.phaserGame, 'FullScreen', 'button', this.goFullScreen, BASE_STYLE, textButton.button.x - textButton.button.width * 0.25, textButton.button.y + textButton.button.height * 0.5 + fullScreenButtonHeight, this);
-	fullScreenButton.setFixedToCamera(true);
-	fullScreenButton.setWidth(textButton.button.width * 0.5);
-	fullScreenButton.setHeight(fullScreenButtonHeight);
-	fullScreenButton.addToLayer(this.UpperGUILayer);
+	var fullScreenButton = new Phaser.Button(this.phaserGame, textButton.button.x - textButton.button.width * 0.25, textButton.button.y + textButton.button.height * 0.5 + fullScreenButtonHeight,
+	'fullscreenButton', this.goFullScreen, this, 1, 0, 2, 3);
+	fullScreenButton.fixedToCamera =(true);
+	fullScreenButton.anchor.setTo(0.5, 0.5);
+	fullScreenButton.width =(textButton.button.width * 0.5);
+	fullScreenButton.height =(fullScreenButtonHeight);
+	this.UpperGUILayer.add(fullScreenButton);
+	//fullScreenButton.addToLayer(this.UpperGUILayer);
 	
 	var feedHeight = lvlHeight * 0.1
 	
@@ -199,8 +246,8 @@ Game.prototype.createGUI = function(){
 	this.selectedNationListener = new EventHandler(this.updateProgressList, this);
 	
 	
-	this.debugText = this.phaserGame.add.text(600, 50, debugOn ? "Debug" : "Build", BASE_STYLE);
-	this.debugText.fixedToCamera = true;
+	//this.debugText = this.phaserGame.add.text(600, 50, debugOn ? "Debug" : "Build", BASE_STYLE);
+	//this.debugText.fixedToCamera = true;
 	
 	
 	
@@ -211,24 +258,33 @@ Game.prototype.createGUI = function(){
 	this.dateText.fixedToCamera = true;
 	
 	
-	this.GUILayer.add(this.debugText);
+	//this.GUILayer.add(this.debugText);
 	this.GUILayer.add(this.dateText);
 }
 
 
+/**
+ * Changes the game into fullscreen mode
+ */
 Game.prototype.goFullScreen = function(){
 	this.phaserGame.scale.startFullScreen();
 }
 
 
+/**
+ * Keeps the progress list up to date
+ */
 Game.prototype.updateProgressList = function(){
 	this.progressList.changeObjectAmount(this.maximumSelectedNations - this.selectedNations);
 }
 
-
+/**
+ * Initializes the particle system controller and sets the origin
+ */
 Game.prototype.initializeParticleSystem = function(){
 	this.humanParticleSystem = new HumanParticleSystemController(this.phaserGame, this.maximumSelectedNations, 'hunam', 50, 500, this.particleLayerZs);
-	this.humanParticleSystem.setOrigin(1000,1000); //TODO: Syrians location here
+	var nation = this.nations.getNationByName("Syyria");
+	this.humanParticleSystem.setOrigin(nation.x,nation.y); //TODO: Syrians location here
 	
 }
 
@@ -312,8 +368,9 @@ Game.prototype.increaseMaxRefugeeAmounts = function(data){
  * Writes the given text into the newsfeed of the game
  * @param text string to be written to the newsFeed
  */
-Game.prototype.addFeedData = function(text){
-	this.newsFeed.addText(text);
+Game.prototype.addFeedData = function(text, amount){
+	amount = amount || 1;
+	this.newsFeed.addText(text, amount);
 }
 
 
@@ -397,7 +454,8 @@ Game.prototype.startHousing = function(nation){
 	//So that the function can be handled properly, if theres no function(), then the tryHousing is called directly
 	//var nationsReference = this;
 	//var bar = new ProgressBar(nation.x, nation.y-lvlHeight*0.05, 'bar', this.phaserGame, processLength, 20, function(){nationsReference.finishHousing(nation, amount);}, this.BarLayer);
-	this.humanParticleSystem.send(1500, 1000, nation.x, nation.y, amount * 0.02, processLength, new EventHandler(function(){
+	//Too lazy to change design and the origin is set right earlier
+	this.humanParticleSystem.send(undefined, undefined, nation.x, nation.y, amount * 0.02, processLength, new EventHandler(function(){
 		this.finishHousing(nation, amount);
 	}, this)); //Because no divisions when avoidable!
 	
@@ -436,7 +494,7 @@ Game.prototype.finishHousing = function(nation, amount){
 	tween.start();
 	this.refugees.reduceTotalRefugees(amount);
 	if(this.refugees.getTotalRefugees() < 0){
-		this.debugText.text = "You won the game!";
+		//this.debugText.text = "You won the game!";
 	}
 }
 
@@ -513,8 +571,6 @@ Game.prototype.zoom = function(zoomAmount){
 	this.phaserGame.camera.scale.x *= zoomAmount;
 	this.phaserGame.camera.scale.y *= zoomAmount;
 	this.phaserGame.world.setBounds(0,0, this.phaserGame.world.width * zoomAmount, this.phaserGame.world.height * zoomAmount);
-	if(debugOn)
-		this.debugText.text = "X"+this.phaserGame.world.width +"\nY"+this.phaserGame.world.height;
 }
 
 
