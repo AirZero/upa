@@ -40,7 +40,7 @@ NationState.prototype.updateState = function(maxRefugees, refugees, nation){
 	this.refugees = refugees;
 	//TODO: no passing nation as argument but event also optimize the hell out of this.. not like it needs it.. but maybe?
 	//To avoid multiple divisions since it is not necessary 
-	var refugeePercent = this.refugees / this.maxRefugees;
+	var refugeePercent = this.maxRefugees === 0 ? 100 : this.refugees / this.maxRefugees;
 	if(refugeePercent < (this.nationState.amount * 0.01))
 		this.nationState = NATIONSTATE.states[0];
 	for(stateName in NATIONSTATE.states){

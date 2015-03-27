@@ -92,21 +92,36 @@ Refugees.prototype.parseData = function(){
 	var textData = this.game.cache.getText('refugeeDataCSV');
 	var nationsSplit = textData.split(/\r\n|\r|\n/g);
 	var startingYear = 2010;
-	for(var i = 0; i < nationsSplit.length; i++){
+	for(var i = 1; i < nationsSplit.length; i++){
 		var data = nationsSplit[i].split(",");
 		
-		for(var j = 1; j < data.length; j++){
-			var yearly = data[j];
+		for(var j =0; j < data.length -1; j++){
+			var yearly = data[data.length - 1 - j];
 			var left = yearly;
 			for(var month = 1; month <= 12; month++){
 				var monthly = month !== 12 ? Math.floor(yearly * 0.0833333333333333) : left;
 				left -= monthly;
-				this.refugeeData.push(new RefugeeMonth(data[0], month, startingYear+ j -1, monthly)); //same as /12
+				this.refugeeData.push(new RefugeeMonth(data[0], month, startingYear+ j, monthly)); //same as /12
 			}
 				
 		}
 	}	
 
+}
+
+Refugees.prototype.getAllPassedData = function(month, year){
+	var data = [];
+	var refMonth = 1;
+	var refYear = 2010;
+	while(refMonth !== month || refYear !== year){
+		data = data.concat(this.getAllRefugeesOfMonth(refMonth, refYear));
+		refMonth++;
+		if(refMonth > 12){
+			refMonth = 1;
+			refYear++;
+		}
+	}
+	return data;
 }
 
 Refugees.prototype.start = function(){
@@ -116,13 +131,14 @@ Refugees.prototype.start = function(){
 
 Refugees.prototype.getAllRefugeesOfMonth = function(month, year){
 	var data = [];
-	for(dataName in this.refugeeData){
-		var singleData = this.refugeeData[dataName];
+	for(var i = 0; i < this.refugeeData.length; i++){
+		var singleData = this.refugeeData[i];
 		if(singleData.month === month && singleData.year === year){
 			data.push({
 				"name": singleData.nationName,
 				"amount": singleData.amount
 			});
+			this.refugeeData.splice(i, 1);
 		}
 	}
 	

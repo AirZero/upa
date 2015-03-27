@@ -1,0 +1,30 @@
+<!doctype html> 
+<html lang="fi"> 
+<head> 
+	<meta charset="UTF-8" />
+	<title>Uutispeliprojekti</title>
+	<script>
+		var debugOn = false;
+		if(debugOn){
+		function handleError(evt){
+			if(evt.message){
+				alert("Type:"+evt.name+".\n msg: "+evt.message+".\n Error was located in file: "+evt.filename);
+			}
+		}
+		window.addEventListener("error", handleError, true);
+		}
+	</script>
+	<script type="text/javascript" src="js/phaser.js"></script>
+	<script type="text/javascript" src="js/Game.min.js"></script>
+	<script type="text/javascript" src="assets/data/nationsData.js"></script>
+	<script type="text/javascript" src="assets/data/eventsData.js"></script>
+	<script type="text/javascript" src="assets/data/problemData.js"></script>
+	<script type="text/javascript" src="assets/data/nationStateData.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<!-- <meta name="mobile-web-app-capable" content="yes"></meta> -->
+</head>
+<body style="position: relative; overflow: hidden;">
+
+
+</body>
+</html>

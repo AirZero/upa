@@ -41,7 +41,10 @@ function Game (phaserGame){
 }
 
 
-
+/**
+ * Defines property selectedNations and on set calls the selectedNationListener if one exists
+ * //TODO: array of listeners
+ */
 Object.defineProperty(Game.prototype, 'selectedNations',{
 	get: function(){
 		return this._selectedNations;
@@ -137,6 +140,7 @@ Game.prototype.clear = function(){
 Game.prototype.start = function(){
 	this.createGroups();
 	this.refugees.start();
+
 	
 	//this.phaserGame.input.onDown.add(this.clickStar, this);
 	//this.events[this.events.length] = 
@@ -147,15 +151,19 @@ Game.prototype.start = function(){
 	this.resetDate();
 	
 	//this.phaserGame.time.events.repeat(Phaser.Timer.SECOND * 0.25, this.times, this.createLands, this);
-	this.createLands(25);
+	this.createLands();
 
+	var data = this.refugees.getAllPassedData(this.gameProgress.getMonth(), this.gameProgress.getYear());
+	this.nations.increaseMaxRefugeeAmountsByData(data);
 	
 	this.createGUI();
 	this.initializeParticleSystem();
 	this.addEvents();
 	this.updateRefugeeAmount();
 	this.mouseMover.moveCamera(worldWidth * 0.45, worldHeight *0.33);
-	
+	//this.nations.tintAllNormal();
+	//Lets tint all of the nations with the current colors before starting
+	this.nations.increaseMaxRefugeeAmountsByData(0);
 	this.waitForPlayer();
 }
 
@@ -469,7 +477,7 @@ Game.prototype.getRefugeeAmount = function(nation){
 	//var month = this.gameProgress.getMonth();
 	//var year = this.gameProgress.getYear();
 	
-	var amount = Math.floor(nation.maxRefugees * 0.25);
+	var amount = Math.floor(1500);
 	//amount = 2000;
 	//TODO:Loading from a file
 	return amount;
@@ -648,7 +656,7 @@ Game.prototype.createRepeatEvent = function(seconds, times, method){
 /**
  * Creates the nations on to the game
  */
-Game.prototype.createLands = function(amount){
+Game.prototype.createLands = function(){
 	this.nations.createNations(this.GameLayer, this.TextLayer);
 	
 	

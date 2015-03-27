@@ -54,11 +54,13 @@ Nations.prototype.addOnNationClickHandler = function(method){
  */
 Nations.prototype.increaseMaxRefugeeAmountsByData = function(data){
 	//TODO: see if this can be optimised somehow
-	for(dataQuery in data){
-		var nation = this.nations[data[dataQuery].name];
+
+	for(var i = 0; i < data.length; i++){
+		var dataObj = data[i];
+		var nation = this.nations[dataObj.name];
 		//Probably not needed if-statement
 		if(nation)
-			nation.increaseMaxRefugeeAmount(data[dataQuery].amount);
+			nation.increaseMaxRefugeeAmount(data[i].amount);
 	}
 }
 
@@ -92,6 +94,12 @@ Nations.prototype.preloadNationData = function(){
 	this.loadNationData();	
 }
 
+
+Nations.prototype.tintAllNormal = function(){
+	for(nationName in this.nations){
+		this.nations[nationName].tintNormal();
+	}
+}
 
 /**
  * The actual function that loads the pictures for nations
@@ -144,7 +152,7 @@ Nations.prototype.createNation = function(layer, textLayer, x, y, nationData){
 	//TODO: Add an option to define the text position compared to the nations eg. anchor for text. See also what is ready for it
 	//var nation = new Nation(this.phaserGame, nationData.x, nationData.y, nationData.name, nationData.sprite);
 	this.textLayer = textLayer;
-	var nation = new Nation(this.phaserGame, x, y, nationData.name, nationData.sprite, 3500);
+	var nation = new Nation(this.phaserGame, x, y, nationData.name, nationData.sprite, 0);
 	//var nationSize = this.parseNationSize(nation, nationData.width, nationData.height);
 	nation.setWidth(nationData.width);
 	nation.setHeight(nationData.height);
