@@ -270,8 +270,8 @@ Game.prototype.createGUI = function(){
 	this.selectedNationListener = new EventHandler(this.updateProgressList, this);
 	
 	this.initializeRefugeeSpriteListController(
-	infoLabel.x + infoLabel.width * 0.5, infoLabel.y - infoLabel.height //Start in relatio the infolabels location
-	, lvlWidth, infoLabel.y - 20); //and end so too, the bar will end at screens right border
+	infoLabel.x + infoLabel.width * 0.65, infoLabel.y - infoLabel.height * 0.95 //Start in relatio the infolabels location
+	, lvlWidth, infoLabel.y - infoLabel.height * 0.1); //and end so too, the bar will end at screens right border
 	//this.debugText = this.phaserGame.add.text(600, 50, debugOn ? "Debug" : "Build", BASE_STYLE);
 	//this.debugText.fixedToCamera = true;
 	
@@ -296,12 +296,12 @@ Game.prototype.initializeRefugeeSpriteListController = function(x, y, endX, endY
 			"ratio": 1,
 			"layer": this.UpperGUILayer,
 			"represents": 1000,
-			"width": 10,
-			"height": 10,
+			"width": 15,
+			"height": 15,
 			"maxSprites": 32
 		},
 		{
-			"ratio": 3,
+			"ratio": 2,
 			"layer": this.UpperGUILayer,
 			"represents": 32000,
 			"width": 50,

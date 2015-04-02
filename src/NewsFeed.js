@@ -20,6 +20,7 @@ function NewsFeed (phaserGame, sprite, height, layerToAddTo, z, x, y){
 	this.width = lvlWidth;
 	this.height = height;
 	this.textTime = 8;
+	this.offset = 575;
 	this.active = true;
 	this.fixedToCamera = true;
 	this.style = BASE_STYLE;
@@ -47,7 +48,7 @@ NewsFeed.prototype.setActive = function(activity){
  */
 NewsFeed.prototype.addText = function(title, times){
 	times = times || 3;
-	var text = new FeedText(this.game, this.textStartingPoint, this.y , title, this.style, times);
+	var text = new FeedText(this.game, this.textStartingPoint, this.offset , title, this.style, times);
 	text.anchor.setTo(0, 0.5);
 	this.queue.push(text);
 	//this.layerToAddTo.add(text);
