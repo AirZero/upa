@@ -83,6 +83,7 @@ Game.prototype.createGroups =function(){
 	for(var i = 0; i < this.maximumSelectedNations; i++){
 		this.particleLayerZs[this.particleLayerZs.length] = this.getNextAvailableZ();
 	}
+	this.initializeParticleSystem();
 	this.BarLayer = this.phaserGame.add.group();
 	this.BarLayer.z = this.getNextAvailableZ();
 	this.TextLayer = this.phaserGame.add.group();
@@ -157,11 +158,11 @@ Game.prototype.start = function(){
 	this.nations.increaseMaxRefugeeAmountsByData(data);
 	
 	this.createGUI();
-	this.initializeParticleSystem();
+	//this.initializeParticleSystem();
 	this.addEvents();
 	this.updateRefugeeAmount();
 	this.mouseMover.moveCamera(worldWidth * 0.45, worldHeight *0.33);
-	//this.nations.tintAllNormal();
+
 	//Lets tint all of the nations with the current colors before starting
 	this.nations.increaseMaxRefugeeAmountsByData(0);
 	this.waitForPlayer();
@@ -291,9 +292,10 @@ Game.prototype.updateProgressList = function(){
  */
 Game.prototype.initializeParticleSystem = function(){
 	this.humanParticleSystem = new HumanParticleSystemController(this.phaserGame, this.maximumSelectedNations, 'hunam', 50, 500, this.particleLayerZs);
-	var nation = this.nations.getNationByName("Syyria");
-	this.humanParticleSystem.setOrigin(nation.x,nation.y); //TODO: Syrians location here
-	
+	//var nation = this.nations.getNationByName("Syyria");
+	//this.humanParticleSystem.setOrigin(nation.x,nation.y);
+
+	this.humanParticleSystem.setOrigin(1500,1500);
 }
 
 Game.prototype.addEvents = function(){
@@ -478,8 +480,9 @@ Game.prototype.getRefugeeAmount = function(nation){
 	//var year = this.gameProgress.getYear();
 	
 	var amount = Math.floor(1500);
-	//amount = 2000;
-	//TODO:Loading from a file
+	amount = nation.countHowManyWouldFit(amount);
+	
+	
 	return amount;
 }
 
@@ -490,20 +493,25 @@ Game.prototype.getRefugeeAmount = function(nation){
 Game.prototype.finishHousing = function(nation, amount){
 	this.selectedNations--;
 	nation.setInProcess(false);
-	var notHoused = nation.tryHousing(amount);
+	amount = nation.tryHousing(amount);
 	//amount +space because space is negative if not enough space
-	amount -= notHoused;
-	var text = this.phaserGame.add.text(nation.x,nation.y, ""+amount, SMALL_STYLE);
+	//amount -= notHoused;
+	this.createFloatingText(nation.x, nation.y, ""+amount);
+	
+	this.refugees.reduceTotalRefugees(amount);
+	if(this.refugees.getTotalRefugees() < 0){
+		//this.debugText.text = "You won the game!";
+	}
+}
+
+Game.prototype.createFloatingText = function(x, y, textTitle){
+	var text = this.phaserGame.add.text(x, y, textTitle, SMALL_STYLE);
 	var tween = this.phaserGame.add.tween(text).to({ x: text.x, y: text.y - lvlHeight * 0.1}, 500, Phaser.Easing.Linear.None, 0);
 	//TODO: check if this actually eats huge amounts of memory!
 	tween.onComplete.addOnce(function(){
 		text.destroy();
 	});
 	tween.start();
-	this.refugees.reduceTotalRefugees(amount);
-	if(this.refugees.getTotalRefugees() < 0){
-		//this.debugText.text = "You won the game!";
-	}
 }
 
 

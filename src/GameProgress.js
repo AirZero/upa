@@ -8,9 +8,8 @@
  */
 function GameProgress(phaserGame){
 	this.phaserGame = phaserGame;
-	this.monthInterval = 8;
+	this.monthInterval = 6;
 	this.dayInterval = this.monthInterval / 30;
-	//TODO: why is the month +2
 	this.startDate = new GameDate(5,3,2011);
 	this.resetDate(); //Initializes this.date also as well as sets it to startdate
 	this.lastDayTime = this.phaserGame.time.totalElapsedSeconds();
@@ -49,6 +48,7 @@ GameProgress.prototype.addOnTimeChangedEvent = function(method, callBackClass){
  */
 GameProgress.prototype.setActive = function(activity){
 	//TODO: adding the waited time to the current time so there is no jump on update when this is returned to true
+	//Not necessary if only advancing 1 day at a time since the different is so small. In case of long days, this should be attended though
 	this.active = activity;
 }
 

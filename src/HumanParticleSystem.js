@@ -120,6 +120,7 @@ HumanParticleSystem.prototype.destroy = function(){
 /**
  * Sends particles from the given point to the given point.
  * Sends the given amount and counts that they hit the target point in duration.
+ * The amount of sent particles is rounded up to the next integer.
  * Upon completion will call the given eventhandler.
  * If frequency and amount are too compared to the duration, the sending might take 0 seconds.
  */
@@ -134,6 +135,10 @@ HumanParticleSystem.prototype.send = function(xStart,yStart, xDest, yDest, amoun
 		eventHandler.process();
 	}, this);
 	this.events.push(timedEvent);
+	
+	//Simple rounding. If 1.1 particles would be sent, we send 2
+	amount = Math.floor(amount+1);
+	
 	//Because from here on its in ms
 	duration = duration*1000;
 	//This is done to allow the last invidual to finish in duration

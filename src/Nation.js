@@ -135,22 +135,42 @@ Nation.prototype.setHeight = function(height){
 }
 
 
+Nation.prototype.countHowManyWouldFit = function(amount){
+	var space = this.getSpaceLeft();
+	return space >= amount ? amount : space;
+}
+
+
+Nation.prototype.getSpaceLeft = function(){
+	return this.maxRefugees - this.refugees;
+}
+
+
+Nation.prototype.isSpaceLeft = function(){
+	return this.getSpaceLeft > 0;
+}
+
 /**
  * Tries to house the given amount of refugees to the nation.
  * Returns the amount refugees that were not able to be housed.
  */
 Nation.prototype.tryHousing = function(amount){
-	//TODO: Fix this method, not working 100%
-	var space = this.maxRefugees - this.refugees;
-	var notSent = 0;
-	if(space >= amount){
-		this.refugees += amount;
-	}
-	else {
-		notSent = amount - space;
-		this.refugees = this.maxRefugees;
-	}
-	//TODO: only 1 access from nations class to the update state
+	var fit = this.countHowManyWouldFit(amount);
+	var notFit = amount - fit;
+	this.refugees += fit;
 	this.nationState.updateState(this.maxRefugees, this.refugees, this);
-	return notSent;
+	return fit;
+	////TODO: Fix this method, not working 100%
+	//var space = this.maxRefugees - this.refugees;
+	//var notSent = 0;
+	//if(space >= amount){
+	//	this.refugees += amount;
+	//}
+	//else {
+	//	notSent = amount - space;
+	//	this.refugees = this.maxRefugees;
+	//}
+	////TODO: only 1 access from nations class to the update state
+	//this.nationState.updateState(this.maxRefugees, this.refugees, this);
+	//return notSent;
 }
