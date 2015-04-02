@@ -83,6 +83,7 @@ Game.prototype.createGroups =function(){
 	for(var i = 0; i < this.maximumSelectedNations; i++){
 		this.particleLayerZs[this.particleLayerZs.length] = this.getNextAvailableZ();
 	}
+	//Because particle system is just hellbent on not going background if not done here
 	this.initializeParticleSystem();
 	this.BarLayer = this.phaserGame.add.group();
 	this.BarLayer.z = this.getNextAvailableZ();
@@ -153,11 +154,14 @@ Game.prototype.start = function(){
 	
 	//this.phaserGame.time.events.repeat(Phaser.Timer.SECOND * 0.25, this.times, this.createLands, this);
 	this.createLands();
-
+//	this.initializeRefugeeSpriteListController();
 	var data = this.refugees.getAllPassedData(this.gameProgress.getMonth(), this.gameProgress.getYear());
 	this.nations.increaseMaxRefugeeAmountsByData(data);
 	
 	this.createGUI();
+	
+	var nation = this.nations.getNationByName("Syyria");
+	this.humanParticleSystem.setOrigin(nation.x,nation.y);
 	//this.initializeParticleSystem();
 	this.addEvents();
 	this.updateRefugeeAmount();
@@ -237,24 +241,37 @@ Game.prototype.createGUI = function(){
 	this.UpperGUILayer.add(fullScreenButton);
 	//fullScreenButton.addToLayer(this.UpperGUILayer);
 	
-	var feedHeight = lvlHeight * 0.1
+	var feedHeight = lvlHeight * 0.07;
+	
+	
 	
 	var infoLabel = this.phaserGame.add.sprite(0, lvlHeight - feedHeight, 'infoLabel');
 	infoLabel.anchor.setTo(0,1);
 	infoLabel.fixedToCamera = true;
 	this.GUILayer.add(infoLabel);
 	
-	this.refugeeText = this.phaserGame.add.text(infoLabel.x +20, infoLabel.y - infoLabel.height *0.3, "", NATION_TEXT_STYLE);
-	this.updateRefugeeAmount();
-	this.refugeeText.fixedToCamera = true;
-	this.GUILayer.add(this.refugeeText);
+	var logo = new Phaser.Sprite(this.phaserGame, 0, infoLabel.y, 'logo');
+	logo.anchor.setTo(0,1);
+	logo.height = infoLabel.height * 0.95; //0.95 to make it fit inside
+	logo.width = lvlWidth * 0.2;
+	logo.fixedToCamera = true;
+	this.GUILayer.add(logo);
+	
+	//this.refugeeText = this.phaserGame.add.text(infoLabel.x +20, infoLabel.y - infoLabel.height *0.3, "", NATION_TEXT_STYLE);
+	//this.refugeeText.fixedToCamera = true;
+	//this.GUILayer.add(this.refugeeText);
+	
+	//this.updateRefugeeAmount();
 	
 	this.newsFeed = new NewsFeed(this.phaserGame, 'textFeed', feedHeight, this.GUILayer, this.getNextAvailableZ());
 	
-	this.progressList = new SpriteList(this.phaserGame, infoLabel.x+20, infoLabel.x + infoLabel.width *0.5, infoLabel.y - infoLabel.height * 0.6, infoLabel.y - infoLabel.height * 0.6, 5, 'progress', this.GUILayer, true);
+	var progressListX = logo.x + logo.width + 20;
+	this.progressList = new SpriteList(this.phaserGame, progressListX, progressListX + infoLabel.width *0.25, infoLabel.y - infoLabel.height * 0.6, infoLabel.y - infoLabel.height * 0.6, 5, 'progress', this.GUILayer, true);
 	this.selectedNationListener = new EventHandler(this.updateProgressList, this);
 	
-	
+	this.initializeRefugeeSpriteListController(
+	infoLabel.x + infoLabel.width * 0.5, infoLabel.y - infoLabel.height //Start in relatio the infolabels location
+	, lvlWidth, infoLabel.y - 20); //and end so too, the bar will end at screens right border
 	//this.debugText = this.phaserGame.add.text(600, 50, debugOn ? "Debug" : "Build", BASE_STYLE);
 	//this.debugText.fixedToCamera = true;
 	
@@ -269,6 +286,30 @@ Game.prototype.createGUI = function(){
 	
 	//this.GUILayer.add(this.debugText);
 	this.GUILayer.add(this.dateText);
+}
+
+
+Game.prototype.initializeRefugeeSpriteListController = function(x, y, endX, endY){
+	this.refugeeSpriteListController = new RefugeeSpriteListController(this.phaserGame,
+	[
+		{ //TODO: width and height could be done better
+			"ratio": 1,
+			"layer": this.UpperGUILayer,
+			"represents": 1000,
+			"width": 10,
+			"height": 10,
+			"maxSprites": 32
+		},
+		{
+			"ratio": 3,
+			"layer": this.UpperGUILayer,
+			"represents": 32000,
+			"width": 50,
+			"height": 30,
+			"maxSprites": 10
+		}
+	], x, endX, y, endY);
+	
 }
 
 
@@ -295,7 +336,7 @@ Game.prototype.initializeParticleSystem = function(){
 	//var nation = this.nations.getNationByName("Syyria");
 	//this.humanParticleSystem.setOrigin(nation.x,nation.y);
 
-	this.humanParticleSystem.setOrigin(1500,1500);
+	//this.humanParticleSystem.setOrigin(1500,1500);
 }
 
 Game.prototype.addEvents = function(){
@@ -323,7 +364,8 @@ Game.prototype.dayChangedForRefugeeProblemHandler = function(){
 }
 
 Game.prototype.updateRefugeeAmount = function(){
-	this.refugeeText.text = "Refugees left: "+this.refugees.getTotalRefugees();
+	//this.refugeeText.text = "Refugees left: "+this.refugees.getTotalRefugees();
+	this.refugeeSpriteListController.refugeeAmountChanged(this.refugees.getTotalRefugees());
 }
 
 

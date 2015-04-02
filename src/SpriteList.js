@@ -3,14 +3,15 @@
 /**
  * A simple class that creates objects to fill from starting x to end x and starting y to end y with the given sprites.
  */
-function SpriteList (game, startX, endX, startY, endY, objects, sprite, layer, fillAtStart){
+function SpriteList (game, startX, endX, startY, endY, objects, sprite, layer, fillAtStart, spriteWidth, spriteHeight){
 	this.game = game;
 	
 	this.startX = startX;
 	this.endX = endX;
 	this.startY = startY;
 	this.endY = endY;
-	
+	this.spriteWidth = spriteWidth;
+	this.spriteHeight = spriteHeight;
 	this.sprites = [];
 	
 	this.objects = objects;
@@ -77,6 +78,12 @@ SpriteList.prototype.addNewSprite = function(){
 	var x = this.startX + ((this.endX - this.startX) * this.sprites.length / this.objects);
 	var y = this.startY + ((this.endY - this.startY) * this.sprites.length / this.objects);
 	var newSprite = this.game.add.sprite(x,y, this.sprite);
+	//Initialize the value with the sprites size when its made
+	//TODO: is reasonable way to get this out of newSprite?
+	this.spriteWidth = this.spriteWidth || newSprite.width;
+	this.spriteHeight = this.spriteHeight || newSprite.height;
+	newSprite.width = this.spriteWidth;
+	newSprite.height = this.spriteHeight;
 	newSprite.anchor.setTo(0.5,0.5);
 	newSprite.fixedToCamera = true;
 	this.sprites[this.sprites.length] = newSprite;

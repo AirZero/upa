@@ -73,9 +73,10 @@ function preload()
 	phaserGame.load.image('dialogBack', PICTURE_PATH+'dialogBack.png');
 	phaserGame.load.image('bar', PICTURE_PATH+'Bar.png');
 	phaserGame.load.spritesheet('shade', PICTURE_PATH+'Shade.png', 200, 200);
-	phaserGame.load.image('textFeed', PICTURE_PATH+'TextFeed.png');
-	phaserGame.load.image('hunam', PICTURE_PATH+'HunamSmall.png');
-	phaserGame.load.image('infoLabel', PICTURE_PATH+'InfoLabel.png');
+	phaserGame.load.image('textFeed', PICTURE_PATH+'Uutispalkki.png');
+	phaserGame.load.image('logo', PICTURE_PATH+'Logo.png');
+	phaserGame.load.image('hunam', PICTURE_PATH+'Hunam.png');
+	phaserGame.load.image('infoLabel', PICTURE_PATH+'YlempiPalkki.png');
 	phaserGame.load.image('progress', PICTURE_PATH+'progress.png');
 	preloadGame();
 	preloadMenu();

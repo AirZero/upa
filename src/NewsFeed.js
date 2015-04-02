@@ -13,6 +13,7 @@ function NewsFeed (phaserGame, sprite, height, layerToAddTo, z, x, y){
 	y = y || lvlHeight - height * 0.5;
 //	this.phaserGame = phaserGame;
 	Phaser.Sprite.call(this, phaserGame, x, y, sprite);
+	//this.alpha = 0.85;
 	this.anchor.setTo(0.5,0.5);
 	this.textStartingPoint = lvlWidth;
 	this.textEndingPoint = 0;
@@ -46,7 +47,7 @@ NewsFeed.prototype.setActive = function(activity){
  */
 NewsFeed.prototype.addText = function(title, times){
 	times = times || 3;
-	var text = new FeedText(this.game, this.textStartingPoint, 575 , title, this.style, times);
+	var text = new FeedText(this.game, this.textStartingPoint, this.y , title, this.style, times);
 	text.anchor.setTo(0, 0.5);
 	this.queue.push(text);
 	//this.layerToAddTo.add(text);

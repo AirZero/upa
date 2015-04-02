@@ -14,7 +14,13 @@ function HumanParticle (game, x, y){
 	 Phaser.Particle.call(this, game, x, y, 'hunam');
 	 this.destination = null;
 	 this.tween = null;
+	 this.onFinishListener = null;
 	 this.active = true;
+}
+
+HumanParticle.prototype.addOnFinishListener = function(listener){
+	//TODO: multiple ones
+	this.onFinishListener = listener;
 }
 
 
@@ -34,7 +40,7 @@ HumanParticle.prototype.setActive = function(activity){
 HumanParticle.prototype.send = function(tweenDuration){
 	if(this.destination){
 		this.tween = this.game.add.tween(this).to({ x: this.destination.x, y: this.destination.y}, tweenDuration, Phaser.Easing.Linear.None, true, 0, 0);
-		this.tween.onComplete.addOnce(this.kill, this);
+		this.tween.onComplete.addOnce(this.finishMoving, this);
 		this.tween.isPaused = !this.active;
 	}
 }
@@ -62,6 +68,11 @@ HumanParticle.prototype.resetTweenAndDestination = function(){
 }
 
 
+HumanParticle.prototype.finishMoving = function(){
+	if(this.onFinishListener)
+		this.onFinishListener.process();
+	this.kill();
+}
 
 
 /**

@@ -24,10 +24,11 @@ function HumanParticleSystem(game, sprite, lifeSpan, frequency, quantity, z){
 	this.gravity = 0;
 	this.busy = false;
 	this.active = true;
-	this.events = [];
+	this.sentParticles = 0;
+	this.onSendFinish = null;
 	
-	this.minParticleScale = 0.9;
-	this.maxParticleScale = 1;
+	this.minParticleScale = 0.35;
+	this.maxParticleScale = 0.4;
 	
 	this.minParticleSpeed.x = 0;
 	this.minParticleSpeed.y = 0;
@@ -50,14 +51,32 @@ HumanParticleSystem.prototype.setActive = function(activity){
 }
 
 
+HumanParticleSystem.prototype.particleFinishedTween = function(particle){
+	this.sentParticles--;
+	if(this.sentParticles == 0){
+		if(this.onSendFinish)
+			this.onSendFinish.process();
+		this.stop();
+	}
+}
+
+
+
+HumanParticleSystem.prototype.addToSentParticles = function(particle){
+	this.sentParticles++;
+}
+
+
 
 /**
  * Initializes the given particle with an onEmit event that allows for the sending of the particle.
  */
 HumanParticleSystem.prototype.initializeParticle = function(particle){
 	var particleSystemRef = this;
-	 particle.onEmit = function(){
+	particle.addOnFinishListener(new EventHandler(this.particleFinishedTween, this));
+	particle.onEmit = function(){
 		particle.gravity = 0;
+		particleSystemRef.addToSentParticles(particle);
 		if(particle.destination === null){
 			particle.z = this.z;
 			particle.setDestination(particleSystemRef.getXDestination(), particleSystemRef.getYDestination());
@@ -100,10 +119,7 @@ HumanParticleSystem.prototype.setOrigin = function(x,y){
  */
 HumanParticleSystem.prototype.stop = function(){
 	this.busy = false;
-	for(eventName in this.events){
-		this.game.time.events.remove(this.events[eventName]);
-	}
-	this.events = [];
+	this.onSendFinish = null;
 }
 
 
@@ -129,18 +145,20 @@ HumanParticleSystem.prototype.send = function(xStart,yStart, xDest, yDest, amoun
 	this.y = yStart || this.y;
 	this.xDestination = xDest;
 	this.yDestination = yDest;
+	this.onSendFinish = eventHandler;
 	//Lets do this before breaking duration
-	var timedEvent = this.game.time.events.add(Phaser.Timer.SECOND * duration, function(){
-		this.stop();
-		eventHandler.process();
-	}, this);
-	this.events.push(timedEvent);
+	//TODO: actually based on the sent particles
+	//var timedEvent = this.game.time.events.add(Phaser.Timer.SECOND * duration, function(){
+	//	this.stop();
+	//	eventHandler.process();
+	//}, this);
+	//this.events.push(timedEvent);
 	
 	//Simple rounding. If 1.1 particles would be sent, we send 2
 	amount = Math.floor(amount+1);
 	
 	//Because from here on its in ms
-	duration = duration*1000;
+	duration = duration * 1000;
 	//This is done to allow the last invidual to finish in duration
 	duration -= this.emitFrequency * amount;
 	this.tweenDuration = duration;
