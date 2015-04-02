@@ -20,7 +20,8 @@ function NewsFeed (phaserGame, sprite, height, layerToAddTo, z, x, y){
 	this.width = lvlWidth;
 	this.height = height;
 	this.textTime = 8;
-	this.offset = 575;
+	//TODO: count this from the offset, cannot be related to y since that does not work with fixedToCamera
+	this.offset = 583;
 	this.active = true;
 	this.fixedToCamera = true;
 	this.style = BASE_STYLE;
