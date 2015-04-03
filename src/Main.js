@@ -78,6 +78,7 @@ function preload()
 	phaserGame.load.image('hunam', PICTURE_PATH+'Hunam.png');
 	phaserGame.load.image('infoLabel', PICTURE_PATH+'YlempiPalkki.png');
 	phaserGame.load.image('progress', PICTURE_PATH+'progress.png');
+	phaserGame.load.image('info', PICTURE_PATH+'RefugeeAmountInfo.png');
 	preloadGame();
 	preloadMenu();
 }

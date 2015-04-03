@@ -256,7 +256,6 @@ Game.prototype.createGUI = function(){
 	logo.width = lvlWidth * 0.2;
 	logo.fixedToCamera = true;
 	this.GUILayer.add(logo);
-	
 	//this.refugeeText = this.phaserGame.add.text(infoLabel.x +20, infoLabel.y - infoLabel.height *0.3, "", NATION_TEXT_STYLE);
 	//this.refugeeText.fixedToCamera = true;
 	//this.GUILayer.add(this.refugeeText);
@@ -265,9 +264,19 @@ Game.prototype.createGUI = function(){
 	
 	this.newsFeed = new NewsFeed(this.phaserGame, 'textFeed', feedHeight, this.GUILayer, this.getNextAvailableZ());
 	
-	var progressListX = logo.x + logo.width + 20;
-	this.progressList = new SpriteList(this.phaserGame, progressListX, progressListX + infoLabel.width *0.25, infoLabel.y - infoLabel.height * 0.6, infoLabel.y - infoLabel.height * 0.6, 5, 'progress', this.GUILayer, true);
+	var progressListX = logo.x + logo.width + 30;
+	var progressListEndX = progressListX + infoLabel.width *0.25;
+	var progressListY = infoLabel.y - infoLabel.height * 0.6;
+	
+	//TODO: can be count without 50 and 20?
+	var info = new Phaser.Sprite(this.phaserGame, progressListEndX +50, progressListY +8, 'info');
+	info.fixedToCamera = true;
+	info.anchor.setTo(0.5,0.5);
+	this.GUILayer.add(info);
+	
+	this.progressList = new SpriteList(this.phaserGame, progressListX,progressListEndX , progressListY, progressListY, 5, 'progress', this.GUILayer, true);
 	this.selectedNationListener = new EventHandler(this.updateProgressList, this);
+	
 	
 	this.initializeRefugeeSpriteListController(
 	infoLabel.x + infoLabel.width * 0.65, infoLabel.y - infoLabel.height * 0.95 //Start in relatio the infolabels location
