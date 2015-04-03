@@ -1,0 +1,4 @@
+sounds/error.wav = https://www.freesound.org/people/fins/sounds/171497/ user:"fins"
+sounds/bump.wav = https://www.freesound.org/people/Isaac200000/sounds/188013/ user:"Isaac200000"
+sounds/DST-2ndBallad.mp3 = http://www.nosoapradio.us/ DeadSuperiorTechnician Attribution license!!!
+sounds/DST-3ndBallad.mp3 = http://www.nosoapradio.us/ DeadSuperiorTechnician Attribution license!!!

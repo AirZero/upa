@@ -7,6 +7,7 @@
 
 function PlayerPrefs(){
 	//TODO: boolean storing with bytes from int
+	//TODO: any sort of boolean storign
 }
 
 

@@ -14,6 +14,7 @@ var TIME_FOR_DOUBLECLICK = 0.3;
 var DIALOG_INPUTPRIORITY = 2;
 var BUTTON_INPUTPRIORITY = 2;
 var DATA_PATH = 'assets/data/';
+var SOUND_PATH = 'assets/sounds/';
 var PICTURE_PATH = 'assets/pictures/';
 
 
@@ -70,6 +71,8 @@ function preload()
 	phaserGame.load.spritesheet('button', PICTURE_PATH+'buttonsWithUp.png', 100, 100);
 	phaserGame.load.spritesheet('fullscreenButton', PICTURE_PATH+'fullscreenButtons.png', 100, 100);
 	//phaserGame.load.image('finland', 'assets/pictures/finland.png');
+	phaserGame.load.audio('error', SOUND_PATH+'bump.wav');
+	phaserGame.load.audio('music', SOUND_PATH+'DST-3rdBallad.ogg');
 	phaserGame.load.image('dialogBack', PICTURE_PATH+'dialogBack.png');
 	phaserGame.load.image('bar', PICTURE_PATH+'Bar.png');
 	phaserGame.load.spritesheet('shade', PICTURE_PATH+'Shade.png', 200, 200);

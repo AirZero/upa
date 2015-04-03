@@ -36,6 +36,8 @@ function Game (phaserGame){
 	this.refugees = new Refugees(this.phaserGame);
 	this.nextZ = 0;
 	
+	this.disableSounds = playerPrefs.getNumber("disableSounds") === 1;
+	
 	this.moveOnMap = true;
 	
 }
@@ -124,6 +126,9 @@ Game.prototype.clear = function(){
 	this.humanParticleSystem.clear();
 	this.progressList.clear();
 	this.selectedNationListener = null;
+	this.music.stop();
+	this.music.destroy();
+	this.fullSound.destroy();
 	
 	for(var i = 0; i < this.events.length; i++){
 		this.phaserGame.time.events.remove(this.events[i]);
@@ -143,6 +148,7 @@ Game.prototype.start = function(){
 	this.createGroups();
 	this.refugees.start();
 
+	this.initializeSounds();
 	
 	//this.phaserGame.input.onDown.add(this.clickStar, this);
 	//this.events[this.events.length] = 
@@ -160,8 +166,7 @@ Game.prototype.start = function(){
 	
 	this.createGUI();
 	
-	var nation = this.nations.getNationByName("Syyria");
-	this.humanParticleSystem.setOrigin(nation.x,nation.y);
+	
 	//this.initializeParticleSystem();
 	this.addEvents();
 	this.updateRefugeeAmount();
@@ -169,7 +174,22 @@ Game.prototype.start = function(){
 
 	//Lets tint all of the nations with the current colors before starting
 	this.nations.increaseMaxRefugeeAmountsByData(0);
+	this.defineSyria();
 	this.waitForPlayer();
+}
+
+
+Game.prototype.initializeSounds = function(){
+	this.fullSound = new Phaser.Sound(this.phaserGame, 'error', 0.7);
+	this.music = new Phaser.Sound(this.phaserGame, 'music');
+}
+
+
+Game.prototype.defineSyria = function(){
+	var nation = this.nations.getNationByName("Syyria");
+	nation.setActive(false);
+	nation.tint = 0x990000;
+	this.humanParticleSystem.setOrigin(nation.x,nation.y);
 }
 
 
@@ -177,9 +197,9 @@ Game.prototype.waitForPlayer = function(){
 	this.shadeButton = new TextButton(this.phaserGame, 'Start by clicking the game', 'shade', 
 	this.tweenToCenter, BASE_STYLE, lvlWidth*0.5, lvlHeight*0.5, this, 0, 0, 0, 0);
 	
-	var syria = this.nations.getNationByName("Syyria");
-	syria.tint = 0x990000;
-	syria.setActive(false);
+	//var syria = this.nations.getNationByName("Syyria");
+	//syria.tint = 0x990000;
+	//syria.setActive(false);
 	
 	this.shadeButton.setFixedToCamera(true);
 	this.shadeButton.setWidth(lvlWidth);
@@ -196,6 +216,7 @@ Game.prototype.waitForPlayer = function(){
 	this.newsFeed.addText("Ihmiset joutuvat jättämään kotinsa.",100);
 	this.newsFeed.addText("Sinulle on annettu tehtäväksi auttaa pakolaisia löytämään oleskelupaikka Euroopasta.",100);
 	this.newsFeed.addText("Toiset maat ovat vastaanottavaisempia kuin toiset.", 100);
+	
 }
 
 
@@ -204,6 +225,8 @@ Game.prototype.tweenToCenter = function(){
 	var tween = this.phaserGame.add.tween(this.phaserGame.camera).to({ x: worldWidth * 0.38, y: worldHeight *0.28});
 	tween.onComplete.addOnce(this.destroyShade, this);
 	tween.start();
+	if(!this.disableSounds)
+		this.music.play();
 	//this.mouseMover.moveCameraTo(worldWidth * 0.38, worldHeight *0.27);
 }
 
@@ -231,8 +254,10 @@ Game.prototype.createGUI = function(){
 	textButton.addToLayer(this.UpperGUILayer);
 	//this.addToObjects(textButton);
 	
+	//TODO: button factory
+	var buttonX = textButton.button.x - textButton.button.width * 0.25;
 	var fullScreenButtonHeight = textButton.button.height * 0.5;
-	var fullScreenButton = new Phaser.Button(this.phaserGame, textButton.button.x - textButton.button.width * 0.25, textButton.button.y + textButton.button.height * 0.5 + fullScreenButtonHeight,
+	var fullScreenButton = new Phaser.Button(this.phaserGame, buttonX, textButton.button.y + textButton.button.height * 0.5 + fullScreenButtonHeight,
 	'fullscreenButton', this.goFullScreen, this, 1, 0, 2, 3);
 	fullScreenButton.fixedToCamera =(true);
 	fullScreenButton.anchor.setTo(0.5, 0.5);
@@ -240,6 +265,17 @@ Game.prototype.createGUI = function(){
 	fullScreenButton.height =(fullScreenButtonHeight);
 	this.UpperGUILayer.add(fullScreenButton);
 	//fullScreenButton.addToLayer(this.UpperGUILayer);
+	
+	var musicButton = new Phaser.Button(
+		this.phaserGame, buttonX, fullScreenButton.y + fullScreenButtonHeight *1.5,'fullscreenButton',
+		this.handleMusicSwitch, this, 1,0,2,3
+	);
+	musicButton.fixedToCamera = true;
+	musicButton.anchor.setTo(0.5, 0.5);
+	musicButton.width = fullScreenButton.width;
+	musicButton.height = fullScreenButtonHeight; //Same size
+	this.UpperGUILayer.add(musicButton);
+	
 	
 	var feedHeight = lvlHeight * 0.07;
 	
@@ -295,6 +331,18 @@ Game.prototype.createGUI = function(){
 	
 	//this.GUILayer.add(this.debugText);
 	this.GUILayer.add(this.dateText);
+}
+
+Game.prototype.handleMusicSwitch = function(){
+	var soundsOff =  playerPrefs.getNumber("disableSounds") === 1;
+	soundsOff = !soundsOff;//Reverse the state
+	playerPrefs.set("disableSounds", soundsOff ? 1 : 0); 
+	if(soundsOff)
+		this.music.stop();
+	else
+		this.music.play('', 0, 1, true, true);
+	//this.music.isPlaying = !soundsOff;
+	this.disableSounds = soundsOff;
 }
 
 
@@ -441,6 +489,7 @@ Game.prototype.silenceGame = function(silencer){
 	silencer.silence(this.nations);
 	silencer.silence(this.mouseMover);
 	silencer.silence(this.humanParticleSystem);
+	this.defineSyria();
 }
 
 
@@ -504,8 +553,11 @@ Game.prototype.nationSelectedForMoving = function(nation){
  * Start the housing process for given nation
  */
 Game.prototype.startHousing = function(nation){
-	if(nation.getInProcess() || nation.isFull() || this.selectedNations >= this.maximumSelectedNations)
+	if(nation.getInProcess() || nation.isFull() || this.selectedNations >= this.maximumSelectedNations){
+		if(!this.disableSounds)
+			this.fullSound.play();
 		return;
+	}
 	//TODO: make pretty
 	nation.setInProcess(true);
 	this.selectedNations++;
