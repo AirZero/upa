@@ -350,13 +350,68 @@ function getJsonFromNationsData(){
 		},
 			{
 			"name": "Syyria",
-			"x": "Right:Kreikka,Percent:57",
-			"y": "Down:Turkki,Percent:-55",
-			"width": 271,
-			"height": 201,
+			"x": "Right:Kreikka,Percent:48",
+			"y": "Down:Turkki,Percent:-53",
+			"width": 288,
+			"height": 218,
 			"rotation": 0,
 			"sprite": "Syyria"	
+		},
+		{
+			"name": "Lichtenstein-ja-Andorra",
+			"x": "Right:Sveitsi,Percent:-261",
+			"y": "Same:Sveitsi,Percent:-91",
+			"width": 19,
+			"height": 18,
+			"rotation": 0,
+			"sprite": "Lichtenstein-ja-Andorra"	
+		},
+			{
+			"name": "Israel",
+			"x": "Right:Kreikka,Percent:35",
+			"y": "Down:Turkki,Percent:50",
+			"width": 135,
+			"height": 134,
+			"rotation": 0,
+			"sprite": "Israel	"	
+		},
+			{
+			"name": "Libanon",
+			"x": "Right:Kreikka,Percent:93",
+			"y": "Down:Turkki,Percent:29",
+			"width": 112,
+			"height": 63,
+			"rotation": 0,
+			"sprite": "Libanon"	
+		},
+			{
+			"name": "Jordania",
+			"x": "Right:Kreikka,Percent:51",
+			"y": "Down:Turkki,Percent:31.5",
+			"width": 252,
+			"height": 153,
+			"rotation": 0,
+			"sprite": "Jordania"	
+		},
+			{
+			"name": "Saudi-Arabia",
+			"x": "Right:Kreikka,Percent:198",
+			"y": "Down:Turkki,Percent:83",
+			"width": 141,
+			"height": 110,
+			"rotation": 0,
+			"sprite": "Saudi-Arabia"	
+		},
+			{
+			"name": "Irak",
+			"x": "Right:Kreikka,Percent:578",
+			"y": "Down:Turkki,Percent:-37",
+			"width": 62,
+			"height": 201,
+			"rotation": 0,
+			"sprite": "Irak"	
 		}
+
 
 		
 		
