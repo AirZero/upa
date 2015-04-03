@@ -422,7 +422,12 @@ Game.prototype.dayChangedForRefugeeProblemHandler = function(){
 
 Game.prototype.updateRefugeeAmount = function(){
 	//this.refugeeText.text = "Refugees left: "+this.refugees.getTotalRefugees();
-	this.refugeeSpriteListController.refugeeAmountChanged(this.refugees.getTotalRefugees());
+	var totalRefugees = this.refugees.getTotalRefugees();
+	
+	this.refugeeSpriteListController.refugeeAmountChanged(totalRefugees);
+	if(totalRefugees <= 0){
+		this.winGame();
+	}
 }
 
 
@@ -454,6 +459,19 @@ Game.prototype.completeEffect = function(effect){
 		default:
 			break;
 	}
+}
+
+
+Game.prototype.winGame = function(){
+	var ref = this;
+	var dialog = new Dialog(this.phaserGame, "Olet saanut sijoitettua kaikki pakolaiset\n"
+				  +"Suoritit sen "+this.gameProgress.getDateString()+"!\n"
+				  +"Onneksi olkoon!",
+				  [new EventHandler(this.reMenu, this)], ["Ok"]);
+//	dialog.setTexts(null, yesText, noText);
+	dialog.addToLayer(this.UpperGUILayer);
+	this.silenceGame(dialog);
+				  
 }
 
 
@@ -501,7 +519,7 @@ Game.prototype.addDialog = function(text, method, buttonText){
 	method = method || function(){};
 	buttonText = buttonText || "Ok";
 	
-	var dialog = new Dialog(this.phaserGame, text, [method], [buttonText]);
+	var dialog = new Dialog(this.phaserGame, text, [new EventHandler(method)], [buttonText]);
 //	dialog.setTexts(null, yesText, noText);
 	dialog.addToLayer(this.UpperGUILayer);
 	this.silenceGame(dialog);
@@ -514,7 +532,7 @@ Game.prototype.addDialog = function(text, method, buttonText){
  * Is used to innerly refresh date text whenever date changes
  */
 Game.prototype.refreshDateText = function(){
-	this.dateText.text = "Date:"+this.gameProgress.getDateString();
+	this.dateText.text = "Päivä:"+this.gameProgress.getDateString();
 }
 
 
@@ -565,9 +583,7 @@ Game.prototype.startHousing = function(nation){
 	var processLength = 4;
 	
 	//So that the function can be handled properly, if theres no function(), then the tryHousing is called directly
-	//var nationsReference = this;
-	//var bar = new ProgressBar(nation.x, nation.y-lvlHeight*0.05, 'bar', this.phaserGame, processLength, 20, function(){nationsReference.finishHousing(nation, amount);}, this.BarLayer);
-	//Too lazy to change design and the origin is set right earlier
+	//Too lazy to change design and the origin is set right earlier hence undefineds
 	this.humanParticleSystem.send(undefined, undefined, nation.x, nation.y, amount * 0.02, processLength, new EventHandler(function(){
 		this.finishHousing(nation, amount);
 	}, this)); //Because no divisions when avoidable!
@@ -602,9 +618,6 @@ Game.prototype.finishHousing = function(nation, amount){
 	this.createFloatingText(nation.x, nation.y, ""+amount);
 	
 	this.refugees.reduceTotalRefugees(amount);
-	if(this.refugees.getTotalRefugees() < 0){
-		//this.debugText.text = "You won the game!";
-	}
 }
 
 Game.prototype.createFloatingText = function(x, y, textTitle){

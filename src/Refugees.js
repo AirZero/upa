@@ -5,13 +5,14 @@
  *
  */
 
+ var STARTING_REFUGEES = 80000;
  
  /**
   * Initializes the refugee data ready for the game
   */
 function Refugees(game){
 	this.game = game;
-	this.totalRefugees = 100000;
+	this.totalRefugees = STARTING_REFUGEES;
 	this.onRefugeeAmountChange = [];
 	this.deaths = 0;
 	
@@ -38,7 +39,7 @@ Refugees.prototype.kill = function(amount){
  */
 Refugees.prototype.clear = function(){
 	this.onRefugeeAmountChange = [];
-	this.totalRefugees = 100000;
+	this.totalRefugees = STARTING_REFUGEES;
 }
 
 
@@ -54,6 +55,20 @@ Refugees.prototype.changeTotalRefugees = function(amount){
 	return this.totalRefugees;
 }
 
+
+/**
+ * Changes the amount of refugees with the amount without checks
+ */
+Refugees.prototype.changeTotalTo = function(amount){
+	this.totalRefugees = amount;
+	for(handler in this.onRefugeeAmountChange){
+		this.onRefugeeAmountChange[handler].process(amount);
+	}
+	
+	return this.totalRefugees;
+}
+
+
 /**
  * Tries to reduce the total refugee amount by given amount
  * Returns the amount of not fitted refugees
@@ -65,7 +80,7 @@ Refugees.prototype.reduceTotalRefugees = function(amount){
 	}
 	else{
 		var over = amount - this.totalRefugees;
-		this.totalRefugees = 0;
+		this.changeTotalTo(0);
 		return over;
 	}
 }

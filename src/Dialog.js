@@ -42,9 +42,8 @@ function Dialog(game, text, methods, texts, x, y, width, height){
 		var xPos = startingPoint + ((methods.length -1) - (i * methods.length * 0.5)) * (width) * 0.5 * 0.8;
 		var method = methods[i];
 		this.buttons.push( this.createButton(game, texts[i], 'button', function(){
-			method();
-			dialog.destroy();
-		}, BASE_STYLE, xPos, yPos, xSize, ySize));
+			this.processMethodClick(method);
+		}, BASE_STYLE, xPos, yPos, xSize, ySize, this));
 	}
 	
 	//TODO: some heavy duty refactoring
@@ -60,8 +59,17 @@ function Dialog(game, text, methods, texts, x, y, width, height){
 }
 
 
-Dialog.prototype.createButton = function(game, text, sprite, method, font,x, y, xSize, ySize){
-	var button = new TextButton(game, text, 'button', method, font, x, y)
+Dialog.prototype.processMethodClick = function(method){
+	this.destroy();
+	if(method instanceof EventHandler)
+		method.process();
+	else method();
+}
+
+
+
+Dialog.prototype.createButton = function(game, text, sprite, method, font,x, y, xSize, ySize, thisClass){
+	var button = new TextButton(game, text, 'button', method, font, x, y, thisClass)
 	button.setWidth(xSize);
 	button.setFixedToCamera(true);
 	button.setHeight(ySize);

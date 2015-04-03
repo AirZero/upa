@@ -36,6 +36,8 @@ RefugeeSpriteListController.prototype.updateLists = function(){
 		var sprites =  Math.floor(refugeesLeft / details.represents);
 		refugeesLeft -= sprites * details.represents;
 		this.spriteLists[i].changeObjectAmount(sprites);
-		
 	}
+	//TODO: into method that will rotate over to the next list
+	if(refugeesLeft > 0)
+		this.spriteLists[0].addNewSprite();
 }

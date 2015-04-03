@@ -9,7 +9,7 @@ function getJsonFromEventsData(){
     "events": [
         {
             "date": "x.x.x",
-            "chance": 10,
+            "chance": 1,
             "effects": [
                 {
                     "effectName": "addRefugees",
@@ -24,7 +24,7 @@ function getJsonFromEventsData(){
             "effects": [
                 {
                     "effectName": "story",
-                    "data": "Year Changed and loads\n of new refugees came"
+                    "data": "Vuosi vaihtuu\n ja uusia pakolaisia tulee"
                 },
 				{
                     "effectName": "addRefugees",
@@ -50,7 +50,7 @@ function getJsonFromEventsData(){
             "effects": [
                 {
                     "effectName": "story",
-                    "data": "The conflict still ensues!"
+                    "data": "Peli loppuu, mutta konflikti jatkuu edelleen!\n"
                 },
                 {
                     "effectName": "endGame",
