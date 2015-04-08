@@ -6,7 +6,7 @@
  */
 
 
-var lvlWidth = 1000;
+var lvlWidth = 800;
 var lvlHeight = 600;
 var worldWidth = 1500;
 var worldHeight = 1500;
