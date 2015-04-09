@@ -35,9 +35,6 @@ init();
  */
 function init(){
 	var renderMode = Phaser.AUTO;
-	if(debugOn)
-	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, renderMode, '', { preload: preload, create: create, update: update, render : render });
-	else
 	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, renderMode, '', { preload: preload, create: create, update: update});
 }
 
@@ -57,16 +54,6 @@ function reset(){
  */
 function preload()
 {
-	if(debugOn){
-		phaserGame.time.advancedTiming = true;
-		var type = phaserGame.renderType;
-		if(type === Phaser.CANVAS)
-			alert('CanvasRenderer was used');
-		else if(type === Phaser.WEBGL)
-			alert('WebGL was used');
-		else
-			alert('HeadlessRenderer was used');
-	}
 	reset();
 	phaserGame.load.spritesheet('button', PICTURE_PATH+'buttonsWithUp.png', 100, 100);
 	phaserGame.load.spritesheet('fullscreenButton', PICTURE_PATH+'fullscreenButtons.png', 100, 100);
@@ -74,11 +61,12 @@ function preload()
 	phaserGame.load.audio('error', SOUND_PATH+'bump.wav');
 	phaserGame.load.audio('music', SOUND_PATH+'DST-3rdBallad.ogg');
 	phaserGame.load.image('dialogBack', PICTURE_PATH+'dialogBack.png');
-	phaserGame.load.image('bar', PICTURE_PATH+'Bar.png');
+	phaserGame.load.image('bar', PICTURE_PATH+'TransparentBar.png');
 	phaserGame.load.spritesheet('shade', PICTURE_PATH+'Shade.png', 200, 200);
 	phaserGame.load.image('textFeed', PICTURE_PATH+'Uutispalkki.png');
 	phaserGame.load.image('logo', PICTURE_PATH+'Logo.png');
 	phaserGame.load.image('hunam', PICTURE_PATH+'Hunam.png');
+	phaserGame.load.image('ball', PICTURE_PATH+'StateBall.png');
 	phaserGame.load.image('infoLabel', PICTURE_PATH+'YlempiPalkki.png');
 	phaserGame.load.image('progress', PICTURE_PATH+'progress.png');
 	phaserGame.load.image('info', PICTURE_PATH+'RefugeeAmountInfo.png');

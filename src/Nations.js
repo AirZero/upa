@@ -49,6 +49,32 @@ Nations.prototype.addOnNationClickHandler = function(method){
 }
 
 
+Nations.prototype.getSentRefugees = function(){
+	var sent = { "refugees": 0, "maxRefugees": 0 };
+	for(nationName in this.nations){
+		var nation = this.nations[nationName];
+		sent.refugees += nation.refugees;
+		sent.maxRefugees += nation.maxRefugees;
+	}
+	return sent;
+}
+
+Nations.prototype.getPercents = function(){
+	var arr = [];
+	for(nationName in this.nations){
+		var nation = this.nations[nationName];
+		if(nation.maxRefugees > 0) 
+			arr.push(nation.refugees / nation.maxRefugees);
+		else
+			arr.push(1);
+	}
+	var sum = 0;
+	for(var i = 0; i < arr.length; i++)
+		sum += arr[i];
+	return sum / arr.length;
+}
+
+
 /**
  * 
  */

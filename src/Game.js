@@ -166,6 +166,7 @@ Game.prototype.start = function(){
 	
 	this.createGUI();
 	
+	this.initializeGameStateBar();
 	
 	//this.initializeParticleSystem();
 	this.addEvents();
@@ -178,6 +179,11 @@ Game.prototype.start = function(){
 	this.waitForPlayer();
 }
 
+
+Game.prototype.initializeGameStateBar = function(){
+	this.gameStateBar = new GameStateBar(this.phaserGame, 'bar', 'ball', lvlWidth * 0.5, lvlHeight * 0.8, lvlWidth, lvlHeight * 0.07);
+	this.gameStateBar.addToLayer(this.UpperGUILayer);
+}
 
 Game.prototype.initializeSounds = function(){
 	this.fullSound = new Phaser.Sound(this.phaserGame, 'error', 0.7);
@@ -423,7 +429,8 @@ Game.prototype.dayChangedForRefugeeProblemHandler = function(){
 Game.prototype.updateRefugeeAmount = function(){
 	//this.refugeeText.text = "Refugees left: "+this.refugees.getTotalRefugees();
 	var totalRefugees = this.refugees.getTotalRefugees();
-	
+	var percents = this.nations.getPercents();
+	this.gameStateBar.refugeeAmountChanged(percents);
 	this.refugeeSpriteListController.refugeeAmountChanged(totalRefugees);
 	if(totalRefugees <= 0){
 		this.winGame();
@@ -580,7 +587,7 @@ Game.prototype.startHousing = function(nation){
 	nation.setInProcess(true);
 	this.selectedNations++;
 	var amount = this.getRefugeeAmount(nation);
-	var processLength = 4;
+	var processLength = 3;
 	
 	//So that the function can be handled properly, if theres no function(), then the tryHousing is called directly
 	//Too lazy to change design and the origin is set right earlier hence undefineds
