@@ -159,13 +159,18 @@ HumanParticleSystem.prototype.send = function(xStart,yStart, xDest, yDest, amoun
 	
 	//Because from here on its in ms
 	duration = duration * 1000;
+	
+	var frequency = this.emitFrequency;
+	while(frequency * amount > duration)
+		frequency *= 0.5;
+	
 	//This is done to allow the last invidual to finish in duration
-	duration -= this.emitFrequency * amount;
+	duration -= frequency * amount;
 	this.tweenDuration = duration;
 	//Phaser actually has _quantity += quantity, making the amount constantly increase which is definitely not what we want, hence resetting the inner property
 	this._quantity = 0;
 	this.busy = true;
-	this.start(false, 0, this.emitFrequency, amount);
+	this.start(false, 0, frequency, amount);
 	
 
 }

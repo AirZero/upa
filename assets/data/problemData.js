@@ -6,19 +6,19 @@ function getJsonFromProblemData(){
 		"problems":
 		[
 			{
-				"name": "Plague",
+				"name": "RUTTO!",
 				"deathToll": "10%",
-				"chance": 1,
+				"chance": 0.1,
 				"treshold": 105000
 			},
 			{
-				"name": "No sleeping place",
+				"name": "Ei nukkumapaikkoja pakolaisleirissä",
 				"deathToll": 200,
 				"chance": 50,
 				"treshold": 150000
 			},
 			{
-				"name": "Gang fights",
+				"name": "Jengi taisteluja pakolaisleireissä",
 				"deathToll": 500,
 				"chance": 0.1,
 				"treshold": 50000

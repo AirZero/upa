@@ -17,6 +17,9 @@ function GameStateBar(phaserGame, sprite, stateBall, x, y, width, height){
 	this.percents = 0;
 	this.lowPercent = 0.4;
 	this.active = true;
+	this.shaken = 0;
+	this.shakeCount = 0;
+	this.shakeLength = 5;
 	
 	this.onTooLongLowHandlers = [];
 	this.maxTimeOnLow = 125;
@@ -92,6 +95,15 @@ GameStateBar.prototype.update = function(){
 		if(difference > 0.5)
 			return;
 		this.lowTime += difference;
+		var dir = this.shaken >= 0 ? 1 : -1;
+		if(this.shakeCount > 3){
+			dir *= -1;
+			this.shakeCount = 0;
+		}
+		this.shaken = this.shakeLength * (this.lowTime /this.maxTimeOnLow) * dir;
+		this.ball.cameraOffset.y += this.shaken;
+		this.shakeCount++;
+		
 		if(this.lowTime >= this.maxTimeOnLow)
 			this.invokeOnTooLowListeners();
 	}

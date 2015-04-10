@@ -39,6 +39,8 @@ function Game (phaserGame){
 	this.refugees = new Refugees(this.phaserGame);
 	this.nextZ = 0;
 	
+	this.tutorialEvents = [];
+	
 	this.disableSounds = playerPrefs.getNumber("disableSounds") === 1;
 	
 	this.moveOnMap = true;
@@ -95,9 +97,11 @@ Game.prototype.createGroups =function(){
 	this.TextLayer = this.phaserGame.add.group();
 	this.TextLayer.z = this.getNextAvailableZ();
 	this.GUILayer = this.phaserGame.add.group();
-	this.GUILayer.z = this.getNextAvailableZ();	
+	this.GUILayer.z = this.getNextAvailableZ();
 	this.UpperGUILayer = this.phaserGame.add.group();
 	this.UpperGUILayer.z = this.getNextAvailableZ();
+	this.TutorialLayer = this.phaserGame.add.group();
+	this.TutorialLayer.z = this.getNextAvailableZ();
 }
 
 
@@ -210,8 +214,10 @@ Game.prototype.defineSyria = function(){
 
 
 Game.prototype.waitForPlayer = function(){
-	this.shadeButton = new TextButton(this.phaserGame, 'Start by clicking the game', 'shade', 
-	this.tweenToCenter, BASE_STYLE, lvlWidth*0.5, lvlHeight*0.5, this, 0, 0, 0, 0);
+	this.shadeButton = new TextButton(this.phaserGame, 'Aloita peli klikkaamalla ruutua', 'shade', 
+	this.tweenToCenter, BASE_STYLE, lvlWidth*0.5, lvlHeight*0.3, this, 0, 0, 0, 0);
+	
+	this.createTutorial();
 	
 	//var syria = this.nations.getNationByName("Syyria");
 	//syria.tint = 0x990000;
@@ -227,17 +233,80 @@ Game.prototype.waitForPlayer = function(){
 	
 	this.newsFeed.addText("Voit aloittaa pelin klikkaamalla karttaa", 999);
 	this.newsFeed.addText("Maita klikkaamalla pakolaisia siirtyy kyseiseen maahan", 999);
+	
+	
+}
+
+
+Game.prototype.createTutorial = function(){
+
+
+	var info = this.createTutorialElement('info', lvlWidth * 0.75,lvlHeight * 0.70, 0);
+	var text = this.createTutorialText("Täältä näet pakolaisten määrän", info.x, info.y -50);
+	var arr = this.createTutorialElement('arrow', info.x, info.y + info.height, 90);
+	
+	var fullInfo = this.createTutorialText("Kokonäytön tila", lvlWidth* 0.24, lvlHeight * 0.25);
+	var musicInfo = this.createTutorialText("Äänet päälle ja pois", lvlWidth *0.25, lvlHeight * 0.4);
+	
+	
+	var timedEvent = this.phaserGame.time.events.add(Phaser.Timer.SECOND * 5, this.addPlaneTutorial, this);
+	this.tutorialEvents[this.tutorialEvents.length] = timedEvent;
+	
+	var timedEvent2 = this.phaserGame.time.events.add(Phaser.Timer.SECOND * 9, function(){
+		this.addStateTutorial();
+		info.destroy();
+		text.destroy();
+		arr.destroy();
+	}, this);
+	this.tutorialEvents[this.tutorialEvents.length] = timedEvent2;
+	
+}
+
+
+Game.prototype.addStateTutorial = function(){
+	var text = this.createTutorialText("Pyri pitämään tämä palkki vihreänä", lvlWidth * 0.6, lvlHeight * 0.7);
+	var arrow = this.createTutorialElement('arrow', text.x, text.y+30, 90);
+	
+	this.newsFeed.clearQueue();
 	this.newsFeed.addText("Syyriassa on alkanut vuosikymmenen pahin sisällissota.", 100);
 	this.newsFeed.addText("Kansainvälinen yhteisö on voimaton ja inhimillinen kärsimys lisääntyy.", 100);
 	this.newsFeed.addText("Ihmiset joutuvat jättämään kotinsa.",100);
 	this.newsFeed.addText("Sinulle on annettu tehtäväksi auttaa pakolaisia löytämään oleskelupaikka Euroopasta.",100);
 	this.newsFeed.addText("Toiset maat ovat vastaanottavaisempia kuin toiset.", 100);
-	
+}
+
+
+Game.prototype.addPlaneTutorial = function(){
+	var text =this.createTutorialText("Näin monta sijoitusta \nvoi tapahtua kerrallaan", lvlWidth * 0.2, lvlHeight * 0.7);
+	this.createTutorialElement('arrow', text.x+50, text.y+ 45, 45);
+}
+
+Game.prototype.createTutorialText = function(text, x, y){
+	var text = new Phaser.Text(this.phaserGame, x, y, text, SMALL_STYLE);
+	text.fixedToCamera = true;
+	text.anchor.setTo(0.5,0.5);
+	this.TutorialLayer.add(text);
+	return text;
+}
+
+
+Game.prototype.createTutorialElement = function(sprite, x,y, angle){
+	var sprite = new Phaser.Sprite(this.phaserGame, x, y , sprite);
+	sprite.angle = angle;
+	sprite.anchor.setTo(0.5,0.5);
+	sprite.fixedToCamera = true;
+	this.TutorialLayer.add(sprite);
+	return sprite;
 }
 
 
 Game.prototype.tweenToCenter = function(){
 	this.shadeButton.setActive(false);
+	for(var i = 0; i < this.tutorialEvents.length; i++){
+		this.phaserGame.time.events.remove(this.tutorialEvents[i]);
+	}
+	this.tutorialEvents = [];
+	this.TutorialLayer.destroy();
 	var tween = this.phaserGame.add.tween(this.phaserGame.camera).to({ x: worldWidth * 0.38, y: worldHeight *0.28});
 	tween.onComplete.addOnce(this.destroyShade, this);
 	tween.start();
@@ -299,6 +368,7 @@ Game.prototype.createGUI = function(){
 	
 	var infoLabel = this.phaserGame.add.sprite(0, lvlHeight - feedHeight, 'infoLabel');
 	infoLabel.anchor.setTo(0,1);
+	infoLabel.width = lvlWidth;
 	infoLabel.fixedToCamera = true;
 	this.GUILayer.add(infoLabel);
 	
@@ -321,10 +391,7 @@ Game.prototype.createGUI = function(){
 	var progressListY = infoLabel.y - infoLabel.height * 0.6;
 	
 	//TODO: can be count without 50 and 20?
-	var info = new Phaser.Sprite(this.phaserGame, progressListEndX +50, progressListY +8, 'info');
-	info.fixedToCamera = true;
-	info.anchor.setTo(0.5,0.5);
-	this.GUILayer.add(info);
+
 	
 	this.progressList = new SpriteList(this.phaserGame, progressListX,progressListEndX , progressListY, progressListY, 5, 'progress', this.GUILayer, true);
 	this.selectedNationListener = new EventHandler(this.updateProgressList, this);
@@ -338,7 +405,7 @@ Game.prototype.createGUI = function(){
 	
 	
 	
-	this.dateText = this.phaserGame.add.text(lvlWidth * 0.5, lvlHeight * 0.1, "Date:"+this.gameProgress.getDateString(), BASE_STYLE);
+	this.dateText = this.phaserGame.add.text(lvlWidth * 0.5, lvlHeight * 0.1, "Pvm:"+this.gameProgress.getDateString(), BASE_STYLE);
 	this.dateText.anchor.setTo(0.5, 0.5);
 	
 
@@ -430,8 +497,8 @@ Game.prototype.addEvents = function(){
 
 Game.prototype.handleNewProblem = function(args){
 	var problem = args[0];
-	
-	this.newsFeed.addText(problem.name + " has occurred with death toll of "+problem.deathToll, 1);
+	//TODO: probably will be left out
+	this.newsFeed.addText(problem.name + " aiheutti kuoleman "+problem.deathToll +" pakolaiselle", 1);
 	this.refugees.kill(problem.deathToll);
 }
 
@@ -661,7 +728,7 @@ Game.prototype.getRefugeeAmount = function(nation){
 	//var month = this.gameProgress.getMonth();
 	//var year = this.gameProgress.getYear();
 	
-	var amount = Math.floor(1500);
+	var amount = Math.floor(1000 + nation.getMaxRefugees() * 0.1);
 	amount = nation.countHowManyWouldFit(amount);
 	
 	

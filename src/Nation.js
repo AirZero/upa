@@ -39,6 +39,11 @@ Nation.prototype.setActive = function(activity){
 }
 
 
+Nation.prototype.getMaxRefugees = function(){
+	return this.maxRefugees;
+}
+
+
 /**
  * Increases max refugee amount for nation
  */

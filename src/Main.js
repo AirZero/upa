@@ -69,6 +69,7 @@ function preload()
 	phaserGame.load.image('ball', PICTURE_PATH+'StateBall.png');
 	phaserGame.load.image('infoLabel', PICTURE_PATH+'YlempiPalkki.png');
 	phaserGame.load.image('progress', PICTURE_PATH+'progress.png');
+	phaserGame.load.image('arrow', PICTURE_PATH+'arrow.png');
 	phaserGame.load.image('info', PICTURE_PATH+'RefugeeAmountInfo.png');
 	preloadGame();
 	preloadMenu();
