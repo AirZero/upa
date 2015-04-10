@@ -355,8 +355,68 @@ function getJsonFromEventsData(){
                 }
             ],
             "description": "basic news"
-        }																													
-    ]
+        },
+        {
+            "date": "1.1.2012",
+            "chance": 100,
+            "effects": [
+                {
+                    "effectName": "setLosingTime",
+                    "data": "8"
+                },
+				{
+                    "effectName": "setProcessTime",
+                    "data": "3"
+                }
+            ],
+            "description": "Sets the losing time to the game for year 2012"
+        },
+        {
+            "date": "1.1.2013",
+            "chance": 100,
+            "effects": [
+                {
+                    "effectName": "setLosingTime",
+                    "data": "6"
+                },
+				{
+                    "effectName": "setProcessTime",
+                    "data": "2"
+                }
+            ],
+            "description": "Sets the losing time to the game for year 2012"
+        },
+        {
+            "date": "1.1.2014",
+            "chance": 100,
+            "effects": [
+                {
+                    "effectName": "setLosingTime",
+                    "data": "4"
+                },
+				{
+                    "effectName": "setProcessTime",
+                    "data": "2"
+                }
+            ],
+            "description": "Sets the losing time to the game for year 2012"
+        },
+        {
+            "date": "1.1.2015",
+            "chance": 100,
+            "effects": [
+                {
+                    "effectName": "setLosingTime",
+                    "data": "3"
+                },
+				{
+                    "effectName": "setProcessTime",
+                    "data": "2"
+                }
+            ],
+            "description": "Sets the losing time to the game for year 2012"
+        }
+	]
 };
 	return x;
 }

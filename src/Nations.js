@@ -80,14 +80,18 @@ Nations.prototype.getPercents = function(){
  */
 Nations.prototype.increaseMaxRefugeeAmountsByData = function(data){
 	//TODO: see if this can be optimised somehow
-
+	var total = 0;
 	for(var i = 0; i < data.length; i++){
 		var dataObj = data[i];
 		var nation = this.nations[dataObj.name];
 		//Probably not needed if-statement
-		if(nation)
+		if(nation){
+			total += data[i].amount;
 			nation.increaseMaxRefugeeAmount(data[i].amount);
+			
+		}
 	}
+	return total;
 }
 
 

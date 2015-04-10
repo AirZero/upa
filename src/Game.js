@@ -23,12 +23,15 @@ function Game (phaserGame){
 	this._selectedNations = 0;
 	this.selectedNationListener = null;
 	
+	//TODO: how bad is it that these are here?
+	this.europeanRefugees = 0;
+	this.maxEuropeanRefugees = 0;
+	
 	//this.selectedNations = 0;
 	//this.createGroups();
 	//TODO: component type of adding of children would be efficient in the long run with loads of components and scripts.. something like components.add(new MouseMovement) and then the all basic functions are evoked if they exist. Easier for code, more stressful for the engine
 	this.mouseMover = new MouseMovement(phaserGame, CAMERA_MOVEMENT_SPEED);
 	this.nations = new Nations(this.phaserGame);
-	var theGame = this;
 	this.nations.addOnNationClickHandler(new EventHandler(this.onNationClick, this));
 	this.gameProgress = new GameProgress(this.phaserGame);
 	this.gameEventHandler = new GameEventHandler(this.phaserGame);
@@ -122,6 +125,7 @@ Game.prototype.clear = function(){
 	this.gameProgress.clear();
 	this.refugeeProblemHandler.clear();
 	this.refugees.clear();
+	this.gameStateBar.clear();
 	this.gameEventHandler.clear();
 	this.humanParticleSystem.clear();
 	this.progressList.clear();
@@ -129,6 +133,7 @@ Game.prototype.clear = function(){
 	this.music.stop();
 	this.music.destroy();
 	this.fullSound.destroy();
+	this.processLength = 4;
 	
 	for(var i = 0; i < this.events.length; i++){
 		this.phaserGame.time.events.remove(this.events[i]);
@@ -137,6 +142,8 @@ Game.prototype.clear = function(){
 	//this.phaserGame.time.events.stop();
 	//this.phaserGame.time.events.removeAll();
 	this._selectedNations = 0;
+	this.europeanRefugees = 0;
+	this.maxEuropeanRefugees = 0;
 }
 
 
@@ -147,6 +154,7 @@ Game.prototype.clear = function(){
 Game.prototype.start = function(){
 	this.createGroups();
 	this.refugees.start();
+	this.processLength = 4;
 
 	this.initializeSounds();
 	
@@ -161,12 +169,14 @@ Game.prototype.start = function(){
 	//this.phaserGame.time.events.repeat(Phaser.Timer.SECOND * 0.25, this.times, this.createLands, this);
 	this.createLands();
 //	this.initializeRefugeeSpriteListController();
-	var data = this.refugees.getAllPassedData(this.gameProgress.getMonth(), this.gameProgress.getYear());
-	this.nations.increaseMaxRefugeeAmountsByData(data);
-	
-	this.createGUI();
 	
 	this.initializeGameStateBar();
+
+	var data = this.refugees.getAllPassedData(this.gameProgress.getMonth(), this.gameProgress.getYear());
+	this.increaseMaxRefugeeAmountsInNations(data);
+	
+	this.createGUI();
+
 	
 	//this.initializeParticleSystem();
 	this.addEvents();
@@ -339,6 +349,10 @@ Game.prototype.createGUI = function(){
 	this.GUILayer.add(this.dateText);
 }
 
+
+Game.prototype.increaseMaxRefugeeAmounts
+
+
 Game.prototype.handleMusicSwitch = function(){
 	var soundsOff =  playerPrefs.getNumber("disableSounds") === 1;
 	soundsOff = !soundsOff;//Reverse the state
@@ -410,6 +424,8 @@ Game.prototype.addEvents = function(){
 	this.gameProgress.addOnTimeChangedEvent(this.refreshDateText, this);
 	this.gameEventHandler.addOnEventProcessingHandler(this.processGameEvent, this);
 	this.refugees.addOnRefugeeAmountChange(this.updateRefugeeAmount, this);
+	
+	this.gameStateBar.addOnTooLowHandler(new EventHandler(this.loseGame, this));
 }
 
 Game.prototype.handleNewProblem = function(args){
@@ -429,8 +445,8 @@ Game.prototype.dayChangedForRefugeeProblemHandler = function(){
 Game.prototype.updateRefugeeAmount = function(){
 	//this.refugeeText.text = "Refugees left: "+this.refugees.getTotalRefugees();
 	var totalRefugees = this.refugees.getTotalRefugees();
-	var percents = this.nations.getPercents();
-	this.gameStateBar.refugeeAmountChanged(percents);
+	//var percents = this.nations.getPercents();
+	//this.gameStateBar.refugeeAmountChanged(percents);
 	this.refugeeSpriteListController.refugeeAmountChanged(totalRefugees);
 	if(totalRefugees <= 0){
 		this.winGame();
@@ -463,14 +479,38 @@ Game.prototype.completeEffect = function(effect){
 		case "feed":
 			this.addFeedData(effect.data);
 			break;
+		case "setLosingTime":
+		//TODO: needs checking?
+			this.setLosingTime(parseFloat(effect.data));
+			break;
+		case "setProcessTime":
+			this.setProcessTime(parseFloat(effect.data));
+			break;
 		default:
 			break;
 	}
 }
 
 
+Game.prototype.setProcessTime = function(time){
+	this.processLength = time;
+}
+
+
+Game.prototype.setLosingTime = function(time){
+	this.gameStateBar.setMaxLowTime(time, 2);
+}
+
+
+Game.prototype.loseGame = function(){
+	var dialog  = new Dialog(this.phaserGame, "Et pystynyt sijoittamaan tarpeeksi nopeasti\npakolaisia maihin, yritä uudelleen!",
+				[new EventHandler(this.reMenu, this)], ["Okei"]);
+	dialog.addToLayer(this.UpperGUILayer);
+	this.silenceGame(dialog);
+}
+
+
 Game.prototype.winGame = function(){
-	var ref = this;
 	var dialog = new Dialog(this.phaserGame, "Olet saanut sijoitettua kaikki pakolaiset\n"
 				  +"Suoritit sen "+this.gameProgress.getDateString()+"!\n"
 				  +"Onneksi olkoon!",
@@ -482,6 +522,21 @@ Game.prototype.winGame = function(){
 }
 
 
+Game.prototype.updateGameStateBar = function(){
+	//Now based on total but faster than with percents based on nations
+	var percents = this.maxEuropeanRefugees == 0 ? 100 : this.europeanRefugees / this.maxEuropeanRefugees;
+	this.gameStateBar.refugeeAmountChanged(percents);
+}
+
+
+Game.prototype.increaseMaxRefugeeAmountsInNations = function(data){
+	var total = this.nations.increaseMaxRefugeeAmountsByData(data);
+	this.maxEuropeanRefugees += total;
+	this.updateGameStateBar();
+}
+
+
+
 Game.prototype.endGame = function(){
 	this.createTimedEvent(2, this.reMenu);
 }
@@ -491,7 +546,7 @@ Game.prototype.increaseMaxRefugeeAmounts = function(data){
 	if(isNaN(data)){
 		if(data === "relative"){
 			var refugeeData = this.refugees.getAllRefugeesOfMonth(this.gameProgress.getMonth(), this.gameProgress.getYear());
-			this.nations.increaseMaxRefugeeAmountsByData(refugeeData);
+			this.increaseMaxRefugeeAmountsInNations(refugeeData);
 		}
 	}
 	else this.nations.increaseMaxRefugeeAmounts(data);
@@ -514,6 +569,7 @@ Game.prototype.silenceGame = function(silencer){
 	silencer.silence(this.nations);
 	silencer.silence(this.mouseMover);
 	silencer.silence(this.humanParticleSystem);
+	silencer.silence(this.gameStateBar);
 	this.defineSyria();
 }
 
@@ -587,11 +643,11 @@ Game.prototype.startHousing = function(nation){
 	nation.setInProcess(true);
 	this.selectedNations++;
 	var amount = this.getRefugeeAmount(nation);
-	var processLength = 3;
+
 	
 	//So that the function can be handled properly, if theres no function(), then the tryHousing is called directly
 	//Too lazy to change design and the origin is set right earlier hence undefineds
-	this.humanParticleSystem.send(undefined, undefined, nation.x, nation.y, amount * 0.02, processLength, new EventHandler(function(){
+	this.humanParticleSystem.send(undefined, undefined, nation.x, nation.y, amount * 0.02, this.processLength, new EventHandler(function(){
 		this.finishHousing(nation, amount);
 	}, this)); //Because no divisions when avoidable!
 	
@@ -620,8 +676,10 @@ Game.prototype.finishHousing = function(nation, amount){
 	this.selectedNations--;
 	nation.setInProcess(false);
 	amount = nation.tryHousing(amount);
-	//amount +space because space is negative if not enough space
-	//amount -= notHoused;
+	
+	this.europeanRefugees +=amount;
+	this.updateGameStateBar();
+	
 	this.createFloatingText(nation.x, nation.y, ""+amount);
 	
 	this.refugees.reduceTotalRefugees(amount);
@@ -727,7 +785,7 @@ Game.prototype.update = function(){
 	if(this.moveOnMap)
 		this.mouseMover.update();
 	this.gameProgress.update();
-	var nation = this.nations.getNationByName("Suomi");
+	this.gameStateBar.update();
 	//if(nation)
 	//	this.debugText.text = ""+nation.maxRefugees;
 	//Not sure if needs invoking but when added through group is not automatically called?
