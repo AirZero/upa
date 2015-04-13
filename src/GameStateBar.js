@@ -30,8 +30,11 @@ function GameStateBar(phaserGame, sprite, stateBall, x, y, width, height){
 
 GameStateBar.prototype.setMaxLowTime = function(time, pityTime){
 	this.maxTimeOnLow = time;
-	if(this.lowTime >= this.maxTimeOnLow)
+	if(this.lowTime >= this.maxTimeOnLow){
+		this.lowTime = this.maxTimeOnLow;
 		this.lowTime -= pityTime;
+		
+	}
 }
 
 

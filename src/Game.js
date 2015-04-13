@@ -111,8 +111,10 @@ Game.prototype.getNextAvailableZ = function(){
 
 
 Game.prototype.reMenu = function(){
-	this.clear();
-	reMenu();
+	//this.clear();
+	//reMenu();
+	
+	this.openPauseWindow(false);
 }
 
 
@@ -185,12 +187,18 @@ Game.prototype.start = function(){
 	//this.initializeParticleSystem();
 	this.addEvents();
 	this.updateRefugeeAmount();
-	this.mouseMover.moveCamera(worldWidth * 0.45, worldHeight *0.33);
+	this.mouseMover.moveCameraTo(worldWidth * 0.45, worldHeight *0.33);
 
 	//Lets tint all of the nations with the current colors before starting
 	this.nations.increaseMaxRefugeeAmountsByData(0);
 	this.defineSyria();
 	this.waitForPlayer();
+}
+
+
+Game.prototype.restart = function(){
+	this.clear();
+	this.start();
 }
 
 
@@ -200,7 +208,7 @@ Game.prototype.initializeGameStateBar = function(){
 }
 
 Game.prototype.initializeSounds = function(){
-	this.fullSound = new Phaser.Sound(this.phaserGame, 'error', 0.7);
+	this.fullSound = new Phaser.Sound(this.phaserGame, 'error', 1);
 	this.music = new Phaser.Sound(this.phaserGame, 'music');
 }
 
@@ -264,7 +272,7 @@ Game.prototype.createTutorial = function(){
 
 
 Game.prototype.addStateTutorial = function(){
-	var text = this.createTutorialText("Pyri pitämään tämä palkki vihreänä", lvlWidth * 0.6, lvlHeight * 0.7);
+	var text = this.createTutorialText("Pidä tämä palkki vihreänä", lvlWidth * 0.4, lvlHeight * 0.7);
 	var arrow = this.createTutorialElement('arrow', text.x, text.y+30, 90);
 	
 	this.newsFeed.clearQueue();
@@ -277,8 +285,8 @@ Game.prototype.addStateTutorial = function(){
 
 
 Game.prototype.addPlaneTutorial = function(){
-	var text =this.createTutorialText("Näin monta sijoitusta \nvoi tapahtua kerrallaan", lvlWidth * 0.2, lvlHeight * 0.7);
-	this.createTutorialElement('arrow', text.x+50, text.y+ 45, 45);
+	var text =this.createTutorialText("Voit valita vain viisi\nmaata kerrallaan", lvlWidth * 0.7, lvlHeight * 0.1);
+	this.createTutorialElement('arrow', text.x- text.width *0.6, text.y - 15, 185);
 }
 
 Game.prototype.createTutorialText = function(text, x, y){
@@ -334,19 +342,22 @@ Game.prototype.resetDate = function(){
 Game.prototype.createGUI = function(){
 	//Here could have been a simple interface kind of solution for these
 	var thisGame = this;
-	var textButton = new TextButton(this.phaserGame, 'Menu', 'button', this.reMenu, BASE_STYLE, lvlWidth * 0.1, lvlHeight * 0.1, this);
+	var textButton = new TextButton(this.phaserGame, 'Menu', 'button', this.openPauseWindow, BASE_STYLE, lvlWidth * 0.075, lvlHeight * 0.075, this);
 	textButton.setFixedToCamera(true);
+	//Not the best way..
+	textButton.setWidth(textButton.button.width * 0.5);
+	textButton.setHeight(textButton.button.height * 0.5);
 	textButton.addToLayer(this.UpperGUILayer);
 	//this.addToObjects(textButton);
 	
 	//TODO: button factory
-	var buttonX = textButton.button.x - textButton.button.width * 0.25;
-	var fullScreenButtonHeight = textButton.button.height * 0.5;
-	var fullScreenButton = new Phaser.Button(this.phaserGame, buttonX, textButton.button.y + textButton.button.height * 0.5 + fullScreenButtonHeight,
+	var buttonX = textButton.button.x ;
+	var fullScreenButtonHeight = textButton.button.height;
+	var fullScreenButton = new Phaser.Button(this.phaserGame, buttonX, textButton.button.y + fullScreenButtonHeight * 1.5,
 	'fullscreenButton', this.goFullScreen, this, 1, 0, 2, 3);
 	fullScreenButton.fixedToCamera =(true);
 	fullScreenButton.anchor.setTo(0.5, 0.5);
-	fullScreenButton.width =(textButton.button.width * 0.5);
+	fullScreenButton.width =(textButton.button.width);
 	fullScreenButton.height =(fullScreenButtonHeight);
 	this.UpperGUILayer.add(fullScreenButton);
 	//fullScreenButton.addToLayer(this.UpperGUILayer);
@@ -386,9 +397,11 @@ Game.prototype.createGUI = function(){
 	
 	this.newsFeed = new NewsFeed(this.phaserGame, 'textFeed', feedHeight, this.GUILayer, this.getNextAvailableZ());
 	
-	var progressListX = logo.x + logo.width + 30;
-	var progressListEndX = progressListX + infoLabel.width *0.25;
-	var progressListY = infoLabel.y - infoLabel.height * 0.6;
+	var progressListX = lvlWidth * 0.3;
+	var progressListEndX = lvlWidth * 0.55;
+	//var progressListX = logo.x + logo.width + 30;
+	//var progressListEndX = progressListX + infoLabel.width *0.25;
+	var progressListY = lvlHeight * 0.07;
 	
 	//TODO: can be count without 50 and 20?
 
@@ -405,7 +418,7 @@ Game.prototype.createGUI = function(){
 	
 	
 	
-	this.dateText = this.phaserGame.add.text(lvlWidth * 0.5, lvlHeight * 0.1, "Pvm:"+this.gameProgress.getDateString(), BASE_STYLE);
+	this.dateText = this.phaserGame.add.text(lvlWidth * 0.4, infoLabel.y - infoLabel.height * 0.5, this.gameProgress.getDateString(), BASE_STYLE);
 	this.dateText.anchor.setTo(0.5, 0.5);
 	
 
@@ -416,8 +429,93 @@ Game.prototype.createGUI = function(){
 	this.GUILayer.add(this.dateText);
 }
 
+/**
+ * 
+ */
+Game.prototype.openPauseWindow  =function(continuable){
+	if(continuable === undefined)
+		continuable = true;
+	//TODO: this should be implemented into the dialog somehow so it can store other components/there should be a base class that can be used like this and dialog uses that.
+	var background = new Phaser.Sprite(this.phaserGame, lvlWidth * 0.5, lvlHeight * 0.5, 'dialogBack');
+	background.anchor.setTo(0.5, 0.5);
+	background.width = lvlWidth *0.9;
+	background.height = lvlHeight * 0.9;
+	this.UpperGUILayer.add(background);
+	background.fixedToCamera = true;
+	var arr = [];
+	
+	var sentRefugeesObject = this.nations.getSentRefugees();
+	var refugeeTitle = continuable ? "Olet sijoittanut yhteensä "+sentRefugeesObject.refugees+" pakolaista" : "Sijoitit yhteensä "+sentRefugeesObject.refugees+" pakolaista";
+	
+	var refugeeText = new Phaser.Text(this.phaserGame, lvlWidth * 0.5, lvlHeight* 0.1, refugeeTitle, NATION_TEXT_STYLE);
+	refugeeText.anchor.setTo(0.5,0.5);
+	refugeeText.fixedToCamera = true;
+	this.UpperGUILayer.add(refugeeText);
+	
+	var startingY = lvlHeight * 0.2;
+	var endingY = lvlHeight * 0.6;
+	var margin = 10;
+	
+	var highestRefugeeAmounts = this.nations.getNationsWithHighestRefugeeAmounts();
+	
+	var highestAmount = highestRefugeeAmounts[0].getRefugees();
+	
+	for(var i = 0; i < highestRefugeeAmounts.length; i++){
+		var nation = highestRefugeeAmounts[i];
+		var y = startingY + (endingY - startingY) * i / 10 + i*margin;
+		var barText = new BarText(this.phaserGame, lvlWidth * 0.2, lvlWidth *0.8, y, 'solidBar', nation.name +":"+nation.getRefugees()+" pakolaista", NATION_TEXT_STYLE);
+		barText.addToLayer(this.UpperGUILayer);
+		if(highestAmount != 0)
+			barText.setPercentualSize(nation.getRefugees() / highestAmount);
+		arr[arr.length] = barText;
+	}
+	var buttonWidth = background.width * 0.25;
+	var buttonY = endingY + background.height * 0.25;
+	//75% of the space remaining after list and until end of space
+	var buttonHeight = (background.y + background.height * 0.5 - endingY) * 0.25;
+	//TODO: this horrible chunk of copy paste should be a method	
+	var restartButton = this.createTextButton("Aloita alusta", this.restart,  background.x + buttonWidth, buttonY, this.UpperGUILayer, buttonWidth, buttonHeight);
+	//var restartButton = new TextButton(this.phaserGame, "Aloita alusta", 'button', this.restart, NATION_TEXT_STYLE, background.x + buttonWidth, buttonY, this);
+	//restartButton.setHeight(buttonHeight);
+	//restartButton.setFixedToCamera(true);
+	//restartButton.addToLayer(this.UpperGUILayer);
+	//restartButton.setWidth(buttonWidth);
+	this.silenceGame(restartButton);
+	//TODO: maybe make a new layer which to destroy or something less horrenduous than this thing with loads of random destroys
+	if(continuable){
+		var func = function(){
+			textButton.destroy();
+			background.destroy();
+			restartButton.destroy();
+			refugeeText.destroy();
+			for(obj in arr){
+				arr[obj].destroy();
+			}
+		};
+		
+		var textButton = this.createTextButton("Jatka", func,background.x - buttonWidth , buttonY, this.UpperGUILayer, buttonWidth, buttonHeight);
+		//textButton.setFixedToCamera(true);
+		//textButton.setWidth(buttonWidth);
+		//textButton.setHeight(buttonHeight);
+		//textButton.addToLayer(this.UpperGUILayer);
+		this.silenceGame(textButton);
+	}
+	
+}
 
-Game.prototype.increaseMaxRefugeeAmounts
+
+Game.prototype.createTextButton = function(title, method, x, y, layer, width, height){
+	var button = new TextButton(this.phaserGame, title, 'button', method, NATION_TEXT_STYLE, x, y, this);
+
+	button.setFixedToCamera(true);
+	button.addToLayer(layer);
+	
+	if(height)
+		button.setHeight(height);
+	if(width)
+		button.setWidth(width);
+	return button;
+}
 
 
 Game.prototype.handleMusicSwitch = function(){
@@ -485,7 +583,9 @@ Game.prototype.initializeParticleSystem = function(){
 
 Game.prototype.addEvents = function(){
 	this.gameProgress.addOnTimeChangedEvent(this.gameEventHandler.checkForEventsOnTimeChange, this.gameEventHandler);
-	this.gameProgress.addOnTimeChangedEvent(this.dayChangedForRefugeeProblemHandler, this);
+	
+	//Disabled since problems are probably left out from final product
+	//this.gameProgress.addOnTimeChangedEvent(this.dayChangedForRefugeeProblemHandler, this);
 	this.refugeeProblemHandler.addProblemHandler(this.handleNewProblem, this);
 	
 	this.gameProgress.addOnTimeChangedEvent(this.refreshDateText, this);
@@ -515,9 +615,9 @@ Game.prototype.updateRefugeeAmount = function(){
 	//var percents = this.nations.getPercents();
 	//this.gameStateBar.refugeeAmountChanged(percents);
 	this.refugeeSpriteListController.refugeeAmountChanged(totalRefugees);
-	if(totalRefugees <= 0){
-		this.winGame();
-	}
+	//if(totalRefugees <= 0){
+	//	this.winGame();
+	//}
 }
 
 
@@ -532,7 +632,8 @@ Game.prototype.completeEffect = function(effect){
 	//TODO: this would really benefit from some kind of real language etc.
 	switch(effect.effectName){
 		case "addRefugees":
-			this.refugees.changeTotalRefugees(effect.data);
+			//Will probably be left out
+			//this.refugees.changeTotalRefugees(effect.data);
 			break;
 		case "addMaxRefugees":
 			this.increaseMaxRefugeeAmounts(effect.data);
@@ -565,7 +666,10 @@ Game.prototype.setProcessTime = function(time){
 
 
 Game.prototype.setLosingTime = function(time){
-	this.gameStateBar.setMaxLowTime(time, 2);
+	var year = this.gameProgress.getYear();
+	year -= 2014; 
+	year = year * -3;
+	this.gameStateBar.setMaxLowTime(time, year);
 }
 
 
@@ -598,6 +702,7 @@ Game.prototype.updateGameStateBar = function(){
 
 Game.prototype.increaseMaxRefugeeAmountsInNations = function(data){
 	var total = this.nations.increaseMaxRefugeeAmountsByData(data);
+	this.refugees.changeTotalRefugees(total);
 	this.maxEuropeanRefugees += total;
 	this.updateGameStateBar();
 }
@@ -662,7 +767,7 @@ Game.prototype.addDialog = function(text, method, buttonText){
  * Is used to innerly refresh date text whenever date changes
  */
 Game.prototype.refreshDateText = function(){
-	this.dateText.text = "Päivä:"+this.gameProgress.getDateString();
+	this.dateText.text = this.gameProgress.getDateString();
 }
 
 
@@ -881,7 +986,8 @@ Game.prototype.setWorld = function(){
 Game.prototype.returnToMenu = function(){
 	this.clear();
 	reMenu();
-
+	
+	
 }
 
 

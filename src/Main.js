@@ -62,6 +62,7 @@ function preload()
 	phaserGame.load.audio('music', SOUND_PATH+'DST-3rdBallad.ogg');
 	phaserGame.load.image('dialogBack', PICTURE_PATH+'dialogBack.png');
 	phaserGame.load.image('bar', PICTURE_PATH+'TransparentBar.png');
+	phaserGame.load.image('solidBar', PICTURE_PATH+'Bar.png');
 	phaserGame.load.spritesheet('shade', PICTURE_PATH+'Shade.png', 200, 200);
 	phaserGame.load.image('textFeed', PICTURE_PATH+'Uutispalkki.png');
 	phaserGame.load.image('logo', PICTURE_PATH+'Logo.png');

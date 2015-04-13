@@ -8,17 +8,6 @@ function getJsonFromEventsData(){
 {
     "events": [
         {
-            "date": "x.x.x",
-            "chance": 1,
-            "effects": [
-                {
-                    "effectName": "addRefugees",
-                    "data": 500
-                }
-            ],
-            "description": "For inner use of the event description, this is for comments and other relevant stuff that other coders need to see"
-        },
-        {
             "date": "1.1.x",
             "chance": 100,
             "effects": [

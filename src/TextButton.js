@@ -106,10 +106,14 @@ TextButton.prototype.setActive = function(activity){
 
 TextButton.prototype.setWidth = function(width){
 	this.button.width = width;
+	if(this.text.width > this.button.width)
+		this.text.width = this.button.width;
 }
 
 TextButton.prototype.setHeight = function(height){
 	this.button.height = height;
+	if(this.text.height > this.button.height)
+		this.text.height = this.button.height;
 }
 
 TextButton.prototype.setText = function(text){

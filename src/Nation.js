@@ -39,6 +39,10 @@ Nation.prototype.setActive = function(activity){
 }
 
 
+Nation.prototype.getRefugees = function(){
+	return this.refugees;
+}
+
 Nation.prototype.getMaxRefugees = function(){
 	return this.maxRefugees;
 }
