@@ -203,7 +203,7 @@ Game.prototype.restart = function(){
 
 
 Game.prototype.initializeGameStateBar = function(){
-	this.gameStateBar = new GameStateBar(this.phaserGame, 'bar', 'ball', lvlWidth * 0.5, lvlHeight * 0.8, lvlWidth, lvlHeight * 0.07);
+	this.gameStateBar = new GameStateBar(this.phaserGame, 'bar', 'ball', lvlWidth * 0.5, lvlHeight * 0.85, lvlWidth, lvlHeight * 0.10);
 	this.gameStateBar.addToLayer(this.UpperGUILayer);
 }
 
@@ -377,18 +377,18 @@ Game.prototype.createGUI = function(){
 	
 	
 	
-	var infoLabel = this.phaserGame.add.sprite(0, lvlHeight - feedHeight, 'infoLabel');
-	infoLabel.anchor.setTo(0,1);
-	infoLabel.width = lvlWidth;
-	infoLabel.fixedToCamera = true;
-	this.GUILayer.add(infoLabel);
-	
-	var logo = new Phaser.Sprite(this.phaserGame, 0, infoLabel.y, 'logo');
-	logo.anchor.setTo(0,1);
-	logo.height = infoLabel.height * 0.95; //0.95 to make it fit inside
-	logo.width = lvlWidth * 0.2;
-	logo.fixedToCamera = true;
-	this.GUILayer.add(logo);
+	//var infoLabel = this.phaserGame.add.sprite(0, lvlHeight - feedHeight, 'infoLabel');
+	//infoLabel.anchor.setTo(0,1);
+	//infoLabel.width = lvlWidth;
+	//infoLabel.fixedToCamera = true;
+	//this.GUILayer.add(infoLabel);
+	//
+	//var logo = new Phaser.Sprite(this.phaserGame, 0, infoLabel.y, 'logo');
+	//logo.anchor.setTo(0,1);
+	//logo.height = infoLabel.height * 0.95; //0.95 to make it fit inside
+	//logo.width = lvlWidth * 0.2;
+	//logo.fixedToCamera = true;
+	//this.GUILayer.add(logo);
 	//this.refugeeText = this.phaserGame.add.text(infoLabel.x +20, infoLabel.y - infoLabel.height *0.3, "", NATION_TEXT_STYLE);
 	//this.refugeeText.fixedToCamera = true;
 	//this.GUILayer.add(this.refugeeText);
@@ -410,18 +410,16 @@ Game.prototype.createGUI = function(){
 	this.selectedNationListener = new EventHandler(this.updateProgressList, this);
 	
 	
-	this.initializeRefugeeSpriteListController(
-	infoLabel.x + infoLabel.width * 0.65, infoLabel.y - infoLabel.height * 0.95 //Start in relatio the infolabels location
-	, lvlWidth, infoLabel.y - infoLabel.height * 0.1); //and end so too, the bar will end at screens right border
+	//this.initializeRefugeeSpriteListController(
+	//infoLabel.x + infoLabel.width * 0.65, infoLabel.y - infoLabel.height * 0.95 //Start in relatio the infolabels location
+	//, lvlWidth, infoLabel.y - infoLabel.height * 0.1); //and end so too, the bar will end at screens right border
 	//this.debugText = this.phaserGame.add.text(600, 50, debugOn ? "Debug" : "Build", BASE_STYLE);
 	//this.debugText.fixedToCamera = true;
 	
 	
 	
-	this.dateText = this.phaserGame.add.text(lvlWidth * 0.4, infoLabel.y - infoLabel.height * 0.5, this.gameProgress.getDateString(), BASE_STYLE);
+	this.dateText = this.phaserGame.add.text(lvlWidth * 0.1, lvlHeight * 0.05, this.gameProgress.getDateString(), BASE_STYLE);
 	this.dateText.anchor.setTo(0.5, 0.5);
-	
-
 	this.dateText.fixedToCamera = true;
 	
 	
@@ -614,7 +612,7 @@ Game.prototype.updateRefugeeAmount = function(){
 	var totalRefugees = this.refugees.getTotalRefugees();
 	//var percents = this.nations.getPercents();
 	//this.gameStateBar.refugeeAmountChanged(percents);
-	this.refugeeSpriteListController.refugeeAmountChanged(totalRefugees);
+	//this.refugeeSpriteListController.refugeeAmountChanged(totalRefugees);
 	//if(totalRefugees <= 0){
 	//	this.winGame();
 	//}

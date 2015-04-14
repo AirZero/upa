@@ -44,7 +44,7 @@ SpriteList.prototype.changeObjectAmount = function(amount){
 	//Done this way to avoid endless whiles
 	while(amount > this.sprites.length && this.addNewSprite()){
 	}
-	while(amount < this.sprites.length && this.removeSprite();){
+	while(amount < this.sprites.length && this.removeSprite()){
 	}
 }
 
