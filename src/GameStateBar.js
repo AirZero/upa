@@ -75,9 +75,10 @@ GameStateBar.prototype.setActive = function(activity){
 GameStateBar.prototype.refugeeAmountChanged = function(percents){
 	this.percents = percents;
 	this.ball.cameraOffset.x = this.left + this.margin + (this.width - this.margin * 2 )* (percents);
-	if(percents < this.lowPercent)
-		this.tint = 0xFF1C1C;
-	else this.tint = 0xFFFFFF;
+	
+	//if(percents < this.lowPercent)
+	//	this.tint = 0xFF1C1C;
+	//else this.tint = 0xFFFFFF;
 }
 
 

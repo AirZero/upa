@@ -19,7 +19,6 @@ var PICTURE_PATH = 'assets/pictures/';
 
 
 var phaserGame;
-var game;
 var menu;
 var BASE_STYLE = { font: '32px Arial', fill: '#ff0044', align: 'center' };
 var SMALL_STYLE = {font: '22px Arial', fill: '#aa1122', align: 'center' };
@@ -29,32 +28,25 @@ var playerPrefs = new PlayerPrefs(); //TODO: assess if global access is the best
 
 init();
 
-/**
- * init function sets up the phaserGame and is the inner starting point of the program.
- * not to be called separately
- */
-function init(){
-	var renderMode = Phaser.AUTO;
-	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, renderMode, '', { preload: preload, create: create, update: update});
+
+function Main(phaserGame){
+	this.phaserGame = phaserGame;
 }
 
-/**
- * reset returns the state of the game to the starting point of the game.
- */
-function reset(){
-	phaserGame.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
-	phaserGame.world.setBounds(0,0, lvlWidth, lvlHeight);
-	phaserGame.camera.scale.x = 1;
-	phaserGame.camera.scale.y = 1;
-	phaserGame.stage.backgroundColor = '#000000'; //TODO: stagejen välillä siirtyminen
+Main.prototype.preload = function(){
+	this.loadingSprite = this.phaserGame.add.sprite(lvlWidth *0.5, lvlHeight *0.5, 'logo');
+	this.loadingSprite.anchor.setTo(0.5,0.5);
+	this.loadingSprite.width = lvlWidth;
+	this.loadingSprite.height = lvlHeight;
+	this.loadingSprite.fixedToCamera = true;
+	//We dont need the bar interaction and that probably is the only thing done by this.
+	//this.phaserGame.load.setPreloadSprite(this.loadingSprite);
+	
+	this.preloadAssets();
 }
 
-/**
- * preload is the phasers inner preload method that is used for loading all the assets and setting up Game and Menu classes
- */
-function preload()
-{
-	reset();
+Main.prototype.preloadAssets = function(){
+	this.reset();
 	phaserGame.load.spritesheet('button', PICTURE_PATH+'buttonsWithUp.png', 100, 100);
 	phaserGame.load.spritesheet('fullscreenButton', PICTURE_PATH+'fullscreenButtons.png', 100, 100);
 	//phaserGame.load.image('finland', 'assets/pictures/finland.png');
@@ -72,17 +64,18 @@ function preload()
 	phaserGame.load.image('progress', PICTURE_PATH+'progress.png');
 	phaserGame.load.image('arrow', PICTURE_PATH+'arrow.png');
 	phaserGame.load.image('info', PICTURE_PATH+'RefugeeAmountInfo.png');
-	preloadGame();
-	preloadMenu();
+	this.preloadGame();
+	this.preloadMenu();
 }
+
 
 /**
  * preloads the Game-class.
  * initializes it and calls its preload.
  */
-function preloadGame(){
-	game = new Game(phaserGame);
-	game.preload();
+Main.prototype.preloadGame = function(){
+	this.game = new Game(phaserGame);
+	this.game.preload();
 }
 
 
@@ -90,7 +83,7 @@ function preloadGame(){
  * preloadMenu preloads the Menu-class.
  *
  */
-function preloadMenu(){
+Main.prototype.preloadMenu = function(){
 	//var titles = ['Pelaa', 'Asetukset', 'Tiedot'];
 	//var methods = new Array();
 	//methods[0] = {'method': function(){ start();}};
@@ -99,6 +92,52 @@ function preloadMenu(){
 	//var pictures = [ 'button' ];
 	menu = new Menu(phaserGame, 50, 20, 20);
 	//reMenu();
+}
+
+
+
+Main.prototype.reset = function(){
+	this.phaserGame.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+	this.phaserGame.world.setBounds(0,0, lvlWidth, lvlHeight);
+	this.phaserGame.camera.scale.x = 1;
+	this.phaserGame.camera.scale.y = 1;
+	this.phaserGame.stage.backgroundColor = '#000000'; 
+}
+
+
+Main.prototype.create = function(){
+	this.start();
+}
+
+Main.prototype.update = function(){
+	if(state === 'Game')
+		this.game.update();
+}
+
+
+/**
+ * Starts the game
+ */
+Main.prototype.start = function(){
+	menu.clear();
+	state = 'Game';
+	this.game.start();
+	this.loadingSprite.destroy();
+}
+
+
+/**
+ * init function sets up the phaserGame and is the inner starting point of the program.
+ * not to be called separately
+ */
+function init(){
+	var renderMode = Phaser.AUTO;
+	phaserGame = new Phaser.Game(lvlWidth, lvlHeight, renderMode, '');
+	phaserGame.antialias = true;
+	phaserGame.state.add('Main', new Main(phaserGame));
+	phaserGame.state.add('Booter', new Booter(phaserGame));
+	phaserGame.state.start('Booter');
+
 }
 
 
@@ -121,22 +160,14 @@ function reMenu(){
 /**
  * Method associated with Phasers create. Sets up the starting screen of the game
  */
-function create(){
-	//reMenu();
-	//Direct start
-	start();
-}
+
 
 /**
  * Phasers update. 
  * Directs update to the associated classes that have controller
  * TODO: states/stages
  */
-function update(){
-	if(state === 'Game')
-		game.update();
-	
-}
+
 
 /**
  * Defines the "Tiedot" menu proportion.
@@ -212,21 +243,5 @@ function screenSettings(){
 }
 
 
-/**
- * Associated method for phasers render. Uses debug to show information regarding the game states
- */
-function render(){
-	phaserGame.debug.pointer(phaserGame.input.activePointer);
-	phaserGame.debug.text("FPS:"+phaserGame.time.fps, 600, 200);
 
-}
-
-/**
- * Starts the game
- */
-function start(){
-	menu.clear();
-	state = 'Game';
-	game.start();
-}
 

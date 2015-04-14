@@ -222,7 +222,7 @@ Game.prototype.defineSyria = function(){
 
 
 Game.prototype.waitForPlayer = function(){
-	this.shadeButton = new TextButton(this.phaserGame, 'Aloita peli klikkaamalla ruutua', 'shade', 
+	this.shadeButton = new TextButton(this.phaserGame, '', 'shade', 
 	this.tweenToCenter, BASE_STYLE, lvlWidth*0.5, lvlHeight*0.5, this, 0, 0, 0, 0);
 	//this.shadeButton
 	
@@ -265,8 +265,8 @@ Game.prototype.createTutorial = function(){
 	var text = this.createTutorialText("Täältä näet pakolaisten määrän", info.x, info.y -50);
 	var arr = this.createTutorialElement('arrow', info.x, info.y + info.height, 90);
 	
-	var fullInfo = this.createTutorialText("Kokonäytön tila", lvlWidth* 0.24, lvlHeight * 0.25);
-	var musicInfo = this.createTutorialText("Äänet päälle ja pois", lvlWidth *0.25, lvlHeight * 0.4);
+	//var fullInfo = this.createTutorialText("Kokonäytön tila", lvlWidth* 0.24, lvlHeight * 0.25);
+	//var musicInfo = this.createTutorialText("Äänet päälle ja pois", lvlWidth *0.25, lvlHeight * 0.4);
 	
 	
 	var timedEvent = this.phaserGame.time.events.add(Phaser.Timer.SECOND * 5, this.addPlaneTutorial, this);
