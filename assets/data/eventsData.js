@@ -34,12 +34,12 @@ function getJsonFromEventsData(){
             "description": "Increases the maxrefugee amount by 100. This really needs something more beautiful to handle this stuff."
         },
         {
-            "date": "1.3.2015",
+            "date": "31.12.2013",
             "chance": 100,
             "effects": [
                 {
                     "effectName": "story",
-                    "data": "Peli loppuu, mutta konflikti jatkuu edelleen!\n"
+                    "data": "Selvisit pelin loppuun asti,\n mutta konflikti jatkuu maailmalla edelleen!"
                 },
                 {
                     "effectName": "endGame",

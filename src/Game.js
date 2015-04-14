@@ -223,7 +223,8 @@ Game.prototype.defineSyria = function(){
 
 Game.prototype.waitForPlayer = function(){
 	this.shadeButton = new TextButton(this.phaserGame, 'Aloita peli klikkaamalla ruutua', 'shade', 
-	this.tweenToCenter, BASE_STYLE, lvlWidth*0.5, lvlHeight*0.3, this, 0, 0, 0, 0);
+	this.tweenToCenter, BASE_STYLE, lvlWidth*0.5, lvlHeight*0.5, this, 0, 0, 0, 0);
+	//this.shadeButton
 	
 	this.createTutorial();
 	
@@ -247,8 +248,19 @@ Game.prototype.waitForPlayer = function(){
 
 
 Game.prototype.createTutorial = function(){
-
-
+	var logoSprite = this.createTutorialElement('logo', lvlWidth *0.5, lvlHeight * 0.5, 0);
+	logoSprite.width = 10;
+	logoSprite.height = 10;
+	var tween = this.phaserGame.add.tween(logoSprite.scale).to({x: 4, y: 4}, Phaser.Timer.SECOND * 1);
+	tween.onComplete.add(function(){
+		var another = this.phaserGame.add.tween(logoSprite.scale).to({ x:0.25, y:0.25}, Phaser.Timer.SECOND * 3);
+		another.start();
+		another.onComplete.add(function(){
+			logoSprite.destroy();
+		});
+	});
+	tween.start();
+	
 	var info = this.createTutorialElement('info', lvlWidth * 0.75,lvlHeight * 0.70, 0);
 	var text = this.createTutorialText("Täältä näet pakolaisten määrän", info.x, info.y -50);
 	var arr = this.createTutorialElement('arrow', info.x, info.y + info.height, 90);
@@ -342,7 +354,7 @@ Game.prototype.resetDate = function(){
 Game.prototype.createGUI = function(){
 	//Here could have been a simple interface kind of solution for these
 	var thisGame = this;
-	var textButton = new TextButton(this.phaserGame, 'Menu', 'button', this.openPauseWindow, BASE_STYLE, lvlWidth * 0.075, lvlHeight * 0.075, this);
+	var textButton = new TextButton(this.phaserGame, 'Menu', 'button', this.openPauseWindow, BASE_STYLE, lvlWidth * 0.075, lvlHeight * 0.2, this);
 	textButton.setFixedToCamera(true);
 	//Not the best way..
 	textButton.setWidth(textButton.button.width * 0.5);
@@ -418,7 +430,7 @@ Game.prototype.createGUI = function(){
 	
 	
 	
-	this.dateText = this.phaserGame.add.text(lvlWidth * 0.1, lvlHeight * 0.05, this.gameProgress.getDateString(), BASE_STYLE);
+	this.dateText = this.phaserGame.add.text(lvlWidth * 0.12, lvlHeight * 0.07, this.gameProgress.getDateString(), BASE_STYLE);
 	this.dateText.anchor.setTo(0.5, 0.5);
 	this.dateText.fixedToCamera = true;
 	
