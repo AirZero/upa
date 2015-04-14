@@ -5,7 +5,7 @@
  *
  */
 
- var STARTING_REFUGEES = 80000;
+ var STARTING_REFUGEES = 0;
  
  /**
   * Initializes the refugee data ready for the game

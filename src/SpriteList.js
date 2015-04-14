@@ -41,12 +41,10 @@ SpriteList.prototype.clear = function(){
  * Changes the amount of sprite objects to the given amount
  */
 SpriteList.prototype.changeObjectAmount = function(amount){
-	//Could be done with only while(this.addNewSprite) and removeSprite
-	while(amount > this.sprites.length){
-		this.addNewSprite();
+	//Done this way to avoid endless whiles
+	while(amount > this.sprites.length && this.addNewSprite()){
 	}
-	while(amount < this.sprites.length){
-		this.removeSprite();
+	while(amount < this.sprites.length && this.removeSprite();){
 	}
 }
 
