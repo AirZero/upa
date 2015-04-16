@@ -261,6 +261,8 @@ Game.prototype.createTutorial = function(){
 	});
 	tween.start();
 	
+	
+	
 	//var info = this.createTutorialElement('info', lvlWidth * 0.75,lvlHeight * 0.70, 0);
 	//var text = this.createTutorialText("Täältä näet pakolaisten määrän", info.x, info.y -50);
 	//var arr = this.createTutorialElement('arrow', info.x, info.y + info.height, 90);
@@ -280,11 +282,16 @@ Game.prototype.createTutorial = function(){
 	}, this);
 	this.tutorialEvents[this.tutorialEvents.length] = timedEvent2;
 	
+	var timedEvent3 = this.phaserGame.time.events.add(Phaser.Timer.SECOND * 12, function(){
+		var nationText = this.createTutorialText("Lähetä syyrialaisia valitsemalla maa", lvlWidth *0.5, lvlHeight *0.5);
+	}, this);
+	this.tutorialEvents[this.tutorialEvents.length] = timedEvent3;
+	
 }
 
 
 Game.prototype.addStateTutorial = function(){
-	var text = this.createTutorialText("Pidä tämä palkki vihreänä", lvlWidth * 0.4, lvlHeight * 0.7);
+	var text = this.createTutorialText("Pidä tämä palkki vihreänä", lvlWidth * 0.4, lvlHeight * 0.75);
 	var arrow = this.createTutorialElement('arrow', text.x, text.y+30, 90);
 	
 	this.newsFeed.clearQueue();
