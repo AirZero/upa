@@ -261,9 +261,9 @@ Game.prototype.createTutorial = function(){
 	});
 	tween.start();
 	
-	var info = this.createTutorialElement('info', lvlWidth * 0.75,lvlHeight * 0.70, 0);
-	var text = this.createTutorialText("Täältä näet pakolaisten määrän", info.x, info.y -50);
-	var arr = this.createTutorialElement('arrow', info.x, info.y + info.height, 90);
+	//var info = this.createTutorialElement('info', lvlWidth * 0.75,lvlHeight * 0.70, 0);
+	//var text = this.createTutorialText("Täältä näet pakolaisten määrän", info.x, info.y -50);
+	//var arr = this.createTutorialElement('arrow', info.x, info.y + info.height, 90);
 	
 	//var fullInfo = this.createTutorialText("Kokonäytön tila", lvlWidth* 0.24, lvlHeight * 0.25);
 	//var musicInfo = this.createTutorialText("Äänet päälle ja pois", lvlWidth *0.25, lvlHeight * 0.4);
@@ -274,9 +274,9 @@ Game.prototype.createTutorial = function(){
 	
 	var timedEvent2 = this.phaserGame.time.events.add(Phaser.Timer.SECOND * 9, function(){
 		this.addStateTutorial();
-		info.destroy();
-		text.destroy();
-		arr.destroy();
+		//info.destroy();
+		//text.destroy();
+		//arr.destroy();
 	}, this);
 	this.tutorialEvents[this.tutorialEvents.length] = timedEvent2;
 	

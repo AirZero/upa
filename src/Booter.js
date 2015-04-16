@@ -15,12 +15,7 @@ Booter.prototype.preload = function(){
 }
 
 Booter.prototype.create = function(){
-	var sprite = this.phaserGame.add.sprite(lvlWidth *0.5, lvlHeight *0.5, 'logo');
-	sprite.anchor.setTo(0.5,0.5);
-	sprite.width = lvlWidth;
-	sprite.height = lvlHeight;
-	sprite.fixedToCamera = true;
-	this.phaserGame.load.setPreloadSprite(sprite);
+
 	this.startGame();
 
 }

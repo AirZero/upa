@@ -20,6 +20,7 @@ function GameStateBar(phaserGame, sprite, stateBall, x, y, width, height){
 	this.shaken = 0;
 	this.shakeCount = 0;
 	this.shakeLength = 5;
+	this.fadeDirection = -0.01;
 	
 	this.onTooLongLowHandlers = [];
 	this.maxTimeOnLow = 125;
@@ -108,10 +109,20 @@ GameStateBar.prototype.update = function(){
 		this.ball.cameraOffset.y += this.shaken;
 		this.shakeCount++;
 		
+		
+		this.alpha += this.fadeDirection;
+		if(this.alpha < 0.01)
+			this.fadeDirection *= -1;
+		if(this.alpha > 0.99)
+			this.fadeDirection *= -1;
+		
+	
 		if(this.lowTime >= this.maxTimeOnLow)
 			this.invokeOnTooLowListeners();
 	}
 	else{
+		this.alpha = 1;
+		this.fadeDirection = Math.min(this.fadeDirection, this.fadeDirection * -1);
 		this.lowTime = 0;
 		if(this.maxTimeOnLow > 100)
 			this.maxTimeOnLow = 15;
