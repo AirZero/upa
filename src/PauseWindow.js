@@ -70,9 +70,12 @@ PauseWindow.prototype.destroy = function(){
 	for(var i = 0; i < this.texts.length; i++){
 		this.texts[i].destroy();
 	}
-	this.textButton.destroy();
-	this.restartButton.destroy();
-	this.switchSidesButton.destroy();
+	if(this.textButton)
+		this.textButton.destroy();
+	if(this.restartButton)
+		this.restartButton.destroy();
+	if(this.switchSidesButton)
+		this.switchSidesButton.destroy();
 	this.background.destroy();
 }
 

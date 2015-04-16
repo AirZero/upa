@@ -121,7 +121,7 @@ Game.prototype.reMenu = function(){
 	//this.clear();
 	//reMenu();
 	
-	this.openPauseWindow(false);
+	this.openPauseWindow(false, true, true);
 }
 
 
@@ -626,7 +626,7 @@ Game.prototype.completeEffect = function(effect){
 			this.addDialog(effect.data);
 			break;
 		case "stats":
-			this.openPauseWindow(true, false);
+			this.openPauseWindow(true, false, true);
 			break;
 		case "feed":
 			this.addFeedData(effect.data);
