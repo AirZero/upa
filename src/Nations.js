@@ -213,6 +213,7 @@ Nations.prototype.createNation = function(layer, textLayer, x, y, nationData){
 	nation.angle = nationData.rotation;
 	//this.addToObjects(nation);
 	nation.inputEnabled = true;
+	nation.input.pixelPerfectClick = true;
 	nation.events.onInputDown.add(this.handleNationClick, this);
 	nation.setAutoCulling(true);
 	layer.add(nation);

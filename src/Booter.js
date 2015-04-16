@@ -11,7 +11,7 @@ Booter.prototype.init = function(){
 }
 
 Booter.prototype.preload = function(){
-	this.phaserGame.load.image('logo', PICTURE_PATH+'Logo.png');
+	this.phaserGame.load.image('logo', PICTURE_PATH+'PelinLogo.png');
 }
 
 Booter.prototype.create = function(){

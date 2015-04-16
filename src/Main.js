@@ -23,6 +23,7 @@ var menu;
 var BASE_STYLE = { font: '32px Arial', fill: '#ff0044', align: 'center' };
 var SMALL_STYLE = {font: '22px Arial', fill: '#aa1122', align: 'center' };
 var NATION_TEXT_STYLE = { font: '26px Arial', fill: '#111111', align: 'center' };
+var BIG_WHITE_STYLE = { font: '48px Arial', fill: '#FFFFFF', align: 'center' };
 var state;
 var playerPrefs = new PlayerPrefs(); //TODO: assess if global access is the best or should not be object or etc..
 
@@ -36,8 +37,8 @@ function Main(phaserGame){
 Main.prototype.preload = function(){
 	this.loadingSprite = this.phaserGame.add.sprite(lvlWidth *0.5, lvlHeight *0.5, 'logo');
 	this.loadingSprite.anchor.setTo(0.5,0.5);
-	this.loadingSprite.width = lvlWidth;
-	this.loadingSprite.height = lvlHeight;
+	//this.loadingSprite.width = lvlWidth;
+	//this.loadingSprite.height = lvlHeight;
 	this.loadingSprite.fixedToCamera = true;
 	//We dont need the bar interaction and that probably is the only thing done by this.
 	//this.phaserGame.load.setPreloadSprite(this.loadingSprite);
@@ -49,15 +50,15 @@ Main.prototype.preloadAssets = function(){
 	this.reset();
 	phaserGame.load.spritesheet('button', PICTURE_PATH+'buttonsWithUp.png', 100, 100);
 	phaserGame.load.spritesheet('fullscreenButton', PICTURE_PATH+'fullscreenButtons.png', 100, 100);
+	phaserGame.load.spritesheet('switch', PICTURE_PATH+'switchButtons.png', 100, 100);
 	//phaserGame.load.image('finland', 'assets/pictures/finland.png');
-	phaserGame.load.audio('error', SOUND_PATH+'bump.wav');
-	phaserGame.load.audio('music', SOUND_PATH+'DST-3rdBallad.ogg');
+	phaserGame.load.audio('error', SOUND_PATH+'ErrorNew.wav');
+	phaserGame.load.audio('music', SOUND_PATH+'War.ogg');
 	phaserGame.load.image('dialogBack', PICTURE_PATH+'dialogBack.png');
 	phaserGame.load.image('bar', PICTURE_PATH+'TransparentBar.png');
 	phaserGame.load.image('solidBar', PICTURE_PATH+'Bar.png');
 	phaserGame.load.spritesheet('shade', PICTURE_PATH+'Shade.png', 200, 200);
 	phaserGame.load.image('textFeed', PICTURE_PATH+'Uutispalkki.png');
-	phaserGame.load.image('logo', PICTURE_PATH+'Logo.png');
 	phaserGame.load.image('hunam', PICTURE_PATH+'Hunam.png');
 	phaserGame.load.image('ball', PICTURE_PATH+'StateBall.png');
 	phaserGame.load.image('infoLabel', PICTURE_PATH+'YlempiPalkki.png');

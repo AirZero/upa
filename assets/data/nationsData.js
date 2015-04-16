@@ -205,15 +205,6 @@ function getJsonFromNationsData(){
 			"sprite": "Slovakia"	
 		},
 		{
-			"name": "Moldova",
-			"x": "Same:Ukraina,Percent:-28",
-			"y": "Down:Ukraina,Percent:-109",
-			"width": 121,
-			"height": 86,
-			"rotation": 0,
-			"sprite": "Moldova"	
-		},
-		{
 			"name": "Romania",
 			"y": "Down:Ukraina,Percent:39",
 			"x": "Same:Ukraina,Percent:-61",
@@ -221,6 +212,15 @@ function getJsonFromNationsData(){
 			"height": 96,
 			"rotation": 0,
 			"sprite": "Romania"	
+		},
+		{
+			"name": "Moldova",
+			"x": "Same:Ukraina,Percent:-28",
+			"y": "Down:Ukraina,Percent:-109",
+			"width": 121,
+			"height": 86,
+			"rotation": 0,
+			"sprite": "Moldova"	
 		},
 		{
 			"name": "Serbia",

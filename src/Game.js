@@ -94,14 +94,21 @@ Game.prototype.createGroups =function(){
 	this.initializeParticleSystem();
 	this.BarLayer = this.phaserGame.add.group();
 	this.BarLayer.z = this.getNextAvailableZ();
+	
 	this.TextLayer = this.phaserGame.add.group();
 	this.TextLayer.z = this.getNextAvailableZ();
+	
 	this.GUILayer = this.phaserGame.add.group();
 	this.GUILayer.z = this.getNextAvailableZ();
+	
 	this.UpperGUILayer = this.phaserGame.add.group();
 	this.UpperGUILayer.z = this.getNextAvailableZ();
+	
 	this.TutorialLayer = this.phaserGame.add.group();
 	this.TutorialLayer.z = this.getNextAvailableZ();
+	
+	this.PauseLayer = this.phaserGame.add.group();
+	this.PauseLayer.z = this.getNextAvailableZ();
 }
 
 
@@ -124,6 +131,7 @@ Game.prototype.reMenu = function(){
  */
 Game.prototype.clear = function(){
 	this.GUILayer.destroy(true);
+	this.PauseLayer.destroy(true);
 	this.UpperGUILayer.destroy(true);
 	this.BackgroundLayer.destroy(true);
 	this.TextLayer.destroy(true);
@@ -223,7 +231,7 @@ Game.prototype.defineSyria = function(){
 
 Game.prototype.waitForPlayer = function(){
 	this.shadeButton = new TextButton(this.phaserGame, '', 'shade', 
-	this.tweenToCenter, BASE_STYLE, lvlWidth*0.5, lvlHeight*0.5, this, 0, 0, 0, 0);
+	this.tweenToCenter, BIG_WHITE_STYLE, lvlWidth*0.5, lvlHeight*0.5, this, 0, 0, 0, 0);
 	//this.shadeButton
 	
 	this.createTutorial();
@@ -251,9 +259,9 @@ Game.prototype.createTutorial = function(){
 	var logoSprite = this.createTutorialElement('logo', lvlWidth *0.5, lvlHeight * 0.5, 0);
 	logoSprite.width = 10;
 	logoSprite.height = 10;
-	var tween = this.phaserGame.add.tween(logoSprite.scale).to({x: 4, y: 4}, Phaser.Timer.SECOND * 1);
+	var tween = this.phaserGame.add.tween(logoSprite.scale).to({x: 1.5, y: 1.5}, Phaser.Timer.SECOND * 1);
 	tween.onComplete.add(function(){
-		var another = this.phaserGame.add.tween(logoSprite.scale).to({ x:0.25, y:0.25}, Phaser.Timer.SECOND * 3);
+		var another = this.phaserGame.add.tween(logoSprite.scale).to({ x:0.1, y:0.1}, Phaser.Timer.SECOND * 3);
 		another.start();
 		another.onComplete.add(function(){
 			logoSprite.destroy();
@@ -271,10 +279,10 @@ Game.prototype.createTutorial = function(){
 	//var musicInfo = this.createTutorialText("Äänet päälle ja pois", lvlWidth *0.25, lvlHeight * 0.4);
 	
 	
-	var timedEvent = this.phaserGame.time.events.add(Phaser.Timer.SECOND * 5, this.addPlaneTutorial, this);
+	var timedEvent = this.phaserGame.time.events.add(Phaser.Timer.SECOND * 4, this.addPlaneTutorial, this);
 	this.tutorialEvents[this.tutorialEvents.length] = timedEvent;
 	
-	var timedEvent2 = this.phaserGame.time.events.add(Phaser.Timer.SECOND * 9, function(){
+	var timedEvent2 = this.phaserGame.time.events.add(Phaser.Timer.SECOND * 7, function(){
 		this.addStateTutorial();
 		//info.destroy();
 		//text.destroy();
@@ -282,11 +290,22 @@ Game.prototype.createTutorial = function(){
 	}, this);
 	this.tutorialEvents[this.tutorialEvents.length] = timedEvent2;
 	
-	var timedEvent3 = this.phaserGame.time.events.add(Phaser.Timer.SECOND * 12, function(){
-		var nationText = this.createTutorialText("Lähetä syyrialaisia valitsemalla maa", lvlWidth *0.5, lvlHeight *0.5);
-	}, this);
+	var timedEvent3 = this.phaserGame.time.events.add(Phaser.Timer.SECOND * 10, this.addNationTutorial, this);
 	this.tutorialEvents[this.tutorialEvents.length] = timedEvent3;
 	
+	var timedEvent4 = this.phaserGame.time.events.add(Phaser.Timer.SECOND * 12, this.addHowToStartMessage, this);
+	this.tutorialEvents[this.tutorialEvents.length] = timedEvent4;
+}
+
+
+Game.prototype.addHowToStartMessage = function(){
+	this.shadeButton.setText("Aloita peli klikkaamalla");
+}
+
+
+Game.prototype.addNationTutorial = function(){
+	var nationText = this.createTutorialText("Lähetä syyrialaisia valitsemalla maa", lvlWidth *0.6, lvlHeight *0.25);
+	var arrow = this.createTutorialElement('arrow', nationText.x - nationText.width * 0.47 - 40, nationText.y, 190);
 }
 
 
@@ -361,7 +380,7 @@ Game.prototype.resetDate = function(){
 Game.prototype.createGUI = function(){
 	//Here could have been a simple interface kind of solution for these
 	var thisGame = this;
-	var textButton = new TextButton(this.phaserGame, 'Menu', 'button', this.openPauseWindow, BASE_STYLE, lvlWidth * 0.075, lvlHeight * 0.2, this);
+	var textButton = new TextButton(this.phaserGame, 'Pause', 'button', this.openPauseWindow, BASE_STYLE, lvlWidth * 0.075, lvlHeight * 0.2, this);
 	textButton.setFixedToCamera(true);
 	//Not the best way..
 	textButton.setWidth(textButton.button.width * 0.5);
@@ -449,80 +468,25 @@ Game.prototype.createGUI = function(){
 /**
  * 
  */
-Game.prototype.openPauseWindow  =function(continuable){
-	if(continuable === undefined)
-		continuable = true;
+Game.prototype.openPauseWindow = function(continuable, restartable, showNationList){
+
+	var pauseWindow = new PauseWindow(this, this.phaserGame, continuable, restartable, showNationList, this.nations.getSentRefugees(),this.nations.getNationsWithHighestRefugeeAmounts(), this.PauseLayer);
+	this.silenceGame(pauseWindow);
 	//TODO: this should be implemented into the dialog somehow so it can store other components/there should be a base class that can be used like this and dialog uses that.
-	var background = new Phaser.Sprite(this.phaserGame, lvlWidth * 0.5, lvlHeight * 0.5, 'dialogBack');
-	background.anchor.setTo(0.5, 0.5);
-	background.width = lvlWidth *0.9;
-	background.height = lvlHeight * 0.9;
-	this.UpperGUILayer.add(background);
-	background.fixedToCamera = true;
-	var arr = [];
-	
-	var sentRefugeesObject = this.nations.getSentRefugees();
-	var refugeeTitle = continuable ? "Olet sijoittanut yhteensä "+sentRefugeesObject.refugees+" pakolaista" : "Sijoitit yhteensä "+sentRefugeesObject.refugees+" pakolaista";
-	
-	var refugeeText = new Phaser.Text(this.phaserGame, lvlWidth * 0.5, lvlHeight* 0.1, refugeeTitle, NATION_TEXT_STYLE);
-	refugeeText.anchor.setTo(0.5,0.5);
-	refugeeText.fixedToCamera = true;
-	this.UpperGUILayer.add(refugeeText);
-	
-	var startingY = lvlHeight * 0.2;
-	var endingY = lvlHeight * 0.6;
-	var margin = 10;
-	
-	var highestRefugeeAmounts = this.nations.getNationsWithHighestRefugeeAmounts();
-	
-	var highestAmount = highestRefugeeAmounts[0].getRefugees();
-	
-	for(var i = 0; i < highestRefugeeAmounts.length; i++){
-		var nation = highestRefugeeAmounts[i];
-		var y = startingY + (endingY - startingY) * i / 10 + i*margin;
-		var barText = new BarText(this.phaserGame, lvlWidth * 0.2, lvlWidth *0.8, y, 'solidBar', nation.name +":"+nation.getRefugees()+" pakolaista", NATION_TEXT_STYLE);
-		barText.addToLayer(this.UpperGUILayer);
-		if(highestAmount != 0)
-			barText.setPercentualSize(nation.getRefugees() / highestAmount);
-		arr[arr.length] = barText;
-	}
-	var buttonWidth = background.width * 0.25;
-	var buttonY = endingY + background.height * 0.25;
-	//75% of the space remaining after list and until end of space
-	var buttonHeight = (background.y + background.height * 0.5 - endingY) * 0.25;
-	//TODO: this horrible chunk of copy paste should be a method	
-	var restartButton = this.createTextButton("Aloita alusta", this.restart,  background.x + buttonWidth, buttonY, this.UpperGUILayer, buttonWidth, buttonHeight);
-	//var restartButton = new TextButton(this.phaserGame, "Aloita alusta", 'button', this.restart, NATION_TEXT_STYLE, background.x + buttonWidth, buttonY, this);
-	//restartButton.setHeight(buttonHeight);
-	//restartButton.setFixedToCamera(true);
-	//restartButton.addToLayer(this.UpperGUILayer);
-	//restartButton.setWidth(buttonWidth);
-	this.silenceGame(restartButton);
-	//TODO: maybe make a new layer which to destroy or something less horrenduous than this thing with loads of random destroys
-	if(continuable){
-		var func = function(){
-			textButton.destroy();
-			background.destroy();
-			restartButton.destroy();
-			refugeeText.destroy();
-			for(obj in arr){
-				arr[obj].destroy();
-			}
-		};
-		
-		var textButton = this.createTextButton("Jatka", func,background.x - buttonWidth , buttonY, this.UpperGUILayer, buttonWidth, buttonHeight);
-		//textButton.setFixedToCamera(true);
-		//textButton.setWidth(buttonWidth);
-		//textButton.setHeight(buttonHeight);
-		//textButton.addToLayer(this.UpperGUILayer);
-		this.silenceGame(textButton);
-	}
 	
 }
 
 
-Game.prototype.createTextButton = function(title, method, x, y, layer, width, height){
-	var button = new TextButton(this.phaserGame, title, 'button', method, NATION_TEXT_STYLE, x, y, this);
+
+
+Game.prototype.clearPausedLayer = function(){
+	this.PauseLayer.destroy();
+}
+
+
+Game.prototype.createTextButton = function(title, method, x, y, layer, width, height, callbackClass){
+	if(callbackClass === undefined) callbackClass = this;
+	var button = new TextButton(this.phaserGame, title, 'button', method, NATION_TEXT_STYLE, x, y, callbackClass);
 
 	button.setFixedToCamera(true);
 	button.addToLayer(layer);
@@ -660,6 +624,9 @@ Game.prototype.completeEffect = function(effect){
 			break;
 		case "story":
 			this.addDialog(effect.data);
+			break;
+		case "stats":
+			this.openPauseWindow(true, false);
 			break;
 		case "feed":
 			this.addFeedData(effect.data);

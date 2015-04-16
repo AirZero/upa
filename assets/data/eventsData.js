@@ -12,12 +12,8 @@ function getJsonFromEventsData(){
             "chance": 100,
             "effects": [
                 {
-                    "effectName": "story",
-                    "data": "Vuosi vaihtuu\n ja uusia pakolaisia tulee"
-                },
-				{
-                    "effectName": "addRefugees",
-                    "data": 2500
+                    "effectName": "stats",
+                    "data": ""
                 }
             ],
             "description": "Easy for adding year change event, no hurdur code, me proud of not no HURDUR! Still, the syntax is horrible so changed coming sitll!"
