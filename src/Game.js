@@ -17,8 +17,6 @@ function Game (phaserGame){
 	this.events = [];
 //this.GUIGroup.bringToTop();
 	this.selectedNation = null;
-	this.selectedTint = 0x029999;
-	//this.unselectedTint = 0xFFFFFF;
 	this.maximumSelectedNations = 5;
 	this._selectedNations = 0;
 	this.selectedNationListener = null;
@@ -456,7 +454,7 @@ Game.prototype.createGUI = function(){
 	
 	
 	
-	this.dateText = this.phaserGame.add.text(lvlWidth * 0.12, lvlHeight * 0.07, this.gameProgress.getDateString(), BASE_STYLE);
+	this.dateText = this.phaserGame.add.text(lvlWidth * 0.12, lvlHeight * 0.07, this.gameProgress.getDateString(), ANOTHER_STYLE);
 	this.dateText.anchor.setTo(0.5, 0.5);
 	this.dateText.fixedToCamera = true;
 	
