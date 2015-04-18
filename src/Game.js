@@ -455,6 +455,7 @@ Game.prototype.createGUI = function(){
 	
 	
 	this.dateText = this.phaserGame.add.text(lvlWidth * 0.12, lvlHeight * 0.07, this.gameProgress.getDateString(), ANOTHER_STYLE);
+	this.dateText.fontWeight = 'bold';
 	this.dateText.anchor.setTo(0.5, 0.5);
 	this.dateText.fixedToCamera = true;
 	

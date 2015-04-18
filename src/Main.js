@@ -37,6 +37,7 @@ function Main(phaserGame){
 }
 
 Main.prototype.preload = function(){
+	this.phaserGame.stage.backgroundColor = '#FFFFFF';
 	this.loadingSprite = this.phaserGame.add.sprite(lvlWidth *0.5, lvlHeight *0.5, 'logo');
 	this.loadingSprite.anchor.setTo(0.5,0.5);
 	//this.loadingSprite.width = lvlWidth;
