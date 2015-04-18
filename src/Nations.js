@@ -98,26 +98,44 @@ Nations.prototype.increaseMaxRefugeeAmountsByData = function(data){
 Nations.prototype.getNationsWithHighestRefugeeAmounts = function(numberOfTops){
 	numberOfTops = numberOfTops || 10;
 	var nationsFound = [];
+	//for(nationName in this.nations){
+	//	var nation = this.nations[nationName];
+	//	for(var i = 0; i < numberOfTops; i++){
+	//		if(!nationsFound[i]){
+	//			nationsFound[i] = nation;
+	//			break;
+	//		}
+	//		if(nationsFound[i].getRefugees() < nation.getRefugees()){
+	//			nationsFound.splice(i, 0, nation);
+	//			
+	//			if(nationsFound.length > numberOfTops)
+	//				nationsFound.splice(numberOfTops, nationsFound.length - numberOfTops);
+	//			break;
+	//		}
+	//		
+	//	}
+	//}
 	for(nationName in this.nations){
 		var nation = this.nations[nationName];
-		for(var i = 0; i < numberOfTops; i++){
-			if(!nationsFound[i]){
-				nationsFound[i] = nation;
-				break;
-			}
-			if(nationsFound[i].getRefugees() < nation.getRefugees()){
-				nationsFound.splice(i, 0, nation);
-				
-				if(nationsFound.length > numberOfTops)
-					nationsFound.splice(numberOfTops, nationsFound.length - numberOfTops);
-				break;
-			}
-			
-		}
+		nationsFound.push(nation);
 	}
+	nationsFound.sort(this.compareNations);
+	nationsFound.splice(numberOfTops, nationsFound.length - numberOfTops);
+	
 	return nationsFound;
 }
 
+
+Nations.prototype.compareNations = function(a, b){
+	var aRef = a.getRefugees();
+	var bRef = b.getRefugees();
+	if(aRef === bRef){
+		return b.getMaxRefugees() - a.getMaxRefugees();
+	}
+	else return bRef - aRef;
+	
+	
+}
 
 
 /**
