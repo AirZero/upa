@@ -27,8 +27,8 @@ function HumanParticleSystem(game, sprite, lifeSpan, frequency, quantity, z){
 	this.sentParticles = 0;
 	this.onSendFinish = null;
 	
-	this.minParticleScale = 0.35;
-	this.maxParticleScale = 0.4;
+	this.minParticleScale = 0.275;
+	this.maxParticleScale = 0.3;
 	
 	this.minParticleSpeed.x = 0;
 	this.minParticleSpeed.y = 0;

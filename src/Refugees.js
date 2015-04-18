@@ -109,16 +109,16 @@ Refugees.prototype.parseData = function(){
 	var startingYear = 2010;
 	for(var i = 1; i < nationsSplit.length; i++){
 		var data = nationsSplit[i].split(",");
-		var earlier = 0;
+		var earlierYear = 0;
 		for(var j =0; j < data.length -1; j++){
-			var yearly = (data[data.length - 1 - j] - earlier );
+			var yearly = (data[data.length - 1 - j] - earlierYear );
 			var left = yearly;
 			for(var month = 1; month <= 12; month++){
 				var monthly = month !== 12 ? Math.floor(yearly * 0.0833333333333333) : left;
 				left -= monthly;
 				this.refugeeData.push(new RefugeeMonth(data[0], month, startingYear+ j, monthly)); //same as /12
 			}
-			earlier += yearly;
+			earlierYear = yearly;
 		}
 	}	
 

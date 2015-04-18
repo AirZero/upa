@@ -8,7 +8,7 @@
  */
 function GameProgress(phaserGame){
 	this.phaserGame = phaserGame;
-	this.monthInterval = 5;
+	this.monthInterval = 4;
 	this.dayInterval = this.monthInterval / 30;
 	this.startDate = new GameDate(5,3,2011);
 	this.resetDate(); //Initializes this.date also as well as sets it to startdate
