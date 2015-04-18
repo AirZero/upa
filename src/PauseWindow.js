@@ -89,7 +89,7 @@ PauseWindow.prototype.reDoPauseWindow = function(){
 
 PauseWindow.prototype.showRefugeesAdded = function(continuable, restartable, showNationList, sentRefugeesObject){
 
-	var refugeeTitle = continuable ? "Olet sijoittanut yhteensä: " : "Sijoitit yhteensä: ";
+	var refugeeTitle = continuable ? "Olet sijoittanut syyrialaisia yhteensä: " : "Sijoitit syyrialaisia yhteensä: ";
 	
 	var refugeeText = new Phaser.Text(this.phaserGame, lvlWidth * 0.5, lvlHeight* 0.1, refugeeTitle, NATION_TEXT_STYLE);
 	refugeeText.anchor.setTo(0.5,0.5);
@@ -103,7 +103,7 @@ PauseWindow.prototype.showRefugeesAdded = function(continuable, restartable, sho
 	this.layer.add(refs);
 	this.texts[this.texts.length] = refs;
 	
-	var real = new Phaser.Text(this.phaserGame, lvlWidth * 0.5, lvlHeight * 0.45, "Todellisuudessa "+this.game.gameProgress.getDateString() +" mennessä\nEurooppaan on tullut noin:", NATION_TEXT_STYLE);
+	var real = new Phaser.Text(this.phaserGame, lvlWidth * 0.5, lvlHeight * 0.45, "Todellisuudessa "+this.game.gameProgress.getDateString() +" mennessä\nEurooppaan on tullut syyrialaisia noin:", NATION_TEXT_STYLE);
 	real.anchor.setTo(0.5,0.5);
 	real.fixedToCamera = true;
 	this.layer.add(real);

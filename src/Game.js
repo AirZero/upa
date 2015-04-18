@@ -119,7 +119,7 @@ Game.prototype.reMenu = function(){
 	//this.clear();
 	//reMenu();
 	
-	this.openPauseWindow(false, true, true);
+	this.openPauseWindow(false, true, false);
 }
 
 
@@ -399,7 +399,7 @@ Game.prototype.createGUI = function(){
 	//fullScreenButton.addToLayer(this.UpperGUILayer);
 	
 	var musicButton = new Phaser.Button(
-		this.phaserGame, buttonX, fullScreenButton.y + fullScreenButtonHeight *1.5,'fullscreenButton',
+		this.phaserGame, buttonX, fullScreenButton.y + fullScreenButtonHeight *1.5,'soundButton',
 		this.handleMusicSwitch, this, 1,0,2,3
 	);
 	musicButton.fixedToCamera = true;
@@ -538,7 +538,9 @@ Game.prototype.initializeRefugeeSpriteListController = function(x, y, endX, endY
  * Changes the game into fullscreen mode
  */
 Game.prototype.goFullScreen = function(){
-	this.phaserGame.scale.startFullScreen();
+	if(!this.phaserGame.scale.isFullScreen)
+		this.phaserGame.scale.startFullScreen();
+	else this.phaserGame.scale.stopFullScreen();
 }
 
 
@@ -618,7 +620,7 @@ Game.prototype.completeEffect = function(effect){
 			this.increaseMaxRefugeeAmounts(effect.data);
 			break;
 		case "endGame":
-			this.endGame();
+			this.endGame(effect.data);
 			break;
 		case "story":
 			this.addDialog(effect.data);
@@ -691,8 +693,9 @@ Game.prototype.increaseMaxRefugeeAmountsInNations = function(data){
 
 
 
-Game.prototype.endGame = function(){
-	this.createTimedEvent(2, this.reMenu);
+Game.prototype.endGame = function(data){
+	this.addDialog(data, this.reMenu, "Ok", this);
+	//this.createTimedEvent(2, this.reMenu);
 }
 
 
@@ -731,12 +734,12 @@ Game.prototype.silenceGame = function(silencer){
 /**
  * Adds a dialog to the game with given text and yes/no functions and texts
  */
-Game.prototype.addDialog = function(text, method, buttonText){
+Game.prototype.addDialog = function(text, method, buttonText, callbackClass){
 	//Initialize if not given
 	method = method || function(){};
 	buttonText = buttonText || "Ok";
 	
-	var dialog = new Dialog(this.phaserGame, text, [new EventHandler(method)], [buttonText]);
+	var dialog = new Dialog(this.phaserGame, text, [new EventHandler(method, callbackClass)], [buttonText]);
 //	dialog.setTexts(null, yesText, noText);
 	dialog.addToLayer(this.UpperGUILayer);
 	this.silenceGame(dialog);
