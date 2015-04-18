@@ -1,6 +1,6 @@
 ﻿
 
-function PauseWindow (game, phaserGame,continuable, restartable, showNationList, sentRefugeesObject,highestRefugeeAmounts, layer){
+function PauseWindow (game, phaserGame,continuable, restartable, showNationList, sentRefugeesObject,highestRefugeeAmounts, layer, text){
 	if(continuable === undefined)
 		continuable = true;
 	if(restartable === undefined)
@@ -28,7 +28,7 @@ function PauseWindow (game, phaserGame,continuable, restartable, showNationList,
 	
 
 	if(showNationList)
-		this.showNationRefugeeList(continuable, restartable, showNationList, startingY, endingY, highestRefugeeAmounts);
+		this.showNationRefugeeList(continuable, restartable, showNationList, startingY, endingY, highestRefugeeAmounts, text);
 	else
 		this.showRefugeesAdded(continuable, restartable, showNationList, sentRefugeesObject);
 
@@ -124,8 +124,16 @@ PauseWindow.prototype.silence = function(theSilenced){
 }
 
 
-PauseWindow.prototype.showNationRefugeeList = function(continuable, restartable, showNationList, startingY, endingY, highestRefugeeAmounts){
+PauseWindow.prototype.showNationRefugeeList = function(continuable, restartable, showNationList, startingY, endingY, highestRefugeeAmounts,text){
 	var margin = 10;
+	
+	if(text){
+		this.text = new Phaser.Text(this.phaserGame, lvlWidth * 0.5, lvlHeight * 0.12, text, NATION_TEXT_STYLE);
+		this.text.anchor.setTo(0.5,0.5);
+		this.text.fixedToCamera = true;
+		this.layer.add(this.text);
+		this.texts[this.texts.length] = this.text;
+	}
 	
 	var highestAmount = highestRefugeeAmounts[0].getRefugees();
 	

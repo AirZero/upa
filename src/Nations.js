@@ -133,8 +133,6 @@ Nations.prototype.compareNations = function(a, b){
 		return b.getMaxRefugees() - a.getMaxRefugees();
 	}
 	else return bRef - aRef;
-	
-	
 }
 
 

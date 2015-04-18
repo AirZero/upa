@@ -347,7 +347,7 @@ function getJsonFromEventsData(){
                 },
 				{
                     "effectName": "setProcessTime",
-                    "data": "3"
+                    "data": "2"
                 }
             ],
             "description": "Sets the losing time to the game for year 2012"
@@ -362,7 +362,7 @@ function getJsonFromEventsData(){
                 },
 				{
                     "effectName": "setProcessTime",
-                    "data": "2"
+                    "data": "1.5"
                 }
             ],
             "description": "Sets the losing time to the game for year 2012"

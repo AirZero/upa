@@ -145,7 +145,7 @@ Game.prototype.clear = function(){
 	this.music.stop();
 	this.music.destroy();
 	this.fullSound.destroy();
-	this.processLength = 4;
+	this.processLength = 3;
 	
 	for(var i = 0; i < this.events.length; i++){
 		this.phaserGame.time.events.remove(this.events[i]);
@@ -467,9 +467,9 @@ Game.prototype.createGUI = function(){
 /**
  * 
  */
-Game.prototype.openPauseWindow = function(continuable, restartable, showNationList){
+Game.prototype.openPauseWindow = function(continuable, restartable, showNationList, text){
 
-	var pauseWindow = new PauseWindow(this, this.phaserGame, continuable, restartable, showNationList, this.nations.getSentRefugees(),this.nations.getNationsWithHighestRefugeeAmounts(), this.PauseLayer);
+	var pauseWindow = new PauseWindow(this, this.phaserGame, continuable, restartable, showNationList, this.nations.getSentRefugees(),this.nations.getNationsWithHighestRefugeeAmounts(), this.PauseLayer, text);
 	this.silenceGame(pauseWindow);
 	//TODO: this should be implemented into the dialog somehow so it can store other components/there should be a base class that can be used like this and dialog uses that.
 	
@@ -627,7 +627,7 @@ Game.prototype.completeEffect = function(effect){
 			this.addDialog(effect.data);
 			break;
 		case "stats":
-			this.openPauseWindow(true, false, true);
+			this.openPauseWindow(true, false, true, "Vuosi vaihtuu, pelastit syyrialaisia seuraavasti");
 			break;
 		case "feed":
 			this.addFeedData(effect.data);
@@ -819,8 +819,8 @@ Game.prototype.getRefugeeAmount = function(nation){
 	//var month = this.gameProgress.getMonth();
 	//var year = this.gameProgress.getYear();
 	
-	//We will add 1000 refugees + 7% of the nations max refugee amount
-	var amount = Math.floor(1000 + nation.getMaxRefugees() * 0.07);
+	//We will add x refugees + y% of the nations max refugee amount
+	var amount = Math.floor(150 + nation.getMaxRefugees() * 0.05);
 	amount = nation.countHowManyWouldFit(amount);
 	
 	
