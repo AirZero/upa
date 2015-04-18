@@ -132,7 +132,7 @@ PauseWindow.prototype.showNationRefugeeList = function(continuable, restartable,
 	for(var i = 0; i < highestRefugeeAmounts.length; i++){
 		var nation = highestRefugeeAmounts[i];
 		var y = startingY + (endingY - startingY) * i / 10 + i*margin;
-		var barText = new BarText(this.phaserGame, lvlWidth * 0.2, lvlWidth *0.8, y, 'solidBar', nation.name +":"+nation.getRefugees()+" pakolaista", NATION_TEXT_STYLE);
+		var barText = new BarText(this.phaserGame, lvlWidth * 0.2, lvlWidth *0.8, y, 'solidBar', nation.name +":"+nation.getRefugees()+"/"+nation.getMaxRefugees()+" pakolaista", NATION_TEXT_STYLE);
 		barText.addToLayer(this.layer);
 		if(highestAmount != 0)
 			barText.setPercentualSize(nation.getRefugees() / highestAmount);

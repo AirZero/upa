@@ -302,14 +302,14 @@ Game.prototype.addHowToStartMessage = function(){
 
 
 Game.prototype.addNationTutorial = function(){
-	var nationText = this.createTutorialText("Lähetä syyrialaisia valitsemalla maa", lvlWidth *0.6, lvlHeight *0.25);
+	var nationText = this.createTutorialText("Pelasta syyrialaisia valitsemalla maita", lvlWidth *0.6, lvlHeight *0.25);
 	var arrow = this.createTutorialElement('arrow', nationText.x - nationText.width * 0.47 - 40, nationText.y, 190);
 }
 
 
 Game.prototype.addStateTutorial = function(){
-	var text = this.createTutorialText("Pidä tämä palkki vihreänä", lvlWidth * 0.4, lvlHeight * 0.75);
-	var arrow = this.createTutorialElement('arrow', text.x, text.y+30, 90);
+	var text = this.createTutorialText("Pidä Euroopan vastaanottopaikat täynnä.\nKun palkki on vihreä, pärjäät hyvin", lvlWidth * 0.4, lvlHeight * 0.70);
+	var arrow = this.createTutorialElement('arrow', text.x, text.y+60, 90);
 	
 	this.newsFeed.clearQueue();
 	this.newsFeed.addText("Syyriassa on alkanut vuosikymmenen pahin sisällissota.", 100);
@@ -819,7 +819,8 @@ Game.prototype.getRefugeeAmount = function(nation){
 	//var month = this.gameProgress.getMonth();
 	//var year = this.gameProgress.getYear();
 	
-	var amount = Math.floor(1000 + nation.getMaxRefugees() * 0.1);
+	//We will add 1000 refugees + 7% of the nations max refugee amount
+	var amount = Math.floor(1000 + nation.getMaxRefugees() * 0.07);
 	amount = nation.countHowManyWouldFit(amount);
 	
 	
