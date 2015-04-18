@@ -18,13 +18,14 @@ var SOUND_PATH = 'assets/sounds/';
 var PICTURE_PATH = 'assets/pictures/';
 
 
+
 var phaserGame;
 var menu;
-var BASE_STYLE = { font: '32px Impact', fill: '#0066FF', align: 'center' };
-var SMALL_STYLE = {font: '22px Impact', fill: '#aa1122', align: 'center' };
-var NATION_TEXT_STYLE = { font: '26px Impact', fill: '#111111', align: 'center' };
-var BIG_WHITE_STYLE = { font: '48px Impact', fill: '#000000', align: 'center' };
-var ANOTHER_STYLE = { font: '30px Impact', fill: '#111111', align: 'center' };
+var BASE_STYLE = { font: '32px Helvetica', fill: '#ffffff', align: 'center' }; //#0066FF
+var SMALL_STYLE = {font: '22px Helvetica', fill: '#aa1122', align: 'center' };
+var NATION_TEXT_STYLE = { font: '26px Helvetica', fill: '#111111', align: 'center' };
+var BIG_WHITE_STYLE = { font: '48px Helvetica', fill: '#000000', align: 'center' };
+var ANOTHER_STYLE = { font: '30px Helvetica', fill: '#111111', align: 'center' };
 var state;
 var playerPrefs = new PlayerPrefs(); //TODO: assess if global access is the best or should not be object or etc..
 

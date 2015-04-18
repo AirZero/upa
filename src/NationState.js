@@ -27,7 +27,7 @@ NationState.prototype.tintOnState = function(nation){
 }
 
 NationState.prototype.tintSelected = function(nation){
-	nation.tint = 0xFFFFFF;
+	nation.tint = 0x0299FF;
 }
 
 
