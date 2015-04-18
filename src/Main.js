@@ -52,6 +52,7 @@ Main.prototype.preloadAssets = function(){
 	phaserGame.load.spritesheet('button', PICTURE_PATH+'buttonsWithUp.png', 100, 100);
 	phaserGame.load.spritesheet('fullscreenButton', PICTURE_PATH+'fullscreenButtons.png', 100, 100);
 	phaserGame.load.spritesheet('switch', PICTURE_PATH+'switchButtons.png', 100, 100);
+	phaserGame.load.spritesheet('soundButton', PICTURE_PATH+'soundButtons.png', 100, 100);
 	//phaserGame.load.image('finland', 'assets/pictures/finland.png');
 	phaserGame.load.audio('error', SOUND_PATH+'ErrorNew.wav');
 	phaserGame.load.audio('music', SOUND_PATH+'War.ogg');

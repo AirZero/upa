@@ -34,12 +34,8 @@ function getJsonFromEventsData(){
             "chance": 100,
             "effects": [
                 {
-                    "effectName": "story",
-                    "data": "Selvisit pelin loppuun asti,\n mutta konflikti jatkuu maailmalla edelleen!"
-                },
-                {
                     "effectName": "endGame",
-                    "data": 0
+                    "data": "Selvisit pelin loppuun asti,\n mutta konflikti jatkuu maailmalla edelleen!"
                 }
             ],
             "description": "Game ends here"
