@@ -57,7 +57,6 @@ Main.prototype.preloadAssets = function(){
 	phaserGame.load.spritesheet('soundButton', PICTURE_PATH+'soundButtons.png', 100, 100);
 	//phaserGame.load.image('finland', 'assets/pictures/finland.png');
 	phaserGame.load.audio('error', SOUND_PATH+'ErrorNew.wav');
-	phaserGame.load.audio('music', SOUND_PATH+'War.ogg');
 	phaserGame.load.image('dialogBack', PICTURE_PATH+'dialogBack.png');
 	phaserGame.load.image('bar', PICTURE_PATH+'TransparentBar.png');
 	phaserGame.load.image('solidBar', PICTURE_PATH+'Bar.png');

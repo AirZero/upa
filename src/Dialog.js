@@ -28,7 +28,7 @@ function Dialog(game, text, methods, texts, x, y, width, height){
 	var xSize = (width) * 0.5 * 0.8;
 	var yPos = y + height *0.35;
 	
-	this.text = game.add.text(0, 0, text, BASE_STYLE);
+	this.text = game.add.text(0, 0, text, NATION_TEXT_STYLE);
 	this.text.anchor.setTo(0.5, 0.5);
 	this.text.x = x;
 	this.text.y = y - height * 0.25;
