@@ -111,10 +111,11 @@ Refugees.prototype.parseData = function(){
 		var data = nationsSplit[i].split(",");
 		var earlierYear = 0;
 		for(var j =0; j < data.length -1; j++){
-			var yearly = (data[data.length - 1 - j] - earlierYear );
-			var left = yearly;
+			var yearly = parseFloat((data[data.length - 1 - j]));
+			var increase = yearly - earlierYear;
+			var left = increase;
 			for(var month = 1; month <= 12; month++){
-				var monthly = month !== 12 ? Math.floor(yearly * 0.0833333333333333) : left;
+				var monthly = month !== 12 ? Math.floor(increase * 0.0833333333333333) : left;
 				left -= monthly;
 				this.refugeeData.push(new RefugeeMonth(data[0], month, startingYear+ j, monthly)); //same as /12
 			}
@@ -126,15 +127,17 @@ Refugees.prototype.parseData = function(){
 
 Refugees.prototype.getAllPassedData = function(month, year){
 	var data = [];
-	var refMonth = 1;
+	var refMonth = 0;
 	var refYear = 2010;
-	while(refMonth !== month || refYear !== year){
-		data = data.concat(this.getAllRefugeesOfMonth(refMonth, refYear));
+	while(true){
 		refMonth++;
 		if(refMonth > 12){
 			refMonth = 1;
 			refYear++;
 		}
+		data = data.concat(this.getAllRefugeesOfMonth(refMonth, refYear));
+		if(refMonth === month && refYear === year)
+			break;
 	}
 	return data;
 }
