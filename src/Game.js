@@ -820,7 +820,7 @@ Game.prototype.getRefugeeAmount = function(nation){
 	//var year = this.gameProgress.getYear();
 	
 	//We will add x refugees + y% of the nations max refugee amount
-	var amount = Math.floor(150 + nation.getMaxRefugees() * 0.05);
+	var amount = Math.floor(200 + nation.getMaxRefugees() * 0.06);
 	amount = nation.countHowManyWouldFit(amount);
 	
 	
