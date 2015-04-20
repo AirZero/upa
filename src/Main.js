@@ -26,6 +26,7 @@ var SMALL_STYLE = {font: '22px Helvetica', fill: '#aa1122', align: 'center' };
 var NATION_TEXT_STYLE = { font: '26px Helvetica', fill: '#111111', align: 'center' };
 var BIG_WHITE_STYLE = { font: '48px Helvetica', fill: '#000000', align: 'center' };
 var ANOTHER_STYLE = { font: '30px Helvetica', fill: '#111111', align: 'center' };
+var REALLY_SMALL_STYLE = {font: '15px Helvetica', fill: '#111111', align: 'center' };
 var state;
 var playerPrefs = new PlayerPrefs(); //TODO: assess if global access is the best or should not be object or etc..
 

@@ -11,9 +11,10 @@ Nation.prototype.constructor = Nation;
 /**
  * Initializes the sprite for the nation and maxrefugee amounts for this nation
  */
-function Nation(game, x,y, name, sprite, maxRefugees){
+function Nation(game, x,y, name, sprite, maxRefugees, actualName){
 	Phaser.Sprite.call(this, game, 0, 0, sprite);
 	this.createText(game, name, x, y);
+	this.actualName = actualName;
 
 	
 	this.inProcess = false;

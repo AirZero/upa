@@ -1,5 +1,4 @@
 ﻿
-
 function PauseWindow (game, phaserGame,continuable, restartable, showNationList, sentRefugeesObject,highestRefugeeAmounts, layer, text){
 	if(continuable === undefined)
 		continuable = true;
@@ -89,7 +88,7 @@ PauseWindow.prototype.reDoPauseWindow = function(){
 
 PauseWindow.prototype.showRefugeesAdded = function(continuable, restartable, showNationList, sentRefugeesObject){
 
-	var refugeeTitle = continuable ? "Olet sijoittanut syyrialaisia yhteensä: " : "Sijoitit syyrialaisia yhteensä: ";
+	var refugeeTitle = "Olet pelastanut yhteensä: ";
 	
 	var refugeeText = new Phaser.Text(this.phaserGame, lvlWidth * 0.5, lvlHeight* 0.1, refugeeTitle, NATION_TEXT_STYLE);
 	refugeeText.anchor.setTo(0.5,0.5);
@@ -97,23 +96,60 @@ PauseWindow.prototype.showRefugeesAdded = function(continuable, restartable, sho
 	this.layer.add(refugeeText);
 	this.texts[this.texts.length] = refugeeText;
 	
-	var refs = new Phaser.Text(this.phaserGame, lvlWidth * 0.5, lvlHeight * 0.25, ""+sentRefugeesObject.refugees, BIG_WHITE_STYLE);
+	var refs = new Phaser.Text(this.phaserGame, lvlWidth * 0.5, lvlHeight * 0.18, ""+sentRefugeesObject.refugees, BIG_WHITE_STYLE);
 	refs.anchor.setTo(0.5,0.5);
 	refs.fixedToCamera = true;
 	this.layer.add(refs);
 	this.texts[this.texts.length] = refs;
+
+	var syriansText3 = new Phaser.Text(this.phaserGame, refs.x + refs.width * 0.5 +30, refs.y, "syyrialaista", NATION_TEXT_STYLE);
+	syriansText3.anchor.setTo(0,0.5);
+	syriansText3.fixedToCamera = true;
+	this.layer.add(syriansText3);
+	this.texts[this.texts.length] = syriansText3;
 	
-	var real = new Phaser.Text(this.phaserGame, lvlWidth * 0.5, lvlHeight * 0.45, "Todellisuudessa "+this.game.gameProgress.getDateString() +" mennessä\nEurooppaan on tullut syyrialaisia noin:", NATION_TEXT_STYLE);
+	var real = new Phaser.Text(this.phaserGame, lvlWidth * 0.5, lvlHeight * 0.30, "Todellisuudessa "+this.game.gameProgress.getDateString() +" Eurooppaan\n oli paennut syyriasta:", NATION_TEXT_STYLE);
 	real.anchor.setTo(0.5,0.5);
 	real.fixedToCamera = true;
 	this.layer.add(real);
 	this.texts[this.texts.length] = real;
 	
-	var realAmount = new Phaser.Text(this.phaserGame, lvlWidth * 0.5, lvlHeight * 0.6, this.game.maxEuropeanRefugees, BIG_WHITE_STYLE);
+	var realAmount = new Phaser.Text(this.phaserGame, lvlWidth * 0.5, lvlHeight * 0.44, this.game.maxEuropeanRefugees, BIG_WHITE_STYLE);
 	realAmount.anchor.setTo(0.5,0.5);
 	realAmount.fixedToCamera = true;
 	this.layer.add(realAmount);
 	this.texts[this.texts.length] = realAmount;
+
+	var syriansText = new Phaser.Text(this.phaserGame, realAmount.x + realAmount.width * 0.5 +30, realAmount.y, "ihmistä", NATION_TEXT_STYLE);
+	syriansText.anchor.setTo(0,0.5);
+	syriansText.fixedToCamera = true;
+	this.layer.add(syriansText);
+	this.texts[this.texts.length] = syriansText;
+
+	var realNeighboursText = new Phaser.Text(this.phaserGame, lvlWidth * 0.50, lvlHeight * 0.57, "Syyrian naapurimaihin oli paennut\n 31.12.2013:", NATION_TEXT_STYLE);
+	realNeighboursText.anchor.setTo(0.5,0.5);
+	realNeighboursText.fixedToCamera = true;
+	this.layer.add(realNeighboursText);
+	this.texts[this.texts.length] = realNeighboursText;
+	
+	var realAmountNeighbours = new Phaser.Text(this.phaserGame, lvlWidth * 0.5, lvlHeight * 0.7, "2414102", BIG_WHITE_STYLE);
+	realAmountNeighbours.anchor.setTo(0.5,0.5);
+	realAmountNeighbours.fixedToCamera = true;
+	this.layer.add(realAmountNeighbours);
+	this.texts[this.texts.length] = realAmountNeighbours;
+	
+	
+	var syriansText2 = new Phaser.Text(this.phaserGame, realAmountNeighbours.x + realAmountNeighbours.width * 0.5 +30, realAmountNeighbours.y, "ihmistä", NATION_TEXT_STYLE);
+	syriansText2.anchor.setTo(0,0.5);
+	syriansText2.fixedToCamera = true;
+	this.layer.add(syriansText2);
+	this.texts[this.texts.length] = syriansText2;
+
+	var sourceText = new Phaser.Text(this.phaserGame, lvlWidth * 0.82, lvlHeight * 0.75, "Lähde: UNHCR", REALLY_SMALL_STYLE);
+	sourceText.anchor.setTo(0.5,0.5);
+	sourceText.fixedToCamera = true;
+	this.layer.add(sourceText);
+	this.texts[this.texts.length] = sourceText;
 	
 }
 
@@ -140,7 +176,7 @@ PauseWindow.prototype.showNationRefugeeList = function(continuable, restartable,
 	for(var i = 0; i < highestRefugeeAmounts.length; i++){
 		var nation = highestRefugeeAmounts[i];
 		var y = startingY + (endingY - startingY) * i / 10 + i*margin;
-		var barText = new BarText(this.phaserGame, lvlWidth * 0.2, lvlWidth *0.8, y, 'solidBar', nation.name +":"+nation.getRefugees()+"/"+nation.getMaxRefugees()+" pakolaista", NATION_TEXT_STYLE);
+		var barText = new BarText(this.phaserGame, lvlWidth * 0.2, lvlWidth *0.8, y, 'solidBar', nation.actualName +":"+nation.getRefugees()+"/"+nation.getMaxRefugees()+" pakolaista", NATION_TEXT_STYLE);
 		barText.addToLayer(this.layer);
 		if(highestAmount != 0)
 			barText.setPercentualSize(nation.getRefugees() / highestAmount);
@@ -148,4 +184,3 @@ PauseWindow.prototype.showNationRefugeeList = function(continuable, restartable,
 	}
 
 }
-

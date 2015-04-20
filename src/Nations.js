@@ -222,7 +222,7 @@ Nations.prototype.createNation = function(layer, textLayer, x, y, nationData){
 	//TODO: Add an option to define the text position compared to the nations eg. anchor for text. See also what is ready for it
 	//var nation = new Nation(this.phaserGame, nationData.x, nationData.y, nationData.name, nationData.sprite);
 	this.textLayer = textLayer;
-	var nation = new Nation(this.phaserGame, x, y, nationData.name, nationData.sprite, 0);
+	var nation = new Nation(this.phaserGame, x, y, nationData.sprite, nationData.sprite, 0, nationData.name);
 	//var nationSize = this.parseNationSize(nation, nationData.width, nationData.height);
 	nation.setWidth(nationData.width);
 	nation.setHeight(nationData.height);
