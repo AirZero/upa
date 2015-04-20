@@ -76,7 +76,7 @@ function getJsonFromNationsData(){
 			"width": 306,
 			"height": 125,
 			"rotation": 0,
-			"sprite": "Valko-Venäjä"	
+			"sprite": "Valko-Venaja"	
 		}	,
 		{
 			"name": "Liettua",
