@@ -12,7 +12,7 @@ function getJsonFromNationsData(){
 	[
 	
 		{
-			"name": "Venaja",
+			"name": "Venäjä",
 			"x": " ,Border:Right",
 			"y": 600,
 			"width": 637,
@@ -70,13 +70,13 @@ function getJsonFromNationsData(){
 		},
 		
 		{
-			"name": "Valko-Venaja",
+			"name": "Valko-Venäjä",
 			"x": "Same:Latvia,Percent:38",
 			"y": "Down:Latvia,Percent:-11.5",
 			"width": 306,
 			"height": 125,
 			"rotation": 0,
-			"sprite": "Valko-Venaja"	
+			"sprite": "Valko-Venäjä"	
 		}	,
 		{
 			"name": "Liettua",
@@ -169,7 +169,7 @@ function getJsonFromNationsData(){
 			"sprite": "Portugal"	
 		},
 		{
-			"name": "Itavalta",
+			"name": "Itävalta",
 			"x": "Right:Sveitsi,Percent:-11",
 			"y": "Same:Sveitsi,Percent:-49",
 			"width": 310,
