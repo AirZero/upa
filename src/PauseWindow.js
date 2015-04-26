@@ -1,4 +1,12 @@
 ﻿
+/**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+
+/**
+ * Makes a new pause window. Works only with the current game
+ */
 function PauseWindow (game, phaserGame,continuable, restartable, showNationList, sentRefugeesObject,highestRefugeeAmounts, layer, text){
 	if(continuable === undefined)
 		continuable = true;
@@ -54,7 +62,9 @@ function PauseWindow (game, phaserGame,continuable, restartable, showNationList,
 }
 
 
-
+/**
+ * Handles clicking of continue
+ */
 PauseWindow.prototype.continueClicked = function(){
 	for(var i = 0; i < this.silencedObjects.length; i++){
 		this.silencedObjects[i].setActive(true);
@@ -65,6 +75,9 @@ PauseWindow.prototype.continueClicked = function(){
 }
 
 
+/**
+ * Destroys this window and its components
+ */
 PauseWindow.prototype.destroy = function(){
 	for(var i = 0; i < this.texts.length; i++){
 		this.texts[i].destroy();
@@ -79,6 +92,9 @@ PauseWindow.prototype.destroy = function(){
 }
 
 
+/**
+ * Redos the current pausewindow with showNationList swapped.
+ */
 PauseWindow.prototype.reDoPauseWindow = function(){
 	this.destroy();
 	
@@ -86,6 +102,9 @@ PauseWindow.prototype.reDoPauseWindow = function(){
 }
 
 
+/**
+ * Adds the texts and buttons for the pause window when showing the refugee amounts.
+ */
 PauseWindow.prototype.showRefugeesAdded = function(continuable, restartable, showNationList, sentRefugeesObject){
 
 	var refugeeTitle = "Olet pelastanut yhteensä: ";
@@ -154,12 +173,18 @@ PauseWindow.prototype.showRefugeesAdded = function(continuable, restartable, sho
 }
 
 
+/**
+ * Made to be able to silence other components.
+ */
 PauseWindow.prototype.silence = function(theSilenced){
 	theSilenced.setActive(false);
 	this.silencedObjects[this.silencedObjects.length] = theSilenced;
 }
 
 
+/**
+ * Show the list of the refugees
+ */
 PauseWindow.prototype.showNationRefugeeList = function(continuable, restartable, showNationList, startingY, endingY, highestRefugeeAmounts,text){
 	var margin = 10;
 	

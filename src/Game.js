@@ -1,5 +1,10 @@
 
 /**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+
+/**
  * Game class defines the games functionality and operations needed for the functionality of the game.
  * Needs to be passed the states provided by the Phasers game to operate properly!
  */
@@ -110,11 +115,16 @@ Game.prototype.createGroups =function(){
 }
 
 
+/**
+ * Returns the next useable value of z-layer
+ */
 Game.prototype.getNextAvailableZ = function(){
 	return this.nextZ++;
 }
 
-
+/**
+ * Reopens the starting menu.
+ */
 Game.prototype.reMenu = function(){
 	//this.clear();
 	//reMenu();
@@ -202,23 +212,37 @@ Game.prototype.start = function(){
 }
 
 
+/**
+ * Used for restarting the game. Clears and starts the game again.
+ */
 Game.prototype.restart = function(){
 	this.clear();
 	this.start();
 }
 
 
+/**
+ * Initializes the component "gameStateBar".
+ */
 Game.prototype.initializeGameStateBar = function(){
 	this.gameStateBar = new GameStateBar(this.phaserGame, 'bar', 'ball', lvlWidth * 0.5, lvlHeight * 0.85, lvlWidth, lvlHeight * 0.10);
 	this.gameStateBar.addToLayer(this.UpperGUILayer);
 }
 
+
+/**
+ * Initializes the sounds to the game.
+ */
 Game.prototype.initializeSounds = function(){
 	this.fullSound = new Phaser.Sound(this.phaserGame, 'error', 1);
 	this.music = new Phaser.Sound(this.phaserGame, 'music');
 }
 
 
+/**
+ * Syria is a special country, it needs to be not selectable and tinted differently.
+ * Also the particlestreams originate from it.
+ */
 Game.prototype.defineSyria = function(){
 	var nation = this.nations.getNationByName("Syyria");
 	nation.setActive(false);
@@ -227,6 +251,9 @@ Game.prototype.defineSyria = function(){
 }
 
 
+/**
+ * Starts the tutorial and shade that waits for players interaction before starting game.
+ */
 Game.prototype.waitForPlayer = function(){
 	this.shadeButton = new TextButton(this.phaserGame, '', 'shade', 
 	this.tweenToCenter, BIG_WHITE_STYLE, lvlWidth*0.5, lvlHeight*0.5, this, 0, 0, 0, 0);
@@ -253,6 +280,9 @@ Game.prototype.waitForPlayer = function(){
 }
 
 
+/**
+ * Creates the components for the tutorial
+ */
 Game.prototype.createTutorial = function(){
 	var logoSprite = this.createTutorialElement('logo', lvlWidth *0.5, lvlHeight * 0.5, 0);
 	logoSprite.width = 10;
@@ -296,17 +326,26 @@ Game.prototype.createTutorial = function(){
 }
 
 
+/**
+ * Defines the message to be shown before game starts.
+ */
 Game.prototype.addHowToStartMessage = function(){
 	this.shadeButton.setText("Aloita peli klikkaamalla");
 }
 
 
+/**
+ * Adds the tutorial that explains how refugees are sent to nations.
+ */
 Game.prototype.addNationTutorial = function(){
 	var nationText = this.createTutorialText("Pelasta syyrialaisia valitsemalla maita", lvlWidth *0.6, lvlHeight *0.25);
 	var arrow = this.createTutorialElement('arrow', nationText.x - nationText.width * 0.47 - 40, nationText.y, 190);
 }
 
 
+/**
+ * Shows the tutorial for the statebar
+ */
 Game.prototype.addStateTutorial = function(){
 	var text = this.createTutorialText("Pidä Euroopan vastaanottopaikat täynnä.\nKun palkki on vihreä, pärjäät hyvin", lvlWidth * 0.4, lvlHeight * 0.70);
 	var arrow = this.createTutorialElement('arrow', text.x, text.y+60, 90);
@@ -320,11 +359,18 @@ Game.prototype.addStateTutorial = function(){
 }
 
 
+/**
+ * Adds the tutorial for the planeSymbols
+ */
 Game.prototype.addPlaneTutorial = function(){
 	var text =this.createTutorialText("Voit valita vain viisi\nmaata kerrallaan", lvlWidth * 0.7, lvlHeight * 0.1);
 	this.createTutorialElement('arrow', text.x- text.width *0.6, text.y - 15, 185);
 }
 
+
+/**
+ * A helper method for creating tutorial text components
+ */
 Game.prototype.createTutorialText = function(text, x, y){
 	var text = new Phaser.Text(this.phaserGame, x, y, text, SMALL_STYLE);
 	text.fixedToCamera = true;
@@ -333,7 +379,9 @@ Game.prototype.createTutorialText = function(text, x, y){
 	return text;
 }
 
-
+/**
+ * A helper method for creating tutorial sprite components
+ */
 Game.prototype.createTutorialElement = function(sprite, x,y, angle){
 	var sprite = new Phaser.Sprite(this.phaserGame, x, y , sprite);
 	sprite.angle = angle;
@@ -344,6 +392,9 @@ Game.prototype.createTutorialElement = function(sprite, x,y, angle){
 }
 
 
+/**
+ * Tweens the camera to center and releases tutorial and starts game.
+ */
 Game.prototype.tweenToCenter = function(){
 	this.shadeButton.setActive(false);
 	for(var i = 0; i < this.tutorialEvents.length; i++){
@@ -360,6 +411,9 @@ Game.prototype.tweenToCenter = function(){
 }
 
 
+/**
+ * Destroys the shade that is on the screen at start
+ */
 Game.prototype.destroyShade = function(){
 	this.shadeButton.destroy();
 	
@@ -367,6 +421,9 @@ Game.prototype.destroyShade = function(){
 }
 
 
+/**
+ * Resets game date to the starting date
+ */
 Game.prototype.resetDate = function(){
 	this.gameProgress.resetDate(); //More event based stuff would make less remembering to the start and clears
 }
@@ -465,7 +522,9 @@ Game.prototype.createGUI = function(){
 }
 
 /**
- * 
+ * Opens the pausewindow.
+ * Takes as the parameter info if the game can be continued, restarted and whether to show the list of nations first or not.
+ * If nations are shown first, then text can also be shown.
  */
 Game.prototype.openPauseWindow = function(continuable, restartable, showNationList, text){
 
@@ -476,13 +535,17 @@ Game.prototype.openPauseWindow = function(continuable, restartable, showNationLi
 }
 
 
-
-
+/**
+ * Destroys the components for the pausemenu
+ */
 Game.prototype.clearPausedLayer = function(){
 	this.PauseLayer.destroy();
 }
 
 
+/**
+ * Creates a text button for the game
+ */
 Game.prototype.createTextButton = function(title, method, x, y, layer, width, height, callbackClass){
 	if(callbackClass === undefined) callbackClass = this;
 	var button = new TextButton(this.phaserGame, title, 'button', method, NATION_TEXT_STYLE, x, y, callbackClass);
@@ -498,6 +561,9 @@ Game.prototype.createTextButton = function(title, method, x, y, layer, width, he
 }
 
 
+/**
+ * Handles the clicking of music. Eg. sets it off or on.
+ */
 Game.prototype.handleMusicSwitch = function(){
 	var soundsOff =  playerPrefs.getNumber("disableSounds") === 1;
 	soundsOff = !soundsOff;//Reverse the state
@@ -510,7 +576,10 @@ Game.prototype.handleMusicSwitch = function(){
 	this.disableSounds = soundsOff;
 }
 
-
+/**
+ * Initialize the refugee sprites to the info panel.
+ * NOT USED.
+ */
 Game.prototype.initializeRefugeeSpriteListController = function(x, y, endX, endY){
 	this.refugeeSpriteListController = new RefugeeSpriteListController(this.phaserGame,
 	[
@@ -563,6 +632,10 @@ Game.prototype.initializeParticleSystem = function(){
 	//this.humanParticleSystem.setOrigin(1500,1500);
 }
 
+
+/**
+ * Adds the eventhandlers to the game and the subsystems.
+ */
 Game.prototype.addEvents = function(){
 	this.gameProgress.addOnTimeChangedEvent(this.gameEventHandler.checkForEventsOnTimeChange, this.gameEventHandler);
 	
@@ -577,6 +650,10 @@ Game.prototype.addEvents = function(){
 	this.gameStateBar.addOnTooLowHandler(new EventHandler(this.loseGame, this));
 }
 
+
+/**
+ * Does the event handling related to handling refugeecamp problems.
+ */
 Game.prototype.handleNewProblem = function(args){
 	var problem = args[0];
 	//TODO: probably will be left out
@@ -585,15 +662,22 @@ Game.prototype.handleNewProblem = function(args){
 }
 
 
+/**
+ * an intermediate method for calling the dayChangedFor refugeeProblemHandler
+ */
 Game.prototype.dayChangedForRefugeeProblemHandler = function(){
 	//This helps to give the amount of refugees + future needed parameters.
 	//No anon function because this is neater
 	this.refugeeProblemHandler.dayChanged(this.refugees.getTotalRefugees());
 }
 
+/**
+ * updates the refugee amounts.
+ * Does not actually do anything. Still called in the system if is needed though
+ */
 Game.prototype.updateRefugeeAmount = function(){
 	//this.refugeeText.text = "Refugees left: "+this.refugees.getTotalRefugees();
-	var totalRefugees = this.refugees.getTotalRefugees();
+	//var totalRefugees = this.refugees.getTotalRefugees();
 	//var percents = this.nations.getPercents();
 	//this.gameStateBar.refugeeAmountChanged(percents);
 	//this.refugeeSpriteListController.refugeeAmountChanged(totalRefugees);
@@ -603,6 +687,9 @@ Game.prototype.updateRefugeeAmount = function(){
 }
 
 
+/**
+ * Processes events for the eventhandler system to manifest some functionality to the events
+ */
 Game.prototype.processGameEvent = function(args){
 	var event = args[0];
 	for(effect in event.effects){
@@ -610,6 +697,10 @@ Game.prototype.processGameEvent = function(args){
 	}
 }
 
+
+/**
+ * A simple definition on how to handle different kinds of events in the eventsData
+ */
 Game.prototype.completeEffect = function(effect){
 	//TODO: this would really benefit from some kind of real language etc.
 	switch(effect.effectName){
@@ -645,11 +736,17 @@ Game.prototype.completeEffect = function(effect){
 }
 
 
+/**
+ * Sets the process time required for sending refugees from nation to another
+ */
 Game.prototype.setProcessTime = function(time){
 	this.processLength = time;
 }
 
 
+/**
+ * Sets the time before the gamestate makes you lose.
+ */
 Game.prototype.setLosingTime = function(time){
 	var year = this.gameProgress.getYear();
 	year -= 2014; 
@@ -658,6 +755,9 @@ Game.prototype.setLosingTime = function(time){
 }
 
 
+/**
+ * Handles losing the game
+ */
 Game.prototype.loseGame = function(){
 	var dialog  = new Dialog(this.phaserGame, "Et pystynyt sijoittamaan tarpeeksi nopeasti\npakolaisia maihin, yritä uudelleen!",
 				[new EventHandler(this.reMenu, this)], ["Okei"]);
@@ -666,6 +766,10 @@ Game.prototype.loseGame = function(){
 }
 
 
+/**
+ * Handles winning the game.
+ * Not actually used since the game cant be won!
+ */
 Game.prototype.winGame = function(){
 	var dialog = new Dialog(this.phaserGame, "Olet saanut sijoitettua kaikki pakolaiset\n"
 				  +"Suoritit sen "+this.gameProgress.getDateString()+"!\n"
@@ -678,6 +782,9 @@ Game.prototype.winGame = function(){
 }
 
 
+/**
+ * Updates the gamestatebar with current refugeedetails
+ */
 Game.prototype.updateGameStateBar = function(){
 	//Now based on total but faster than with percents based on nations
 	var percents = this.maxEuropeanRefugees == 0 ? 100 : this.europeanRefugees / this.maxEuropeanRefugees;
@@ -685,6 +792,9 @@ Game.prototype.updateGameStateBar = function(){
 }
 
 
+/**
+ * Increases max refugeeamounts in nations based on the given data
+ */
 Game.prototype.increaseMaxRefugeeAmountsInNations = function(data){
 	var total = this.nations.increaseMaxRefugeeAmountsByData(data);
 	this.refugees.changeTotalRefugees(total);
@@ -693,13 +803,18 @@ Game.prototype.increaseMaxRefugeeAmountsInNations = function(data){
 }
 
 
-
+/**
+ * Handler for ending the game
+ */
 Game.prototype.endGame = function(data){
 	this.addDialog(data, this.reMenu, "Ok", this);
 	//this.createTimedEvent(2, this.reMenu);
 }
 
 
+/**
+ * Handles the refugee increasing. Can be given direct number or "relative" to process date based addition.
+ */
 Game.prototype.increaseMaxRefugeeAmounts = function(data){
 	if(isNaN(data)){
 		if(data === "relative"){
@@ -721,6 +836,9 @@ Game.prototype.addFeedData = function(text, amount){
 }
 
 
+/**
+ * The game silences all its components with the component given.
+ */
 Game.prototype.silenceGame = function(silencer){
 	silencer.silence(this.gameProgress);
 	silencer.silence(this.newsFeed);
@@ -844,6 +962,10 @@ Game.prototype.finishHousing = function(nation, amount){
 	this.refugees.reduceTotalRefugees(amount);
 }
 
+
+/**
+ * Creates the text that floats from the origin point upwards and disappears.
+ */
 Game.prototype.createFloatingText = function(x, y, textTitle){
 	var text = this.phaserGame.add.text(x, y, textTitle, SMALL_STYLE);
 	var tween = this.phaserGame.add.tween(text).to({ x: text.x, y: text.y - lvlHeight * 0.1}, 500, Phaser.Easing.Linear.None, 0);

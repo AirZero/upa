@@ -1,5 +1,10 @@
 
 /**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+
+/**
  * Class that represents the human particles sent innerly in the program.
  * Inherits the particle class and adds functionality for sending the particles to given points by HumanParticleSystems
  */
@@ -18,12 +23,19 @@ function HumanParticle (game, x, y){
 	 this.active = true;
 }
 
+
+/**
+ * Adds a listener for finishing movement.
+ */
 HumanParticle.prototype.addOnFinishListener = function(listener){
 	//TODO: multiple ones
 	this.onFinishListener = listener;
 }
 
 
+/**
+ * Sets the activity of the particle and stops the movement/starts it depending on the given activity.
+ */
 HumanParticle.prototype.setActive = function(activity){
 	this.active = activity;
 	if(this.tween){
@@ -54,12 +66,18 @@ HumanParticle.prototype.setDestination = function(x, y){
 }
 
 
+/**
+ * Resets the tween and destroys the particle
+ */
 HumanParticle.prototype.destroy = function(){
 	this.resetTweenAndDestination();
 	Phaser.Particle.prototype.destroy.call(this);
 }
 
 
+/**
+ * Resets the tween in operation and the destination.
+ */
 HumanParticle.prototype.resetTweenAndDestination = function(){
 	if(this.tween)
 		this.tween.stop();
@@ -68,6 +86,9 @@ HumanParticle.prototype.resetTweenAndDestination = function(){
 }
 
 
+/**
+ * Finish moving and reset particle
+ */
 HumanParticle.prototype.finishMoving = function(){
 	if(this.onFinishListener)
 		this.onFinishListener.process();

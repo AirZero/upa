@@ -1,5 +1,11 @@
-
-
+/**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+ 
+/**
+ * Handles the refugee amount sprite lists. Not used
+ */
 function RefugeeSpriteListController(phaserGame, arrayOfDetails, xStart, xEnd, rowStartY, lastRowEndY){
 	this.game = phaserGame;
 	this.spriteLists = [];
@@ -24,11 +30,19 @@ function RefugeeSpriteListController(phaserGame, arrayOfDetails, xStart, xEnd, r
 	}
 }
 
+
+/**
+ * Changes the amount of sprite lists
+ */
 RefugeeSpriteListController.prototype.refugeeAmountChanged = function(refugees){
 	this.refugees = refugees;
 	this.updateLists();
 }
 
+
+/**
+ * Updates the lists
+ */
 RefugeeSpriteListController.prototype.updateLists = function(){
 	var refugeesLeft = this.refugees;
 	for(var i = this.spriteLists.length -1; i >= 0; i--){

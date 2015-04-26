@@ -1,3 +1,7 @@
+/**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
 
 /**
  * A class that extends some properties for the javascripts Date. 
@@ -105,10 +109,4 @@ GameDate.prototype.getDateString = function(){
 			(month.length == 2 ? month : "0"+month)+this.divider +
 			this.getYear();
 	return date;
-}
-
-
-GameDate.prototype.getDate = function(){
-	//TODO: basic date object
-	return null;
 }

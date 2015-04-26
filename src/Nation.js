@@ -1,5 +1,10 @@
 
 /**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+
+/**
  * The sprite inherited class that holds the data associated with the nation.
  * Also handles the text associated with the nation
  */
@@ -35,15 +40,25 @@ function Nation(game, x,y, name, sprite, maxRefugees, actualName){
 }
 
 
+/**
+ * Sets the activity of the nation
+ */
 Nation.prototype.setActive = function(activity){
 	this.active = activity;
 }
 
 
+/**
+ * Returns the amount of refugees in the current nation
+ */
 Nation.prototype.getRefugees = function(){
 	return this.refugees;
 }
 
+
+/**
+ * returns the amount of max refugees in the nation
+ */
 Nation.prototype.getMaxRefugees = function(){
 	return this.maxRefugees;
 }

@@ -1,4 +1,7 @@
-
+/**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
 
 /**
  * A simple class that creates objects to fill from starting x to end x and starting y to end y with the given sprites.

@@ -1,4 +1,8 @@
-
+/**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+ 
 /**
  * Handles the games events based on the data in eventData.js
  */

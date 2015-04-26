@@ -1,5 +1,10 @@
 
 /**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+
+/**
  * Is responsible for the games date checks and date based actions
  */
 
@@ -74,6 +79,9 @@ GameProgress.prototype.getDateString = function(){
 }
 
 
+/**
+ * Invokes all the listeners for the gameprogress. private
+ */
 GameProgress.prototype.invokeListeners = function(){
 	for(methodName in this.onTimeChangedEvents){
 			var methodObject = this.onTimeChangedEvents[methodName];

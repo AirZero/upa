@@ -1,5 +1,10 @@
 
 /**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+ 
+/**
  * Menu class that is used for showing stuff on menu
  */
 

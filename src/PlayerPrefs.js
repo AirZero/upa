@@ -1,10 +1,12 @@
+/**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
 
 /**
  * Class meant to define access to the storaged preferences of the player.
  * For example can be used to store information of the decisions made by player or to store game states.
  */
-
-
 function PlayerPrefs(){
 	//TODO: boolean storing with bytes from int
 	//TODO: any sort of boolean storign

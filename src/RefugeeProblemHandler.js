@@ -1,6 +1,12 @@
 
 /**
- * Class that handles all the problems in the refugee camps
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+
+/**
+ * Class that handles all the problems in the refugee camps.
+ * Not in use.
  */
 function RefugeeProblemHandler (game){
 	this.problems = getJsonFromProblemData().problems;

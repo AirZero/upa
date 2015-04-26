@@ -1,5 +1,10 @@
 
 /**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+
+/**
  * Human particle system controller will handle the unison workings of several
  * humanParticleSystems so that multiple particlesystems can work at the same time
  */
@@ -18,6 +23,10 @@ function HumanParticleSystemController(game, particleSystems, sprite, frequency,
 	
 }
 
+
+/**
+ * Sets the activity of the underlying particle systems.
+ */
 HumanParticleSystemController.prototype.setActive = function(activity){
 		for(var i = 0; i < this.particleSystems.length; i++){
 			this.particleSystems[i].setActive(activity);
@@ -36,6 +45,9 @@ HumanParticleSystemController.prototype.setOrigin = function(x, y){
 }
 
 
+/**
+ * Clears this components and its particle systems
+ */
 HumanParticleSystemController.prototype.clear = function(){
 	for(var i = 0; i < this.particleSystems.length; i++){
 		this.particleSystems[i].destroy();

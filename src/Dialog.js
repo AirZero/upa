@@ -1,8 +1,13 @@
+
+/**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+
 /**
  * Can be used to create a dialog with two different options.
  * TODO: Make it more general
  */
-
 
  /**
   * Constructor for dialog.
@@ -59,6 +64,9 @@ function Dialog(game, text, methods, texts, x, y, width, height){
 }
 
 
+/**
+ * Handles the selection of a dialog option. Dialog needs to be destroyed and the eventhandler "processed".
+ */
 Dialog.prototype.processMethodClick = function(method){
 	this.destroy();
 	if(method instanceof EventHandler)
@@ -68,6 +76,10 @@ Dialog.prototype.processMethodClick = function(method){
 
 
 
+/**
+ * Creates a button for the dialog to the given parameters.
+ * ThisClass usually is the dialog itself to enter the processMethodClick.
+ */
 Dialog.prototype.createButton = function(game, text, sprite, method, font,x, y, xSize, ySize, thisClass){
 	var button = new TextButton(game, text, 'button', method, font, x, y, thisClass)
 	button.setWidth(xSize);
@@ -78,6 +90,9 @@ Dialog.prototype.createButton = function(game, text, sprite, method, font,x, y, 
 }
 
 
+/**
+ * Adds dialog and its components to the given layer.
+ */
 Dialog.prototype.addToLayer = function(layer){
 	layer.add(this.background);
 	for(var i = 0; i< this.buttons.length; i++){

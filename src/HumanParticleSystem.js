@@ -1,5 +1,10 @@
 
 /**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+
+/**
  * HumanParticleSystem inherits the Phasers own particle system and adds on top of that the possibility of sending particles to the given destination.
  * Can handle one sending at a time.
  */
@@ -42,6 +47,9 @@ function HumanParticleSystem(game, sprite, lifeSpan, frequency, quantity, z){
 }
 
 
+/**
+ * Sets the activity of the particle system and all of its particles.
+ */
 HumanParticleSystem.prototype.setActive = function(activity){
 	this.active = activity;
 	this.forEach(function(particle){
@@ -51,6 +59,10 @@ HumanParticleSystem.prototype.setActive = function(activity){
 }
 
 
+/**
+ * Handles the particlesystem state change for finishing one particles tween.
+ * Reduces the amount of sent particles and invokes onSendFinish Handlers.
+ */
 HumanParticleSystem.prototype.particleFinishedTween = function(particle){
 	this.sentParticles--;
 	if(this.sentParticles == 0){
@@ -61,7 +73,9 @@ HumanParticleSystem.prototype.particleFinishedTween = function(particle){
 }
 
 
-
+/**
+ * Increases the amount of sent particles.
+ */
 HumanParticleSystem.prototype.addToSentParticles = function(particle){
 	this.sentParticles++;
 }

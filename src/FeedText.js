@@ -1,5 +1,9 @@
 
 /**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+/**
  * A little bit tweaked text class with the times shown attribute.
  * Its better to have a class anyways
  */

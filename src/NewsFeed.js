@@ -1,5 +1,10 @@
 
 /**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+
+/**
  * Creates a news feed to the bottom of the screen. Can be fed feeds to show on screen.
  */
 NewsFeed.prototype = Object.create(Phaser.Sprite.prototype);
@@ -39,6 +44,9 @@ function NewsFeed (phaserGame, sprite, height, layerToAddTo, z, x, y){
 }
 
 
+/**
+ * Sets the activity 
+ */
 NewsFeed.prototype.setActive = function(activity){
 	this.active = activity;
 }
@@ -56,6 +64,9 @@ NewsFeed.prototype.addText = function(title, times){
 }
 
 
+/**
+ * Clears the queue for news feed
+ */
 NewsFeed.prototype.clearQueue = function(){
 	this.queue = [];
 	for(var i = 0; i < this.shownTexts.length; i++){

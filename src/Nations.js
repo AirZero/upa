@@ -1,14 +1,13 @@
 
 /**
- * Created by Tero Paavolainen
- *
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
  */
 
 /**
  * Class used for creation of the nations.
  * Is responsible for the states, functions and data regarding nations of the game
  */
-
 function Nations(phaserGame){
 	//this.phaserGame = phaserGame;
 	//this.layer = layer;
@@ -22,7 +21,9 @@ function Nations(phaserGame){
 }
 
 
-
+/**
+ * Sets activity for all of the nations to the given.
+ */
 Nations.prototype.setActive = function(activity){
 	for(nationName in this.nations){
 		this.nations[nationName].setActive(activity);
@@ -38,17 +39,26 @@ Nations.prototype.preload = function(){
 }
 
 
+/**
+ * Returns the nation that has the given name(if found).
+ * undefined if not found.
+ */
 Nations.prototype.getNationByName = function(name){
 	return this.nations[name];
 }
 
 
-
+/**
+ * Adds a click handler for nations
+ */
 Nations.prototype.addOnNationClickHandler = function(method){
 	this.onNationClick = method;
 }
 
 
+/**
+ * Returns the amount of refugees and max refugees.
+ */
 Nations.prototype.getSentRefugees = function(){
 	var sent = { "refugees": 0, "maxRefugees": 0 };
 	for(nationName in this.nations){
@@ -59,6 +69,9 @@ Nations.prototype.getSentRefugees = function(){
 	return sent;
 }
 
+/**
+ * Return the percentual refugee to maximum ratio of all nations.
+ */
 Nations.prototype.getPercents = function(){
 	var arr = [];
 	for(nationName in this.nations){
@@ -76,7 +89,7 @@ Nations.prototype.getPercents = function(){
 
 
 /**
- * 
+ *  Increases maximum amounts of refugees based on the given data
  */
 Nations.prototype.increaseMaxRefugeeAmountsByData = function(data){
 	//TODO: see if this can be optimised somehow
@@ -95,6 +108,9 @@ Nations.prototype.increaseMaxRefugeeAmountsByData = function(data){
 }
 
 
+/**
+ * Returns the top list of nations taking refugees according to the given top amount.
+ */
 Nations.prototype.getNationsWithHighestRefugeeAmounts = function(numberOfTops){
 	numberOfTops = numberOfTops || 10;
 	var nationsFound = [];
@@ -126,6 +142,9 @@ Nations.prototype.getNationsWithHighestRefugeeAmounts = function(numberOfTops){
 }
 
 
+/**
+ * Compares too nations and returns the relative position of them in the top list.
+ */
 Nations.prototype.compareNations = function(a, b){
 	var aRef = a.getRefugees();
 	var bRef = b.getRefugees();
@@ -137,7 +156,7 @@ Nations.prototype.compareNations = function(a, b){
 
 
 /**
- * 
+ * Increase amount of refugees in all of the nations based on amount.
  */
 Nations.prototype.increaseMaxRefugeeAmounts = function(amount){
 
@@ -165,6 +184,9 @@ Nations.prototype.preloadNationData = function(){
 }
 
 
+/**
+ * Calls all of the nations to tint them normal.
+ */
 Nations.prototype.tintAllNormal = function(){
 	for(nationName in this.nations){
 		this.nations[nationName].tintNormal();

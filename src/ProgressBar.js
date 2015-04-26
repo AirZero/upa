@@ -1,9 +1,13 @@
 
 /**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+ 
+/**
  * A progress bar class that can be made to indicate passing of time
  *
  */
-
 ProgressBar.prototype = Object.create(Phaser.Sprite.prototype);
 ProgressBar.prototype.constructor = ProgressBar;
  

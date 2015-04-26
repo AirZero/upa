@@ -1,4 +1,9 @@
 /**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+
+/**
  * A button with a textfield attached to it since Phaser did not contain one.
  * Rendering text is a coslty operation, so should be used with this in mind.
  */
@@ -59,6 +64,9 @@ TextButton.prototype.setInputPriority = function(inputPriority){
 }
 
 
+/**
+ * Silences the components. When this component is destroyed, all the silenced components are released
+ */
 TextButton.prototype.silence = function(theSilenced){
 	theSilenced.setActive(false);
 	this.silencedObjects[this.silencedObjects.length] = theSilenced;
@@ -99,29 +107,44 @@ TextButton.prototype.destroy = function(){
 }
 
 
+/**
+ * Sets the activity of this component
+ */
 TextButton.prototype.setActive = function(activity){
 	this.active = activity;
 }
 
 
+/**
+ * Sets the width of the textbutton
+ */
 TextButton.prototype.setWidth = function(width){
 	this.button.width = width;
 	if(this.text.width > this.button.width)
 		this.text.width = this.button.width;
 }
 
+/**
+ * Sets the height of the textbutton
+ */
 TextButton.prototype.setHeight = function(height){
 	this.button.height = height;
 	if(this.text.height > this.button.height)
 		this.text.height = this.button.height;
 }
 
+
+/**
+ * Sets text for the textbutton
+ */
 TextButton.prototype.setText = function(text){
 	this.text.text = text || this.text.text;
 }
 
 
-
+/**
+ * Sets x and y for the button and text
+ */
 TextButton.prototype.setXandY = function(x, y){
 	this.button.x = x;
 	this.button.y = y;

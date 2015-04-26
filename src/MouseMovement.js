@@ -1,5 +1,10 @@
 
 /**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+
+/**
  * Handles the movement in-game using touch or mouse
  *
  */
@@ -16,6 +21,9 @@ function MouseMovement (phaserGame, cameraMovementSpeed){
 }
 
 
+/**
+ * Sets the activity for mousemovements component
+ */
 MouseMovement.prototype.setActive = function(activity){
 	this.active = activity;
 }
@@ -76,6 +84,10 @@ MouseMovement.prototype.moveCamera = function(x, y){
 	//this.debugText.text = pointer.screenX+ " . "+pointer.screenY;
 }
 
+
+/**
+ * Moves the camera to the given x y coordinates.
+ */
 MouseMovement.prototype.moveCameraTo = function(x,y){
 	this.phaserGame.camera.x = x;
 	this.phaserGame.camera.y = y;

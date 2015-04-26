@@ -1,3 +1,7 @@
+/**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
 
 /**
  * This class is the controller class of the program. It defines the interaction
@@ -33,10 +37,16 @@ var playerPrefs = new PlayerPrefs(); //TODO: assess if global access is the best
 init();
 
 
+/**
+ * Makes a new state for the game. The actual game handling state.
+ */
 function Main(phaserGame){
 	this.phaserGame = phaserGame;
 }
 
+/**
+ * Adds the loading sprite and starts loading the assets
+ */
 Main.prototype.preload = function(){
 	//this.phaserGame.stage.backgroundColor = "#999999";
 	this.loadingSprite = this.phaserGame.add.sprite(lvlWidth *0.5, lvlHeight *0.5, 'logo');
@@ -50,6 +60,10 @@ Main.prototype.preload = function(){
 	this.preloadAssets();
 }
 
+
+/**
+ * Preloads all the assets and calls preload for game and menu
+ */
 Main.prototype.preloadAssets = function(){
 	this.reset();
 	phaserGame.load.spritesheet('button', PICTURE_PATH+'buttonsWithUp.png', 100, 100);
@@ -100,7 +114,9 @@ Main.prototype.preloadMenu = function(){
 }
 
 
-
+/**
+ * Resets the games states to the original state
+ */
 Main.prototype.reset = function(){
 	this.phaserGame.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
 	this.phaserGame.world.setBounds(0,0, lvlWidth, lvlHeight);
@@ -110,10 +126,17 @@ Main.prototype.reset = function(){
 }
 
 
+/**
+ * Redirects the phasers create to start
+ */
 Main.prototype.create = function(){
 	this.start();
 }
 
+
+/**
+ * If currently in the game state, call games update
+ */
 Main.prototype.update = function(){
 	if(state === 'Game')
 		this.game.update();

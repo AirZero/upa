@@ -1,5 +1,10 @@
 
 /**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+
+/**
  * Handles the understanding of state of the nation in contrast to how many refugees are living in there.
  * Is responsible for tinting and acting based on nationStateData.js
  */
@@ -22,10 +27,17 @@ NationState.prototype.tintNormal = function(nation){
 }
 
 
+/**
+ * Updates the nations state based on the state in its in.
+ * Not totally good OO-programming.
+ */
 NationState.prototype.tintOnState = function(nation){
 	nation.tint = this.nationState.tint;
 }
 
+/**
+ * Tint the current nation selected.
+ */
 NationState.prototype.tintSelected = function(nation){
 	nation.tint = 0x0299FF;
 

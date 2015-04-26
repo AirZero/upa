@@ -1,4 +1,8 @@
-
+/**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+ 
 /**
  * Class responsible for the refugee data and giving this information out based 
  * on dates
@@ -29,6 +33,10 @@ Refugees.prototype.addOnRefugeeAmountChange = function(method, callBackclass){
 }
 
 
+/**
+ * Kills some of the refugees.
+ * Not in use in the game
+ */
 Refugees.prototype.kill = function(amount){
 	this.deaths += amount;
 	this.reduceTotalRefugees(amount);
@@ -125,6 +133,9 @@ Refugees.prototype.parseData = function(){
 
 }
 
+/**
+ * Returns the data up to the month and year passed as parameters
+ */
 Refugees.prototype.getAllPassedData = function(month, year){
 	var data = [];
 	var refMonth = 0;
@@ -142,11 +153,18 @@ Refugees.prototype.getAllPassedData = function(month, year){
 	return data;
 }
 
+
+/**
+ * Starts the refugees class and parses data
+ */
 Refugees.prototype.start = function(){
 	this.parseData();
 }
 
 
+/**
+ * Return all the refugees as data object for month and year.
+ */
 Refugees.prototype.getAllRefugeesOfMonth = function(month, year){
 	var data = [];
 	for(var i = 0; i < this.refugeeData.length; i++){

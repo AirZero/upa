@@ -1,4 +1,11 @@
-
+/**
+ * Author: Tero Paavolainen
+ * Version: 1.0.0
+ */
+ 
+ /**
+  * Makes the game state bar  that handles the game state and losing of the game.
+  */
 
 GameStateBar.prototype = Object.create(Phaser.Sprite.prototype);
 GameStateBar.prototype.constructor = GameStateBar;
@@ -29,6 +36,9 @@ function GameStateBar(phaserGame, sprite, stateBall, x, y, width, height){
 }
 
 
+/**
+ * Sets the max low time allowed before losing game. PityTime is the time given to player if the losing time is already at hand.
+ */
 GameStateBar.prototype.setMaxLowTime = function(time, pityTime){
 	this.maxTimeOnLow = time;
 	if(this.lowTime >= this.maxTimeOnLow){
@@ -39,14 +49,24 @@ GameStateBar.prototype.setMaxLowTime = function(time, pityTime){
 }
 
 
+/**
+ * Clears this components handlers
+ */
 GameStateBar.prototype.clear = function(){
 	this.onTooLongLowHandlers = [];
 }
 
+/**
+ * Adds a new handler to listen for the state of being too low for too long.
+ */
 GameStateBar.prototype.addOnTooLowHandler = function(handler){
 	this.onTooLongLowHandlers[this.onTooLongLowHandlers.length] = handler;
 }
 
+
+/**
+ * Creates the state ball used for showing the state.
+ */
 GameStateBar.prototype.createStateBall = function(stateBall){
 	this.ball = new Phaser.Sprite(this.game, this.x, this.y, stateBall);
 	this.ball.width = 35;
@@ -56,23 +76,35 @@ GameStateBar.prototype.createStateBall = function(stateBall){
 }
 
 
+/**
+ * Returns the current percent situation in the game.
+ */
 GameStateBar.prototype.getPercent = function(){
 	return this.percents;
 }
 
 
+/**
+ * Adds the components to the given layer.
+ */
 GameStateBar.prototype.addToLayer = function(layerToAddTo){
 	layerToAddTo.add(this);
 	layerToAddTo.add(this.ball);
 }
 
 
+/**
+ * Sets the activity of the bar and its components
+ */
 GameStateBar.prototype.setActive = function(activity){
 	this.lastUpdate = this.game.time.totalElapsedSeconds();
 	this.active = activity;
 }
 
 
+/**
+ * Handles the change of refugee amounts in the state.
+ */
 GameStateBar.prototype.refugeeAmountChanged = function(percents){
 	this.percents = percents;
 	this.ball.cameraOffset.x = this.left + this.margin + (this.width - this.margin * 2 )* (percents);
@@ -83,6 +115,9 @@ GameStateBar.prototype.refugeeAmountChanged = function(percents){
 }
 
 
+/**
+ * Invokes all the listeners for being on low.
+ */
 GameStateBar.prototype.invokeOnTooLowListeners = function(){
 	for(var i = 0; i < this.onTooLongLowHandlers.length; i++){
 		this.onTooLongLowHandlers[i].process();
@@ -90,6 +125,9 @@ GameStateBar.prototype.invokeOnTooLowListeners = function(){
 }
 
 
+/**
+ * Update used for moving the stateball
+ */
 GameStateBar.prototype.update = function(){
 	if(!this.active) return;
 	var totalElapsed = this.game.time.totalElapsedSeconds();
